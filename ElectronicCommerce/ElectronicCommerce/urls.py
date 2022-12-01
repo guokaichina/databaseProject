@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ElectronicCommerce import views
+from NetworkingMall import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(route='/ElectronicCommerce/login/', view=views.login(), name='login')
+    path(route='login/', view=views.login, name='login')
 ]
