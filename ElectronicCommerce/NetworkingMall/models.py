@@ -59,7 +59,7 @@ class Seller(models.Model):
 class Goods(models.Model):
     
     goodtype = [
-        ('1','女装'),('2','男装'),('3','食品'),('4','医药'), #后期根据需求再添加选项
+        ('1', '女装'), ('2', '男装'), ('3', '食品'), ('4', '医药'),  # 后期根据需求再添加选项
     ]
     
     goodsID = models.AutoField(primary_key=True) # 主键 商品ID IntegerField
@@ -67,9 +67,9 @@ class Goods(models.Model):
     goodsStock = models.IntegerField() # 商品库存量
     goodsPrice = models.DecimalField(max_digits=12, decimal_places=2) # 商品价格 使用NumberInput表单部件
     # 以两位小数的精度来存储整数位有10位的数字 ； 以DecimalValidator来验证输入是否是固定精度的十进制
-    goodsType = models.CharField(max_length=20, choices = goodtype) # 商品种类
+    goodsType = models.CharField(max_length=20, choices = goodtype)  # 商品种类
     # 在表单中以选择框的形式呈现
-    #sellerID仍需更完善的定义
+    # sellerID仍需更完善的定义
     sellerID = models.ForeignKey(
         'Seller',
         on_delete=models.CASCADE,
@@ -77,7 +77,7 @@ class Goods(models.Model):
     commentedCustomer = models.ManyToManyField(Customer, through='Comment') # 商品和顾客之间通过中间模型Comment关联起来
 
     def __str__(self):
-        return "{} {} 库存{}件 {}RMB {} {} 卖家ID:{}".format(self.goodsID, self.goodsName, 
+        return "{} {} 库存{}件 {}RMB {} 卖家ID:{}".format(self.goodsID, self.goodsName,
                             self.goodsStock, self.goodsPrice, self.goodsType, self.sellerID)
 
 
