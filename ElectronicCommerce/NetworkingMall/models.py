@@ -3,25 +3,6 @@ import datetime
 from django.conf import settings
 from django.db import models
 
-# 1.编写后端希望的接口
-#    
-# 2.整理重构Django已有的接口
-
-'''接口函数文档(包含自定义API与Django API)'''
-# 1.创建对象/在表中insert新行
-#   创建对象，使用关键字参数初始化对象，调用对象的save()方法将其存入数据表
-#   等同于 obj = modelsClass.object.create(关键字参数列表) ，此方法将创建于保存对象一步到位
-# 2.修改对象/在表中update某一行
-#   2.1修改字段值，调用对象的save()函数保存
-#   2.2修改ForeignKey或MangToManyField
-#       2.2.1 ForeignKey为一对多关系，没有关系表。
-#               更新方法：类似修改普通字段值，赋值后，调用save()保存即可
-#       2.2.2 MangToMany为多对多关系，存在关系表。
-#               更新方法：向多对多关系表中添加记录时，首先初始化多对多关系中没有ManyToMany字段M的对象A，
-#                        然后多对多关系中有ManyToMany字段M的对象B，调用B.M.add(A1,A2,..,An),便向多对多关系表中添加了记录（实际应该是将记录添加到了中间模型中）
-# 3.检索对象/在表中查询满足条件的记录
-
-
 
 
 
