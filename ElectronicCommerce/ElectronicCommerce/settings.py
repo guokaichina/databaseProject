@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'NetworkingMall',
+    'NetworkingMall.apps.NetworkingMallConfig',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'NetworkingMall',
         'USER': 'postgres',
-        'PASSWORD': '123456',
+        'PASSWORD': 'Password_1',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

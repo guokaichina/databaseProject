@@ -17,7 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from NetworkingMall import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(route='login/', view=views.login, name='login')
+    path('', views.test_page, name='test_page'),
+    path('index/', views.index, name='index'),
+    path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
+    path('good/', views.goods_page, name='goods'),
+    path('order/', views.order, name='order'),
+    path('shopping_cart/', views.shopping_cart, name='shopping_cart'),
+    path('goods_management/', views.goods_management, name='goods_management'),
+    path('customer/', views.customer, name='customer'),
 ]
