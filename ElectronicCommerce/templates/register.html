@@ -10,6 +10,7 @@
 
 <title>优品注册</title>
 </head>
+{% csrf_token %}
 <body>
 
 <!--Begin Regist Begin-->
@@ -20,7 +21,7 @@
 	<div class="register">
     	<div class="log_img"><img src="../static/picture/l_img.png" width="611" height="425" /></div>
 		<div class="reg_c">
-        	<form>
+        	<form action="" method="post">
             <table style="width:420px; font-size:14px; margin:20px;">
               <tr height="50" >
               	<td width="95">&nbsp;</td>
@@ -31,23 +32,23 @@
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;用户名 &nbsp;</td>
-                <td><input type="text" value="" class="l_user" /></td>
+                <td><input type="text" value="" class="l_user" name="customerName"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;密码 &nbsp;</td>
-                <td><input type="password" value="" class="l_pwd" /></td>
+                <td><input type="password" value="" class="l_pwd" name="password"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;确认密码 &nbsp;</td>
-                <td><input type="password" value="" class="l_pwd" /></td>
+                <td><input type="password" value="" class="l_pwd"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;邮箱 &nbsp;</td>
-                <td><input type="text" value="" class="l_email" /></td>
+                <td><input type="text" value="" class="l_email" name="mailAddress"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;手机 &nbsp;</td>
-                <td><input type="text" value="" class="l_tel" /></td>
+                <td><input type="text" value="" class="l_tel" name="phoneNumber"/></td>
               </tr>
               <tr>
               	<td>&nbsp;</td>
