@@ -34,6 +34,7 @@ def login(request):
 
 
 def register(request):
+    #
     if request.method == 'POST':
         if request.POST.get('customerName'):
             customer_name = request.POST['customerName']
@@ -44,29 +45,35 @@ def register(request):
                 return HttpResponseRedirect(reverse('login'))
             else:
                 return HttpResponseRedirect(reverse('register'))
+    # 登录时的post
     return render(request, 'register.html')
 
 
 def customer(request, customer_id):
+    # 登录状态检测
     login_id = request.session.get('customer_id')
     if login_id != customer_id:
         return HttpResponseRedirect('login')
+    # 登录状态检测
     return render(request, 'customer.html')
 
 
 def goods_page(request, goods_id):
+    #
     try:
         models.Goods.objects.get(pk=goods_id)
     except models.Goods.DoesNotExist:
         return render(request, 'no_goods.html')
-
+    # 商品下架检测
     return render(request, 'goods_page.html')
 
 
 def shopping_cart(request, customer_id):
+    # 登录检测
     login_id = request.session.get('customer_id')
     if login_id != customer_id:
         return HttpResponseRedirect('login')
+    # 登录页面
     return render(request, 'shopping_cart.html')
 
 
@@ -86,7 +93,31 @@ def goods_management(request, seller_id):
     return render(request, 'goods_management.html')
 
 
+def goods_add(request, seller_id):
+    login_id = request.session.get('seller_id')
+    if login_id != seller_id:  # 未登录页面
+        return HttpResponseRedirect(reverse('login'))
+    # 进入添加商品页面
+    # def create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type):
+    if request.POST.get('goodsName'):
+        goods_name = request.POST['goodsName']
+        goods_stock = request.POST['goodsStock']
+        goods_price = request.POST['goodsPrice']
+        goods_type = request.POST['goodsType']
+        goods_image = request.POST['goodsImage']
+        goods_id = databaseApi.create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type)
+        if goods_id:
+            pass
+        picture_file = open(goods_name, 'wb')
+        picture_file.write(goods_image)
+        # 提交商品成功
+
+    else:
+        return render(request, 'goods_add.html')
+
+
 def test_page(request):
+    # 用于临时显示首页
     return render(request, 'register.html')
 
 
