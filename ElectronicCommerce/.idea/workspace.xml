@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
+      <change beforePath="$PROJECT_DIR$/.idea/ElectronicCommerce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ElectronicCommerce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ElectronicCommerce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElectronicCommerce/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElectronicCommerce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElectronicCommerce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetworkingMall/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetworkingMall/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ElectronicCommerce/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElectronicCommerce/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +19,14 @@
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -24,18 +34,26 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2IMWVfvFNZxV9arJOvtHBXjoe8q" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="preferences.rainbow.brackets" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\static" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\NetworkingMall" />
       <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce" />
@@ -48,6 +66,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="ElectronicCommerce.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -76,6 +95,10 @@
       <updated>1669991958287</updated>
       <workItem from="1669991959431" duration="141000" />
       <workItem from="1669994480994" duration="1071000" />
+      <workItem from="1670040859714" duration="12000" />
+      <workItem from="1670051329781" duration="861000" />
+      <workItem from="1670052387880" duration="1360000" />
+      <workItem from="1670053785639" duration="1978000" />
     </task>
     <servers />
   </component>
