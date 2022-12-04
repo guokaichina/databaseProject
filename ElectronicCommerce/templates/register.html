@@ -5,6 +5,7 @@
   <link rel="shortcut icon" href="../static/images/logo.png" type="image/x-icon">
 	<link type="text/css" rel="stylesheet" href="../static/css/base.css" />
 	<link type="text/css" rel="stylesheet" href="../static/css/regist.css" />
+    <script type="text/javascript" src="../static/js/jquery-3.6.1.min.js"></script>
 <title>优品注册</title>
 </head>
 <body>
@@ -38,23 +39,23 @@
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;用户名 &nbsp;</td>
-                <td><input type="text" value="" placeholder="请输入用户名" class="l_user" name="sellerName"/></td>
+                <td><input id="sellerName" type="text" value="" placeholder="请输入用户名" class="l_user" name="sellerName"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;密码 &nbsp;</td>
-                <td><input type="password" value="" placeholder="请输入密码" class="l_pwd" name="password"/></td>
+                <td><input id="sellerPassword" type="password" value="" placeholder="请输入密码" class="l_pwd" name="password"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;确认密码 &nbsp;</td>
-                <td><input type="password" value="" placeholder="请确认密码" class="l_pwd" /></td>
+                <td><input id="sellerConfirmPassword" type="password" value="" placeholder="请确认密码" class="l_pwd" /></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;邮箱 &nbsp;</td>
-                <td><input type="text" value="" placeholder="请输入邮箱" class="l_email" name="mailAddress"/></td>
+                <td><input id="sellerMailAddress" type="text" value="" placeholder="请输入邮箱" class="l_email" name="mailAddress"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;手机 &nbsp;</td>
-                <td><input type="text" value="" placeholder="请输入手机号" class="l_tel" name="phoneNumber"/></td>
+                <td><input id="sellerPhoneNumber" type="text" value="" placeholder="请输入手机号" class="l_tel" name="phoneNumber"/></td>
               </tr>
               <tr>
               	<td>&nbsp;</td>
@@ -66,7 +67,7 @@
               </tr>
               <tr height="60">
               	<td>&nbsp;</td>
-                <td><input type="submit" value="立即注册" class="log_btn" /></td>
+                <td><input id="sellerSubmit" type="submit" value="立即注册" class="log_btn" /></td>
               </tr>
             </table>
           </form>
@@ -83,23 +84,23 @@
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;用户名 &nbsp;</td>
-                <td><input type="text" value="" placeholder="请输入用户名" class="l_user" name="customerName"></td>
+                <td><input id="customerName" type="text" value="" placeholder="请输入用户名" class="l_user" name="customerName"></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;密码 &nbsp;</td>
-                <td><input type="password" placeholder="请输入密码" value="" class="l_pwd" name="password"/></td>
+                <td><input id="customerPassword" type="password" placeholder="请输入密码" value="" class="l_pwd" name="password"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;确认密码 &nbsp;</td>
-                <td><input type="password" placeholder="请确认密码" value="" class="l_pwd" /></td>
+                <td><input id="customerConfirmPassword" type="password" placeholder="请确认密码" value="" class="l_pwd" /></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;邮箱 &nbsp;</td>
-                <td><input type="text" value="" placeholder="请输入邮箱" class="l_email" name="mailAddress"/></td>
+                <td><input id="customerMailAddress" type="text" value="" placeholder="请输入邮箱" class="l_email" name="mailAddress"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;手机 &nbsp;</td>
-                <td><input type="text" value="" placeholder="请输入手机号" class="l_tel" name="phoneNumber"/></td>
+                <td><input id="customerPhoneNumber" type="text" value="" placeholder="请输入手机号" class="l_tel" name="phoneNumber"/></td>
               </tr>
               <tr>
               	<td>&nbsp;</td>
@@ -111,7 +112,7 @@
               </tr>
               <tr height="60">
               	<td>&nbsp;</td>
-                <td><input type="submit" value="立即注册" class="log_btn" /></td>
+                <td><input id="customerSubmit" type="submit" value="立即注册" class="log_btn" /></td>
               </tr>
             </table>
           </form>
@@ -122,6 +123,50 @@
 
 </body>
   <script>
+      $('#customerSubmit').click(function(){
+          if(!$('#customerName').val().match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{3,40}$/)){
+              alert('用户名格式不合法，只能输入3到40位之间的汉字，字母，下划线');
+          }
+          else if(!$('#customerPassword').val().match(/^[0-9]{6,20}$/)){
+              alert('密码格式不合法，只能输入6到20位的数字');
+          }
+          else if($('#customerConfirmPassword').val() !== $('#customerPassword').val()){
+              alert('确认密码和密码不一致');
+          }
+          else if(!$('#customerMailAddress').val().match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)){
+              alert('邮箱格式不符合');
+          }
+          else if(!$('#customerPhoneNumber').val().match(/^[0-9]{6,20}$/)){
+              alert('手机号码格式错误');
+          }
+          else{
+              return true;
+          }
+          return false;
+      })
+
+      $('#SellerSubmit').click(function(){
+          if(!$('#SellerName').val().match(/^[\u4E00-\u9FA5a-zA-Z0-9_]{3,40}$/)){
+              alert('用户名格式不合法，只能输入3到40位之间的汉字，字母，下划线');
+          }
+          else if(!$('#SellerPassword').val().match(/^[0-9]{6,20}$/)){
+              alert('密码格式不合法，只能输入6到20位的数字');
+          }
+          else if($('#SellerConfirmPassword').val() !== $('#SellerPassword').val()){
+              alert('确认密码和密码不一致');
+          }
+          else if(!$('#SellerMailAddress').val().match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)){
+              alert('邮箱格式不符合');
+          }
+          else if(!$('#SellerPhoneNumber').val().match(/^[0-9]{6,20}$/)){
+              alert('手机号码格式错误');
+          }
+          else{
+              return true;
+          }
+          return false;
+      })
+
     document.getElementById("sellerRegister").hidden = true;
     // 切换成商家登录
     function sellerRegister(){
