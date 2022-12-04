@@ -20,7 +20,7 @@ from NetworkingMall import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.test_page, name='test_page'),
+    path('', views.test_page),
     path('index/', views.index, name='index'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),

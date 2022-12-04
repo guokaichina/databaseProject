@@ -28,6 +28,13 @@ def login(request):
             if customer_id:
                 request.session['customer_id'] = customer_id
                 return HttpResponseRedirect(reverse('index'))
+        elif request.POST.get('sellerName'):
+            seller_name = request.POST['sellerName']
+            password = request.POST['password']
+            seller_id = databaseApi.seller_login_by_name(seller_name, password)
+            if seller_id:
+                request.session['seller_id'] = seller_id
+                return HttpResponseRedirect(reverse('index'))
     # 顾客商家登录基本功能
     else:
         return render(request, 'login.html')
@@ -46,6 +53,16 @@ def register(request):
                 return HttpResponseRedirect(reverse('login'))
             else:
                 return HttpResponseRedirect(reverse('register'))
+        elif request.POST.get('sellerName'):
+            seller_name = request.POST['sellerName']
+            password = request.POST['password']
+            mail_address = request.POST['mailAddress']
+            phone_number = request.POST['phoneNumber']
+            if databaseApi.create_seller(seller_name, mail_address, password, phone_number, ''):
+                return HttpResponseRedirect(reverse('login'))
+            else:
+                return HttpResponseRedirect(reverse('register'))
+
     # 登录时的post
     return render(request, 'register.html')
 
@@ -118,11 +135,8 @@ def goods_add(request, seller_id):
 
 
 def test_page(request):
-    if request.method == 'POST':
-        image = request.FILES['goodsImage']
-        handle_uploaded_file(image, 'static/test_clock.png')
     # 用于临时显示首页
-    return render(request, 'test_page.html')
+    return HttpResponseRedirect(reverse('login'))
 
 
 def do_something(arg):

@@ -3,52 +3,57 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="../static/images/logo.png" type="image/x-icon">
+	<link type="text/css" rel="stylesheet" href="../static/css/base.css" />
 	<link type="text/css" rel="stylesheet" href="../static/css/regist.css" />
-  <style>
-
-  </style>
-
 <title>优品注册</title>
 </head>
-{% csrf_token %}
 <body>
 
 <!--Begin Regist Begin-->
 <div class="log_bg">
-    <div class="top">
-        <div class="logo"><a href="index.html"><img src="../static/picture/logo.png" /></a></div>
-    </div>
+  <div class="top">
+      <div class="logo"><a href="index.html"><img src="../static/picture/logo.png" /></a></div>
+  </div>
+    <!-- 选择注册类型，我是商家，我是顾客 -->
+    <div class="register_type">
+      <input type="button" value="我是商家"  onclick="sellerRegister()">
+      <input type="button" value="我是顾客"  onclick="buyerRegister()">
+  </div>
+  <!-- 注册 -->
 	<div class="register">
+      <!-- 注册框左边的图片 -->
     	<div class="log_img"><img src="../static/picture/l_img.png" width="611" height="425" /></div>
+      <!-- 注册框表单 -->
 		<div class="reg_c">
-        	<form action="" method="post">
+          <!-- 商家注册表单 -->
+        	<form id="sellerRegister">
             <table style="width:420px; font-size:14px; margin:20px;">
               <tr height="50" >
               	<td width="95">&nbsp;</td>
                 <td>
-                	<span class="fl" style="font-size:24px;">注册</span>
-                    <span class="fr">已有商城账号，<a href="login.html" style="color:#ff4e00;">我要登录</a></span>
+                	<span class="fl" style="font-size:24px;">商家注册</span>
+                    <span class="fr">已有商城账号，<a href="Login.html" style="color:#ff4e00;">我要登录</a></span>
                 </td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;用户名 &nbsp;</td>
-                <td><input type="text" value="" class="l_user" name="customerName"/></td>
+                <td><input type="text" value="" placeholder="请输入用户名" class="l_user" name="sellerName"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;密码 &nbsp;</td>
-                <td><input type="password" value="" class="l_pwd" name="password"/></td>
+                <td><input type="password" value="" placeholder="请输入密码" class="l_pwd" name="password"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;确认密码 &nbsp;</td>
-                <td><input type="password" value="" class="l_pwd"/></td>
+                <td><input type="password" value="" placeholder="请确认密码" class="l_pwd" /></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;邮箱 &nbsp;</td>
-                <td><input type="text" value="" class="l_email" name="mailAddress"/></td>
+                <td><input type="text" value="" placeholder="请输入邮箱" class="l_email" name="mailAddress"/></td>
               </tr>
               <tr height="50">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;手机 &nbsp;</td>
-                <td><input type="text" value="" class="l_tel" name="phoneNumber"/></td>
+                <td><input type="text" value="" placeholder="请输入手机号" class="l_tel" name="phoneNumber"/></td>
               </tr>
               <tr>
               	<td>&nbsp;</td>
@@ -63,11 +68,68 @@
                 <td><input type="submit" value="立即注册" class="log_btn" /></td>
               </tr>
             </table>
-            </form>
+          </form>
+          <!-- 顾客注册表单 -->
+          <form id="buyerRegister">
+            <table style="width:420px; font-size:14px; margin:20px;">
+              <tr height="50" >
+              	<td width="95">&nbsp;</td>
+                <td>
+                	<span class="fl" style="font-size:24px;">顾客注册</span>
+                    <span class="fr">已有商城账号，<a href="Login.html" style="color:#ff4e00;">我要登录</a></span>
+                </td>
+              </tr>
+              <tr height="50">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;用户名 &nbsp;</td>
+                <td><input type="text" value="" placeholder="请输入用户名" class="l_user" name="customerName"></td>
+              </tr>
+              <tr height="50">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;密码 &nbsp;</td>
+                <td><input type="password" placeholder="请输入密码" value="" class="l_pwd" name="password"/></td>
+              </tr>
+              <tr height="50">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;确认密码 &nbsp;</td>
+                <td><input type="password" placeholder="请确认密码" value="" class="l_pwd" /></td>
+              </tr>
+              <tr height="50">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;邮箱 &nbsp;</td>
+                <td><input type="text" value="" placeholder="请输入邮箱" class="l_email" name="mailAddress"/></td>
+              </tr>
+              <tr height="50">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;手机 &nbsp;</td>
+                <td><input type="text" value="" placeholder="请输入手机号" class="l_tel" name="phoneNumber"/></td>
+              </tr>
+              <tr>
+              	<td>&nbsp;</td>
+                <td style="font-size:12px; padding-top:20px;">
+                	<span style="font-family:'宋体';" class="fl">
+                    	<label class="r_rad"><input type="checkbox" /></label><label class="r_txt">我已阅读并接受《用户协议》</label>
+                    </span>
+                </td>
+              </tr>
+              <tr height="60">
+              	<td>&nbsp;</td>
+                <td><input type="submit" value="立即注册" class="log_btn" /></td>
+              </tr>
+            </table>
+          </form>
         </div>
     </div>
 </div>
 <!--End Login End-->
 
 </body>
+  <script>
+    document.getElementById("sellerRegister").hidden = true;
+    // 切换成商家登录
+    function sellerRegister(){
+      document.getElementById("buyerRegister").hidden = true;
+      document.getElementById("sellerRegister").hidden = false;
+    }
+    // 切换成顾客登录
+    function buyerRegister(){
+      document.getElementById("sellerRegister").hidden = true;
+      document.getElementById("buyerRegister").hidden = false;
+    }
+  </script>
 </html>

@@ -52,6 +52,26 @@
         -moz-border-radius:5px;
         border-radius:5px;
     }
+    .login_type, .register_type{
+        width: 1200px;
+        height: 50px;
+        margin: 0 auto;
+    }
+    .login_type input , .register_type input{
+        margin:0 70px;
+        float: right;
+        width: 100px;
+        height: 40px;
+        background-color: rgb(249, 189, 78);
+        border: 0;
+        border-radius: 10px;
+    }
+    .login_type input:hover , .register_type input:hover{
+        background-color: rgb(239, 158, 8);
+    }
+    .login_type input:active, .register_type input:active{
+        background-color: #ff4e00;
+    }
     .l_user{
         width:267px; height:38px; line-height:38px\9; overflow:hidden; background:url(../Images/i_u.png) no-repeat 285px center; background-color:#FFF; color:#888888; font-size:14px; font-family:"Microsoft YaHei"; padding:0 40px 0 10px; border:1px solid #cccccc;
     }

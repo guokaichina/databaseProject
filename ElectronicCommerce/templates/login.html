@@ -1,38 +1,47 @@
 {% load static %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="../static/images/logo.png" type="image/x-icon">
+	<link type="text/css" rel="stylesheet" href="../static/css/base.css" />
 	<link type="text/css" rel="stylesheet" href="../static/css/regist.css" />
 <title>优品登录</title>
 </head>
-{% csrf_token %}
 <body>
 <!--Begin Login Begin-->
 <div class="log_bg">
+    <!-- 登录页的头部，用于放置logo -->
     <div class="top">
         <div class="logo"><a href="index.html"><img src="../static/picture/logo.png" /></a></div>
     </div>
-	<div class="login">
-    	<div class="log_img"><img src="../static/picture/l_img.png" width="611" height="425" /></div>
-		<div class="log_c">
-        	<form action="" method="post">
+    <!-- 选择登录类型，我是商家，我是顾客 -->
+    <div class="login_type">
+        <input type="button" value="我是商家"  onclick="sellerLogin()">
+        <input type="button" value="我是顾客"  onclick="buyerLogin()">
+    </div>
+	  <div class="login">
+        <!-- 登录框左边的图片 -->
+    	  <div class="log_img"><img src="../static/picture/l_img.png" width="611" height="425" /></div>
+		    <!-- 登录框 -->
+        <div class="log_c">
+          <!-- 商家登录框 -->
+        	<form id="sellerLogin">
             <table style="font-size:14px; margin:20px;">
               <tr height="50" valign="top">
               	<td width="95">&nbsp;</td>
                 <td>
-                	<span class="fl" style="font-size:24px;">登录</span>
+                	<span class="fl" style="font-size:24px;">商家登录</span>
                     <span class="fr">还没有商城账号，<a href="register.html" style="color:#ff4e00;">立即注册</a></span>
                 </td>
               </tr>
               <tr height="70">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;用户名</td>
-                <td><input type="text" value="" class="l_user" name="userName"/></td>
+                <td><input type="text" value="" placeholder="商家请输入账号" class="l_user" name="sellerName"/></td>
               </tr>
               <tr height="70">
                 <td><text style="color:#ff4e00;">*</text>&nbsp;密&nbsp; &nbsp;码</td>
-                <td><input type="password" value="" class="l_pwd" name="password"/></td>
+                <td><input type="password" value="" placeholder="请输入密码" class="l_pwd" name="password"/></td>
               </tr>
               <tr>
               	<td>&nbsp;</td>
@@ -48,11 +57,56 @@
                 <td><input type="submit" value="登录" class="log_btn" /></td>
               </tr>
             </table>
-            </form>
+          </form>
+          <!-- 顾客登陆框 -->
+          <form id="buyerLogin">
+            <table style="font-size:14px; margin:20px;">
+              <tr height="50" valign="top">
+                <td width="95">&nbsp;</td>
+                <td>
+                  <span class="fl" style="font-size:24px;">顾客登录</span>
+                    <span class="fr">还没有商城账号，<a href="register.html" style="color:#ff4e00;">立即注册</a></span>
+                </td>
+              </tr>
+              <tr height="70">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;用户名</td>
+                <td><input type="text" value="" placeholder="顾客请输入账号" class="l_user" name="customerName"/></td>
+              </tr>
+              <tr height="70">
+                <td><text style="color:#ff4e00;">*</text>&nbsp;密&nbsp; &nbsp;码</td>
+                <td><input type="password" value="" placeholder="请输入密码" class="l_pwd" name="password"/></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td style="font-size:12px; padding-top:20px;">
+                  <span style="font-family:'宋体';" class="fl">
+                      <label class="r_rad"><input type="checkbox" /></label><label class="r_txt">请保存我这次的登录信息</label>
+                    </span>
+                    <span class="fr"><a href="#" style="color:#ff4e00;">忘记密码</a></span>
+                </td>
+              </tr>
+              <tr height="60">
+                <td>&nbsp;</td>
+                <td><input type="submit" value="登录" class="log_btn" /></td>
+              </tr>
+            </table>
+          </form>
         </div>
     </div>
 </div>
 
 </body>
-
+  <script>
+    document.getElementById("sellerLogin").hidden = true;
+    // 切换成商家登录
+    function sellerLogin(){
+      document.getElementById("buyerLogin").hidden = true;
+      document.getElementById("sellerLogin").hidden = false;
+    }
+    // 切换成顾客登录
+    function buyerLogin(){
+      document.getElementById("sellerLogin").hidden = true;
+      document.getElementById("buyerLogin").hidden = false;
+    }
+  </script>
 </html>
