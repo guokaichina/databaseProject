@@ -130,9 +130,9 @@ def create_comment(customer_id, goods_id, comment):
 
 def customer_login_by_name(name, password):
     # 登陆成功返回id，否则返回0
-    user = Customer.objects.get(customerName=name)
-    if user is None:
-        print('登录失败，用户名不存在')
+    try:
+        user = Customer.objects.get(customerName=name)
+    except Customer.DoesNotExist:
         return 0
     else:
         if user.password == password:
@@ -143,9 +143,9 @@ def customer_login_by_name(name, password):
 
 
 def customer_login_by_mail_address(mail_address, password):
-    user = Customer.objects.get(mailAddress=mail_address)
-    if user is None:
-        print('登录失败，用户邮箱不存在')
+    try:
+        user = Customer.objects.get(mailAddress=mail_address)
+    except Customer.DoesNotExist:
         return 0
     else:
         if user.password == password:
@@ -156,9 +156,9 @@ def customer_login_by_mail_address(mail_address, password):
 
 
 def seller_login_by_mail_address(mail_address, password):
-    user = Seller.objects.get(mailAddress=mail_address)
-    if user is None:
-        print('登录失败，用户邮箱不存在')
+    try:
+        user = Seller.objects.get(mailAddress=mail_address)
+    except Seller.DoesNotExist:
         return 0
     else:
         if user.password == password:
@@ -169,9 +169,9 @@ def seller_login_by_mail_address(mail_address, password):
 
 
 def seller_login_by_name(name, password):
-    user = Seller.objects.get(sellerName=name)
-    if user is None:
-        print('登录失败，用户名不存在')
+    try:
+        user = Seller.objects.get(sellerName=name)
+    except Seller.DoesNotExist:
         return 0
     else:
         if user.password == password:
