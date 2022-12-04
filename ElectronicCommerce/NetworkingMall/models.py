@@ -7,9 +7,12 @@ from django.db import models
 def images_path():
     return os.path.join(settings.STATIC_URL, 'image')
 
-# 顾客信息模型
-class Customer(models.Model):
 
+
+# 顾客信息模型
+
+
+class Customer(models.Model):
     # 主键 顾客用户ID IntegerField, 可以根据可用的ID自动递增
     customerID = models.AutoField(primary_key=True)
     # 邮件地址 CharField 使用EmailValidator来检查该值是否是有效的邮件地址
@@ -129,6 +132,7 @@ class Order(models.Model):
 
 
 # 评论模型 （中间模型）
+# 建议这里增加一项，创建时间，一般按时间排序
 class Comment(models.Model):
     customerID = models.ForeignKey(
         'Customer',
