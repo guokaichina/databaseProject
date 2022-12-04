@@ -48,7 +48,7 @@ class Goods(models.Model):
     goodsName = models.CharField(max_length=60)  # 商品名
     goodsStock = models.IntegerField()  # 商品库存量
     goodsPrice = models.DecimalField(
-        max_digits=12, decimal_pglaces=2)  # 商品价格 使用TextInput表单部件
+        max_digits=12, decimal_places=2)  # 商品价格 使用TextInput表单部件
     # 以两位小数的精度来存储整数位有10位的数字 ； 以DecimalValidator来验证输入是否是固定精度的十进制
     goodsType = models.CharField(max_length=20, choices=goodtype)  # 商品种类
     # 在表单中以选择框的形式呈现

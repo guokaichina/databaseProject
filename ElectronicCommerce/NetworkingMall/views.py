@@ -3,6 +3,7 @@ from . import databaseApi
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from . import models
+
 # Create your views here.
 
 
@@ -117,10 +118,19 @@ def goods_add(request, seller_id):
 
 
 def test_page(request):
+    if request.method == 'POST':
+        image = request.FILES['goodsImage']
+        handle_uploaded_file(image, 'static/test_clock.png')
     # 用于临时显示首页
-    return render(request, 'register.html')
+    return render(request, 'test_page.html')
 
 
 def do_something(arg):
     pass
     return
+
+
+def handle_uploaded_file(f, path):
+    with open(path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)

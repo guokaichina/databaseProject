@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElectronicCommerce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElectronicCommerce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,12 +50,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/js" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="preferences.rainbow.brackets" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\static\js" />
       <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -105,6 +107,8 @@
       <workItem from="1670063322710" duration="27000" />
       <workItem from="1670064299531" duration="3619000" />
       <workItem from="1670084394721" duration="239000" />
+      <workItem from="1670085356163" duration="46000" />
+      <workItem from="1670117191890" duration="9084000" />
     </task>
     <servers />
   </component>
