@@ -8,7 +8,12 @@ from . import models
 
 
 def index(request):
-    return render(request, 'index.html')
+    if request.session.get('customer_id'):
+        obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
+        return render(request, 'index.html', {'customerName': obj_customer.customerName,
+                      'customerID': obj_customer.customerID})
+    else:
+        return render(request, 'index.html')
 
 
 def login(request):
@@ -62,9 +67,8 @@ def register(request):
                 return HttpResponseRedirect(reverse('login'))
             else:
                 return HttpResponseRedirect(reverse('register'))
-
-    # 登录时的post
-    return render(request, 'register.html')
+    else:
+        return render(request, 'register.html')
 
 
 def customer(request, customer_id):
@@ -73,6 +77,7 @@ def customer(request, customer_id):
     if login_id != customer_id:
         return HttpResponseRedirect('login')
     # 登录状态检测
+    # customer主页
     return render(request, 'customer.html')
 
 
@@ -92,14 +97,16 @@ def shopping_cart(request, customer_id):
     if login_id != customer_id:
         return HttpResponseRedirect('login')
     # 登录页面
-    return render(request, 'shopping_cart.html')
+    intended_goods_list = databaseApi.show_intended_goods(customer_id)
+    return render(request, 'shopping_cart.html', {'intended_goods_list': intended_goods_list})
 
 
 def order(request, customer_id):
     login_id = request.session.get('customer_id')
     if login_id != customer_id:
         return HttpResponseRedirect('login')
-    return render(request, 'order.html')
+    order_list = databaseApi.show_order(customer_id)
+    return render(request, 'order.html', {'order_list': order_list})
 
 
 def goods_management(request, seller_id):
@@ -107,8 +114,8 @@ def goods_management(request, seller_id):
     if login_id != seller_id:  # 未登录页面
         return HttpResponseRedirect(reverse('login'))
     # 进入对应的商品管理页面
-    do_something(seller_id)
-    return render(request, 'goods_management.html')
+    goods_management_list = databaseApi.show_goods_for_management(seller_id)
+    return render(request, 'goods_management.html', {'goods_management_list': goods_management_list})
 
 
 def goods_add(request, seller_id):

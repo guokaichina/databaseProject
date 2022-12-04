@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="../static/images/logo.png" type="image/x-icon">
     <link type="text/css" rel="stylesheet" href="../static/css/base.css" />
 	<link type="text/css" rel="stylesheet" href="../static/css/index.css" />
+    <script src="../static/js/jquery-3.6.1.min.js"></script>
 <title>优品购物</title>
 <meta name="keywords" content="国内网站模板,橙色,购物,网站源码,html模板,服装商城,化妆品商城" />
 <meta name="description" content="橙色的网上购物零售商城网站html源码。" />
@@ -15,8 +16,12 @@
 <div class="shortcut">
     <div class="wrapper clearfix">
         <ul class="fr">
-            <li><a href="login.html">你好，请登录</a></li>
-            <li><a href="register.html" id="reg_Btn">免费注册</a></li>
+            {% if customerName %}
+                <li><a href="{% url 'customer' customerID %}">你好，{{ customerName }}</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">你好，请登录</a></li>
+            {% endif %}
+            <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
             <li><a href="#">我的订单</a></li>
             <li><a href="#">会员中心</a></li>
             <li><a href="#">帮助中心</a></li>
@@ -27,7 +32,7 @@
 </div>
 <div class="top">
     <!-- logo,改成自己的 -->
-    <div class="logo"><a href="index.html"><img src="../static/picture/logo.png" /></a></div>
+    <div class="logo"><a href="{% url 'index' %}"><img src="../static/picture/logo.png" /></a></div>
     <div class="search">
     	<form>
         	<input type="text" value="" class="s_ipt" />
@@ -39,7 +44,7 @@
     	<div class="car_t">购物车 [ <span>3</span> ]</div>
         <div class="car_bg">
        		<!--Begin 购物车未登录 Begin-->
-        	<div class="un_login">还未登录！<a href="login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
+        	<div class="un_login">还未登录！<a href="{% url 'login' %}" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
             <!--End 购物车未登录 End-->
             <!--Begin 购物车已登录 Begin-->
             <ul class="cars">

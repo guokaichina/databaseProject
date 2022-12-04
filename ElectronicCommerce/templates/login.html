@@ -13,7 +13,7 @@
 <div class="log_bg">
     <!-- 登录页的头部，用于放置logo -->
     <div class="top">
-        <div class="logo"><a href="index.html"><img src="../static/picture/logo.png" /></a></div>
+        <div class="logo"><a href="{% url 'index' %}"><img src="../static/picture/logo.png" /></a></div>
     </div>
     <!-- 选择登录类型，我是商家，我是顾客 -->
     <div class="login_type">
@@ -26,13 +26,14 @@
 		    <!-- 登录框 -->
         <div class="log_c">
           <!-- 商家登录框 -->
-        	<form id="sellerLogin">
+        	<form id="sellerLogin" action="" method="post">
+                {% csrf_token %}
             <table style="font-size:14px; margin:20px;">
               <tr height="50" valign="top">
               	<td width="95">&nbsp;</td>
                 <td>
                 	<span class="fl" style="font-size:24px;">商家登录</span>
-                    <span class="fr">还没有商城账号，<a href="register.html" style="color:#ff4e00;">立即注册</a></span>
+                    <span class="fr">还没有商城账号，<a href="{% url 'register' %}" style="color:#ff4e00;">立即注册</a></span>
                 </td>
               </tr>
               <tr height="70">
@@ -59,13 +60,14 @@
             </table>
           </form>
           <!-- 顾客登陆框 -->
-          <form id="buyerLogin">
+          <form id="buyerLogin" action="" method="post">
+              {% csrf_token %}
             <table style="font-size:14px; margin:20px;">
               <tr height="50" valign="top">
                 <td width="95">&nbsp;</td>
                 <td>
                   <span class="fl" style="font-size:24px;">顾客登录</span>
-                    <span class="fr">还没有商城账号，<a href="register.html" style="color:#ff4e00;">立即注册</a></span>
+                    <span class="fr">还没有商城账号，<a href="{% url 'register' %}" style="color:#ff4e00;">立即注册</a></span>
                 </td>
               </tr>
               <tr height="70">
