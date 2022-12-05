@@ -161,10 +161,17 @@ def goods_management(request, seller_id):
             goods_name = request.POST['goodsName']
             goods_stock = request.POST['goodsStock']
             goods_price = request.POST['goodsPrice']
-
+            goods = models.Goods.objects.get(pk=goods_id)
+            goods.goodsName = goods_name
+            goods.goodsStock = goods_stock
+            goods.goodsPrice = goods_price
+            goods.save()
+            msg = '改变成功'
+            return render(request, 'goods_management.html', {'msg': msg})
 
     goods_management_list = databaseApi.show_goods_for_management(seller_id)
-    return render(request, 'goods_management.html', {'goods_management_list': goods_management_list})
+    return render(request, 'goods_management.html', {'seller_id': seller_id,
+                                                     'goods_management_list': goods_management_list})
 
 
 def goods_add(request, seller_id):

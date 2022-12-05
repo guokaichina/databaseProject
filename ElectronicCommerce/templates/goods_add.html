@@ -4,59 +4,118 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../static/js/jquery-3.6.1.min.js"></script>
     <title>Document</title>
-</head>
+    </head>
 <body>
-    <div class="addNewGoods_bg">
-        <h1>上架新商品</h1>
-        <!-- 大盒子：添加新的商品 -->
-        <div class="add_box">
-            <!-- 表单，用于填写新的商品信息 -->
-            <form action="" method="post">
-                <!-- 商品种类 -->
-                <div class="goodType">
-                    <span>商品种类</span>
-                    <input type="text" name="goodsType" id="goodsType">
-                </div>
-                <!-- 商品名称 -->
-                <div class="goodsName">
-                    <span>商品名称</span>
-                    <input type="text" name="goodsName" id="goodsName">
-                </div>
-                <!-- 商品价格 -->
-                <div class="goodsPrice">
-                    <span>商品价格</span>
-                    <input type="text" name="goodsPrice" id="goodsPrice">
-                </div>
-                <!-- 商品库存量（数量） -->
-                <div class="goodsStock">
-                    <span>商品库存量</span>
-                    <input type="text" name="goodsStock" id="goodsStock">
-                </div>
-                <!-- 商品介绍、描述等 -->
-                <div class="goodsDescribe">
-                    <span>商品描述</span><br>
-                    <textarea name="goodsDescribe" id="goodsDescribe" cols="30" rows="10"></textarea>
-                </div>
-
-
-                <input type="submit" value="提交" id="submit" >上架该商品</input>
-            </form>
-        </div>
+<div class="addNewGoods_bg">
+    <h1>上架新商品</h1>
+    <!-- 大盒子：添加新的商品 -->
+    <div class="add_box">
+        <!-- 表单，用于填写新的商品信息 -->
+        <form action="" method="post" id="form">
+            <!-- 商品种类 -->
+            <div class="goodType">
+                <span>商品种类</span>
+                <input type="text" name="goodsType" id="goodsType">
+            </div>
+            <!-- 商品名称 -->
+            <div class="goodsName">
+                <span>商品名称</span>
+                <input type="text" name="goodsName" id="goodsName">
+            </div>
+            <!-- 商品价格 -->
+            <div class="goodsPrice">
+                <span>商品价格</span>
+                <input type="text" name="goodsPrice" id="goodsPrice">
+            </div>
+            <!-- 商品库存量（数量） -->
+            <div class="goodsStock">
+                <span>商品库存量</span>
+                <input type="text" name="goodsStock" id="goodsStock">
+            </div>
+            <!-- 商品介绍、描述等 -->
+            <div class="goodsImage">
+                选择照片：<br>
+                <input type="file" id="file" name="goodsImage" accept="image/gif, image/jpeg, image/png, image/jpg">
+            </div>
+            <input type="submit" value="上架该商品" id="submit">
+        </form>
     </div>
+</div>
 </body>
-    <script>
-        $('#submit').click(function(){
-            if(!$('#goodsName').val().match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ]{3,80}$/)){
+<script type="text/javascript">
+    //这里是file处理部分：
 
+    let fileInput = document.getElementById('file');//对应<input id="file", type="file">
+    let file = 0; //设一个初始值,file是真正的照片的数据
+    //每当fileInput改变时调用以下函数
+    fileInput.addEventListener('change', function () {
+        //当fileInput没有东西时，下面的表达式成立
+        if (!fileInput.value) {
+            alert('没有选择文件');
+            return;
+        }
+        file = fileInput.files[0];//得到file
+        if (file.size >= 1024 * 1024) {
+            alert('文件大小超出限制');
+            info.innerHTML = '文件大小超出限制';
+            return false;
+        }
+        //
+        let old_image = document.getElementById('show_image')
+        if(old_image !== null)
+            document.body.removeChild(old_image);
+        //上面那段是把旧的照片扔了
+        //下面是模式检测
+        if (!['image/jpeg', 'image/png', 'image/gif', 'image/bmp'].includes(file.type)) {
+            alert('不是有效的图片文件!');
+            return;
+        }
+        // 读取文件:
+        //文件读取器
+        let reader = new FileReader();
+        reader.readAsDataURL(file); //读取file文件：
+        //读取完毕后，e位读取的结果
+        reader.onload = function (e) {
+            let show_image = document.createElement('img');//创建图像
+            show_image.id = 'show_image';
+            show_image.src = e.target.result.toString(); //输入结果
+            //现在show_image就是我们准备上传的image对象
+            //这里可以进行判断
+            show_image.onload = function(){ //加载完成才能有宽高属性
+                console.log('width:',show_image.width);
+                console.log('height:', show_image.height);
             }
-            else if(!$('#goodsPrice').val().match(/^[0-9]{1,10}(\.[0-9]{0,2})?$/)){
+            //只是展示一下宽高
+            document.body.appendChild(show_image); //展示(其实可以不用展示)
 
-            }
-            else if(!$('#goodsStock').val().match(/^[0-9]{1,10}$/)){
+        };
+    });
 
-            }
-        })
+    $('#submit').click(function () {
+        if (!$('#goodsName').val().match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ]{3,80}$/)) {
+            alert('商品名字格式错误')
+        } else if (!$('#goodsPrice').val().match(/^[0-9]{1,10}(\.[0-9]{0,2})?$/)) {
+            alert('价格格式不对')
+        } else if (!$('#goodsStock').val().match(/^[0-9]{1,10}$/)) {
+            alert('库存格式不对')
+        } else if(file === 0){
+            alert('未选择照片')
+        }
+        else{
+            let extension_name = file.name.substring(file.name.lastIndexOf('.'));
+            console.log('后缀名:', extension_name);
+            console.log('ok')
+            let obj_form = document.getElementById('form');
+            let opt = document.createElement('textarea');
+            opt.name = 'extensionName';
+            opt.value = extension_name;
+            obj_form.appendChild(opt);
+            return true;
+        }
+        return false;
+    })
 
-    </script>
+</script>
 </html>
