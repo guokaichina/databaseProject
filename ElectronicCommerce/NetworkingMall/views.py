@@ -8,10 +8,11 @@ from . import models
 
 
 def index(request):
+    # 商品目录展示
     if request.session.get('customer_id'):
         obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
         return render(request, 'index.html', {'customerName': obj_customer.customerName,
-                      'customerID': obj_customer.customerID})
+                                              'customerID': obj_customer.customerID})
     else:
         return render(request, 'index.html')
 
@@ -87,7 +88,7 @@ def logout(request):
 def goods_page(request, goods_id):
     #
     try:
-        models.Goods.objects.get(pk=goods_id)
+        goods = models.Goods.objects.get(pk=goods_id)
     except models.Goods.DoesNotExist:
         return render(request, 'no_goods.html')
     # 商品下架检测
@@ -104,7 +105,11 @@ def goods_page(request, goods_id):
             ship_to_address = request.POST['shipToAddress']
             databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
             return HttpResponse('1')
-    return render(request, 'goods_page.html')
+    else:
+        comment_list = databaseApi.show_comment(goods_id)
+        goods_photo = models.Photos.objects.get(goods_id=goods_id)
+        return render(request, 'goods_page.html', {'goods': goods, 'comment_list': comment_list,
+                                                   'goods_photo': goods_photo})
 
 
 def shopping_cart(request, customer_id):
@@ -133,6 +138,13 @@ def order(request, customer_id):
     login_id = request.session.get('customer_id')
     if login_id != customer_id:
         return HttpResponseRedirect('login')
+    if request.method == 'POST':  # ajax?
+        if request.POST['behavior'] == 'cancel':
+            order_id = request.POST['order_id']
+            if databaseApi.cancel_order(order_id):
+                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+            else:
+                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
     order_list = databaseApi.show_order(customer_id)
     return render(request, 'order.html', {'order_list': order_list})
 
