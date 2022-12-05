@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from . import databaseApi
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from . import models
 
@@ -71,6 +71,11 @@ def register(request):
         return render(request, 'register.html')
 
 
+def logout(request):
+    request.session.flush()
+    return HttpResponseRedirect(reverse('index'))
+
+
 def customer(request, customer_id):
     # 登录状态检测
     login_id = request.session.get('customer_id')
@@ -88,6 +93,19 @@ def goods_page(request, goods_id):
     except models.Goods.DoesNotExist:
         return render(request, 'no_goods.html')
     # 商品下架检测
+    if request.method == "POST":  # ajax
+        customer_id = request.session.get('customer_id')
+        if customer_id is None:
+            return HttpResponse('0')  # 要求登录
+        if request.POST['behavior'] == 'intended_goods':
+            quantity = request.POST['quantity']
+            databaseApi.create_intended_goods(customer_id, goods_id, quantity)
+            return HttpResponse('1')
+        if request.POST['behavior'] == 'buy':
+            quantity = int(request.POST['quantity'])
+            ship_to_address = request.POST['shipToAddress']
+            databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
+            return HttpResponse('1')
     return render(request, 'goods_page.html')
 
 
@@ -97,6 +115,18 @@ def shopping_cart(request, customer_id):
     if login_id != customer_id:
         return HttpResponseRedirect('login')
     # 登录页面
+    if request.method == 'POST':  # jsPost
+        if request.POST['behavior'] == 'delete':
+            goods_id = request.POST['goodsId']
+            databaseApi.delete_intended_goods(customer_id, goods_id)
+            return HttpResponseRedirect(reverse('shopping_cart'))
+        elif request.POST['behavior']:  # buy
+            goods_id = request.POST['goodsId']
+            quantity = request.POST['quantity']
+            ship_to_address = request.POST['shipToAddress']
+            databaseApi.delete_intended_goods(customer_id, goods_id)
+            order_id = databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
+            return HttpResponseRedirect(reverse('order', args=(order_id,)))
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
     return render(request, 'shopping_cart.html', {'intended_goods_list': intended_goods_list})
 
@@ -107,6 +137,11 @@ def order(request, customer_id):
         return HttpResponseRedirect('login')
     order_list = databaseApi.show_order(customer_id)
     return render(request, 'order.html', {'order_list': order_list})
+
+
+def order_message(request, order_id):
+    order_msg = models.Order.objects.get(pk=order_id)
+    return render(request, 'order_message.html', {'order': order_msg})
 
 
 def goods_management(request, seller_id):

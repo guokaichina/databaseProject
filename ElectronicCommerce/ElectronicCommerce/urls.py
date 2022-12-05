@@ -30,4 +30,5 @@ urlpatterns = [
     path('goods_management/<int:seller_id>', views.goods_management, name='goods_management'),
     path('goods_management/goods_add/<int:seller_id>', views.goods_add, name='goods_add'),
     path('customer/<int:customer_id>', views.customer, name='customer'),
+    path('order_message/<int:order_id>', views.order_message, name='order_message'),
 ]
