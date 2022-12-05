@@ -33,13 +33,19 @@ def login(request):
             if customer_id:
                 request.session['customer_id'] = customer_id
                 return HttpResponseRedirect(reverse('index'))
+            else:
+                msg = '用户名或密码错误'
+                return render(request, 'login.html', {'msg': msg})
         elif request.POST.get('sellerName'):
             seller_name = request.POST['sellerName']
             password = request.POST['password']
             seller_id = databaseApi.seller_login_by_name(seller_name, password)
             if seller_id:
                 request.session['seller_id'] = seller_id
-                return HttpResponseRedirect(reverse('index'))
+                msg = '用户名或密码错误'
+                return render(request, 'login.html', {'msg': msg})
+            else:
+                return HttpResponseRedirect(reverse('login'))
     # 顾客商家登录基本功能
     else:
         return render(request, 'login.html')
@@ -57,7 +63,8 @@ def register(request):
             if databaseApi.create_customer(customer_name, mail_address, password, phone_number):
                 return HttpResponseRedirect(reverse('login'))
             else:
-                return HttpResponseRedirect(reverse('register'))
+                msg = '用户名或邮箱已被使用'
+                return render(request, 'register.html', {'msg': msg})
         elif request.POST.get('sellerName'):
             seller_name = request.POST['sellerName']
             password = request.POST['password']
@@ -66,7 +73,8 @@ def register(request):
             if databaseApi.create_seller(seller_name, mail_address, password, phone_number, ''):
                 return HttpResponseRedirect(reverse('login'))
             else:
-                return HttpResponseRedirect(reverse('register'))
+                msg = '用户名或邮箱已被使用'
+                return render(request, 'register.html', {'msg': msg})
     else:
         return render(request, 'register.html')
 
@@ -74,16 +82,6 @@ def register(request):
 def logout(request):
     request.session.flush()
     return HttpResponseRedirect(reverse('index'))
-
-
-def customer(request, customer_id):
-    # 登录状态检测
-    login_id = request.session.get('customer_id')
-    if login_id != customer_id:
-        return HttpResponseRedirect('login')
-    # 登录状态检测
-    # customer主页
-    return render(request, 'customer.html')
 
 
 def goods_page(request, goods_id):
@@ -139,9 +137,12 @@ def order(request, customer_id):
     return render(request, 'order.html', {'order_list': order_list})
 
 
-def order_message(request, order_id):
-    order_msg = models.Order.objects.get(pk=order_id)
-    return render(request, 'order_message.html', {'order': order_msg})
+def order_message(request, customer_id, order_id):
+    login_id = request.session.get('customer_id')
+    if login_id != customer_id:
+        return HttpResponseRedirect('login')
+    order_info = models.Order.objects.get(pk=order_id)
+    return render(request, 'order_message.html', {'order': order_info})
 
 
 def goods_management(request, seller_id):
@@ -149,6 +150,19 @@ def goods_management(request, seller_id):
     if login_id != seller_id:  # 未登录页面
         return HttpResponseRedirect(reverse('login'))
     # 进入对应的商品管理页面
+    if request.method == 'POST':
+        if request.POST['behavior'] == 'delete':
+            goods_id = request.POST['goodsId']
+            databaseApi.delete_goods(goods_id)
+            msg = '删除成功'
+            return render(request, 'goods_management.html', {'msg': msg})
+        elif request.POST['behavior'] == 'change':
+            goods_id = request.POST['goodsId']
+            goods_name = request.POST['goodsName']
+            goods_stock = request.POST['goodsStock']
+            goods_price = request.POST['goodsPrice']
+
+
     goods_management_list = databaseApi.show_goods_for_management(seller_id)
     return render(request, 'goods_management.html', {'goods_management_list': goods_management_list})
 
@@ -164,14 +178,19 @@ def goods_add(request, seller_id):
         goods_stock = request.POST['goodsStock']
         goods_price = request.POST['goodsPrice']
         goods_type = request.POST['goodsType']
-        goods_image = request.POST['goodsImage']
+        goods_image = request.FILES['goodsImage']
+        extension_name = request.POST['extensionName']
         goods_id = databaseApi.create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type)
         if goods_id:
-            pass
-        picture_file = open(goods_name, 'wb')
-        picture_file.write(goods_image)
+            photo_id = databaseApi.create_photo_path(goods_id, extension_name)
+            path = str(photo_id) + extension_name
+            handle_uploaded_file(goods_image, path)
+            msg = '提交成功'
+            return render(request, 'goods_add.html', {'msg': msg})
         # 提交商品成功
-
+        else:
+            msg = '失败，请检查是否有输入格式上的错误'
+            return render(request, 'goods_add.html', {'msg': msg})
     else:
         return render(request, 'goods_add.html')
 

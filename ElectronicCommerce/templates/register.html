@@ -155,7 +155,7 @@
           else if($('#SellerConfirmPassword').val() !== $('#SellerPassword').val()){
               alert('确认密码和密码不一致');
           }
-          else if(!$('#SellerMailAddress').val().match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)){
+          else if(!$('#SellerMailAddress').val().match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/)){
               alert('邮箱格式不符合');
           }
           else if(!$('#SellerPhoneNumber').val().match(/^[0-9]{6,20}$/)){

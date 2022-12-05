@@ -178,7 +178,7 @@ def seller_login_by_mail_address(mail_address, password):
         return 0
     else:
         if user.password == password:
-            return user.get().sellerID
+            return user.sellerID
         else:
             print('登录失败，密码错误')
             return 0
@@ -191,7 +191,7 @@ def seller_login_by_name(name, password):
         return 0
     else:
         if user.password == password:
-            return user.get().sellerID
+            return user.sellerID
         else:
             print('登录失败，密码错误')
             return 0

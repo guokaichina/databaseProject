@@ -2,9 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
+    <div class="addNewGoods_bg">
+        <h1>上架新商品</h1>
+        <!-- 大盒子：添加新的商品 -->
+        <div class="add_box">
+            <!-- 表单，用于填写新的商品信息 -->
+            <form action="" method="post">
+                <!-- 商品种类 -->
+                <div class="goodType">
+                    <span>商品种类</span>
+                    <input type="text" name="goodsType" id="goodsType">
+                </div>
+                <!-- 商品名称 -->
+                <div class="goodsName">
+                    <span>商品名称</span>
+                    <input type="text" name="goodsName" id="goodsName">
+                </div>
+                <!-- 商品价格 -->
+                <div class="goodsPrice">
+                    <span>商品价格</span>
+                    <input type="text" name="goodsPrice" id="goodsPrice">
+                </div>
+                <!-- 商品库存量（数量） -->
+                <div class="goodsStock">
+                    <span>商品库存量</span>
+                    <input type="text" name="goodsStock" id="goodsStock">
+                </div>
+                <!-- 商品介绍、描述等 -->
+                <div class="goodsDescribe">
+                    <span>商品描述</span><br>
+                    <textarea name="goodsDescribe" id="goodsDescribe" cols="30" rows="10"></textarea>
+                </div>
 
+
+                <input type="submit" value="提交" id="submit" >上架该商品</input>
+            </form>
+        </div>
+    </div>
 </body>
+    <script>
+        $('#submit').click(function(){
+            if(!$('#goodsName').val().match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ]{3,80}$/)){
+
+            }
+            else if(!$('#goodsPrice').val().match(/^[0-9]{1,10}(\.[0-9]{0,2})?$/)){
+
+            }
+            else if(!$('#goodsStock').val().match(/^[0-9]{1,10}$/)){
+
+            }
+        })
+
+    </script>
 </html>

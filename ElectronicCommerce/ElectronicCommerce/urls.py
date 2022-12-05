@@ -26,9 +26,9 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('good/<int:goods_id>', views.goods_page, name='goods'),
     path('order/<int:customer_id>', views.order, name='order'),
+    path('order/<int:customer_id>/information/<int:order_id>', views.order_message, name='order_message'),
     path('shopping_cart/<int:customer_id>', views.shopping_cart, name='shopping_cart'),
     path('goods_management/<int:seller_id>', views.goods_management, name='goods_management'),
     path('goods_management/goods_add/<int:seller_id>', views.goods_add, name='goods_add'),
-    path('customer/<int:customer_id>', views.customer, name='customer'),
-    path('order_message/<int:order_id>', views.order_message, name='order_message'),
+    path('logout/', views.logout, name='logout'),
 ]
