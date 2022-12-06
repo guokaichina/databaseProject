@@ -87,7 +87,7 @@ def register(request):
 
 def logout(request):
     request.session.flush()
-    return HttpResponseRedirect(reverse('login'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 def goods_page(request, goods_id):
@@ -225,12 +225,16 @@ def goods_add(request, seller_id):
 
 
 def search_goods(request, keyword=''):
-    if request.GET.get('keyword'):
-        keyword = request.GET['keyword']
-        print('ok')
-        return HttpResponseRedirect(reverse('search_goods', args=(keyword, )))
-
-    return render(request, 'search.html', {'keyword': keyword})
+    search_list = get_search_list(keyword)
+    if request.session.get('customer_id'):
+        obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
+        return render(request, 'search.html', {'customerName': obj_customer.customerName,
+                                               'customerID': obj_customer.customerID, 'searchList': search_list})
+    if request.session.get('seller_id'):
+        obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
+        return render(request, 'search.html', {'sellerName': obj_seller.sellerName,
+                                               'sellerID': obj_seller.sellerID, 'searchList': search_list})
+    return render(request, 'search.html', {'keyword': keyword, 'searchList': search_list})
 
 
 def test_page(request):
@@ -242,3 +246,7 @@ def handle_uploaded_file(f, path):
     with open(path, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+
+def get_search_list(keyword):
+    return models.Goods.objects.filter(goodsName__contains=keyword)

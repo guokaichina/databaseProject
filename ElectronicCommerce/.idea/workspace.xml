@@ -3,12 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElectronicCommerce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElectronicCommerce/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/jspost.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jsPost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/goods_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_add.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/goods_management.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_management.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -125,6 +127,7 @@
       <workItem from="1670252546908" duration="1071000" />
       <workItem from="1670302225641" duration="5052000" />
       <workItem from="1670312262120" duration="13538000" />
+      <workItem from="1670338306749" duration="2185000" />
     </task>
     <servers />
   </component>

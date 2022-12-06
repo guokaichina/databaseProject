@@ -1,15 +1,370 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="/static/js/jquery-3.6.1.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="/static/css/base.css" />
+	<link type="text/css" rel="stylesheet" href="/static/css/search.css" />
+<title>优品购物</title>
+<meta name="keywords" content="国内网站模板,橙色,购物,网站源码,html模板,服装商城,化妆品商城" />
+<meta name="description" content="橙色的网上购物零售商城网站html源码。" />
 </head>
 <body>
-        <label for="keyword"></label>
-        <input id="keyword" type="text" value="{{ keyword }}" class="s_ipt" name="keyword"/>
-        <button class="s_btn" id="search">搜索</button><br>
-    this is the result.
+<!--Begin Header Begin-->
+<!-- 快捷导航栏 -->
+<div class="shortcut">
+    <div class="wrapper clearfix">
+        <ul class="fr">
+            {% if customerName %}
+                <li><a href="#">你好，{{ customerName }}</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="#">我的订单</a></li>
+            {% elif sellerName %}
+                <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="{% url 'goods_management' sellerID %}">商品管理</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">你好，请登录</a></li>
+                <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
+            {% endif %}
+            <li><a href="#">会员中心</a></li>
+            <li><a href="#">帮助中心</a></li>
+            <li><a href="#">在线客服</a></li>
+            <li><a href="#"><span></span>手机版</a></li>
+        </ul>
+    </div>
+</div>
+<div class="header">
+    <div class="top">
+        <!-- logo,改成自己的 -->
+        <div class="logo"><a href="index.html"><img src="/static/picture/logo.png" /></a></div>
+        <!-- 搜索框 -->
+        <div class="search">
+            <form>
+                <!-- 输入搜索的关键词 -->
+                <input type="text" value="" class="s_ipt" id="keyword"/>
+                <!-- 点击搜索  -->
+                <input type="submit" value="搜索" class="s_btn" id="search"/>
+            </form>
+            <div class="searchResult">搜索结果</div>
+        </div>
+        <div class="i_car">
+            <div class="car_t">购物车 [ <span>3</span> ]</div>
+            <div class="car_bg">
+                   <!--Begin 购物车未登录 Begin-->
+                <div class="un_login">还未登录！<a href="login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
+                <!--End 购物车未登录 End-->
+                <!--Begin 购物车已登录 Begin-->
+                <ul class="cars">
+                    <li>
+                        <div class="img"><a href="#"><img src="/static/picture/car1.jpg" width="58" height="58" /></a></div>
+                        <div class="name"><a href="#">法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只</a></div>
+                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
+                    </li>
+                    <li>
+                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58" /></a></div>
+                        <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
+                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
+                    </li>
+                    <li>
+                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58" /></a></div>
+                        <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
+                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
+                    </li>
+                </ul>
+                <div class="price_sum">共计&nbsp;<span style="color:#ff4e00;">￥399</span><span>1058</span></div>
+                <div class="price_a"><a href="#">去购物车结算</a></div>
+                <!--End 购物车已登录 End-->
+            </div>
+        </div>
+    </div>
+    <!--Begin Menu Begin-->
+    <div class="menu_bg">
+        <div class="menu">
+            <ul class="menu_r">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">美食</a></li>
+                <li><a href="#">生鲜</a></li>
+                <li><a href="#">家居</a></li>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">团购</a></li>
+            </ul>
+            <div class="m_ad">中秋送好礼！</div>
+        </div>
+    </div>
+    <!--End Menu End-->
+</div>
+<!-- Begin 搜索结果展示 Begin -->
+<div class="showSearch">
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    <!-- 搜索出来的单个商品 -->
+    <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥99</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>1万+</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+</div>
 </body>
     <script>
         $('#keyword').click(function(){

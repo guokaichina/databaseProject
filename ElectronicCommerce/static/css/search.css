@@ -1,0 +1,249 @@
+body{
+    background-color: rgb(223, 221, 221);
+}
+
+/* 版心 */
+.wrapper{
+	width: 1240px;
+	margin: 0 auto;
+}
+
+/* 快捷导航栏~~~~~~~~~~~~ */
+.shortcut{
+	height: 52px;
+	background-color: #333;
+	/* background-color: rgb(255,136,33); */
+}
+
+.shortcut .wrapper li{
+	float: left;
+	line-height: 52px;
+}
+
+.shortcut .wrapper li a{
+	padding: 0 16px;
+	font-size: 14px;
+	color: #fff;
+	border-right: 1px solid #666;
+}
+/* 突出显示“免费注册” */
+.shortcut .wrapper #reg_Btn{
+	color: red;
+}
+.shortcut .wrapper #reg_Btn:hover{
+	color: #fff;
+}
+
+/* 从精灵图中获取小手机这个图标 */
+.shortcut .wrapper li a span{
+	display: inline-block;
+	margin-right: 9px;
+	vertical-align: middle;
+	width: 11px;
+	height: 16px;
+	background-image: url(../images/sprites.png);
+	background-position: -160px -70px;
+}
+
+.shortcut .wrapper li:hover{
+	/* background-color: #333; */
+	background-color: rgb(255,136,33);
+
+}
+
+.header{
+    background-color: #fff;
+}
+
+.top{
+	width:1200px; height:140px;
+    background-color: #fff;
+}
+/* logo样式 */
+.logo{
+	width:207px; height:137px;  float:left;
+}
+.logo img{
+	width: 207px;
+	overflow:visible;
+}
+.search{
+	width:520px;
+    height:65px;
+    overflow:hidden;
+    float:left;
+    display:inline;
+    margin-left:134px;
+    margin-top:50px;
+    position: relative;
+}
+.search .searchResult{
+    position: absolute;
+    top: 65%;
+}
+.s_ipt{
+	width:408px; height:40px; line-height:36px\9; overflow:hidden; color:#555555; font-size:14px; font-family:"Microsoft YaHei"; float:left; padding:0 10px; border:2px solid #ff4e00; border-right:0;
+}
+.s_btn{
+	width:90px; height:40px; line-height:40px\9; background-color:#ff4e00; color:#FFF; font-size:16px; font-family:"Microsoft YaHei"; text-align:center; float:left; border:0; cursor:pointer;
+}
+.search a{
+	margin-right:12px; display:inline-block;
+}
+
+.i_car{
+	width:141px; height:38px; line-height:38px; background:url(../images/car.png) no-repeat 10px center; background-color:#f6f6f6; float:right; margin-top:50px; border:1px solid #d9d9d9; position:relative;
+}
+.car_t{
+	width:95px; height:38px; overflow:hidden; background:url(../images/d_arrow.png) no-repeat right center; font-size:14px; margin-left:38px; cursor:pointer;
+}
+.car_t span{
+	color:#ff4e00;
+}
+.i_car:hover .car_bg{
+	display:block;
+}
+.car_bg{
+	width:283px; overflow:hidden; background-color:#FFF; border:1px solid #d9d9d9; position:absolute; right:-1px; top:38px; z-index:900; display:none;
+}
+.un_login{
+	overflow:hidden; text-align:center; margin:15px auto;
+}
+ul.cars{
+	overflow:hidden;
+}
+ul.cars li{
+	height:70px; overflow:hidden; margin-top:10px; border-bottom:1px solid #e2e2e2;
+}
+ul.cars li .img{
+	width:58px; height:58px; overflow:hidden; float:left; display:inline; margin-left:15px; border:1px solid #e2e2e2;
+}
+ul.cars li .name{
+	width:180px; height:40px; line-height:20px; overflow:hidden; color:#888888; font-family:"宋体"; float:left; display:inline; margin-left:8px;
+}
+ul.cars li .name a{
+	color:#888888;
+}
+ul.cars li .name a:hover{
+	color:#ff4e00;
+}
+ul.cars li .price{
+	width:180px; height:20px; line-height:20px; overflow:hidden; color:#888888; font-size:14px; float:left; display:inline; margin-left:8px;
+}
+.price_sum{
+	width:255px; height:30px; line-height:30px; overflow:hidden; font-size:14px; text-align:right; margin-top:10px;
+}
+.price_sum span{
+	color:#ff4e00; font-size:20px; font-weight:bold;
+}
+.price_a{
+	width:120px; height:35px; line-height:35px; overflow:hidden; background:url(../Images/a_link.gif) repeat-x center top; color:#FFF; font-size:14px; text-align:center; margin-right:13px; margin-top:5px; margin-bottom:20px; -webkit-border-radius:2px; -moz-border-radius:2px; border-radius:2px;
+}
+.price_a a{
+	color:#FFF;
+}
+
+
+
+.menu_bg{
+	width:100%; min-width:1200px; height:43px; border-bottom:2px solid #ff4e00;background-color: #fff;
+}
+.menu{
+	width:1200px; height:43px; line-height:43px; color:#3e3e3e; font-size:16px; position:relative; z-index:800;
+}
+ul.menu_r{
+	width:720px; height:40px; overflow:hidden; float:left; display:inline; margin-left:211px;
+}
+ul.menu_r li{
+	width:70px; height:40px; line-height:40px; overflow:hidden; text-align:center; float:left; display:inline; margin-right:10px;
+}
+ul.menu_r li a{
+	width:70px; height:40px; overflow:hidden; float:left; color:#3e3e3e;
+}
+ul.menu_r li a:hover, ul.menu_r li a.now{
+	color:#ff4e00;
+}
+.m_ad{
+	width:260px; height:43px; line-height:40px; overflow:hidden; color:#ff3600; font-size:20px; font-weight:bold; text-align:right; float:right;
+}
+
+/* 大盒子：用来容纳搜索出来的所有商品 */
+.showSearch{
+    width: 1200px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: start;
+    flex-wrap:wrap;
+	background-color: #fff;
+}
+/* 搜索出来的每个单独商品 */
+.result{
+    margin: 5px 0;
+    padding: 5px;
+    width: 200px;
+    height: 300px;
+	background-color: #fff;
+}
+.result:hover{
+	border: 1px solid gainsboro;
+}
+/* 商品图片 */
+.result .goodImage{
+	border-bottom: 1px solid gainsboro;
+}
+/* 商品价格 */
+.result .goodPrice{
+	font-size: 20px;
+	color: #f00;
+}
+/* 商品名称（描述） */
+.result .goodName{
+	width: 100%;
+	height: 50px;
+	cursor: pointer;
+	/* 以下使得商品名称（描述）最多只显示两行文本，多余的被隐藏 */
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.result .goodComment span{
+	color:#0b65dc;
+}
+.result .resultBtn{
+	display: flex;
+}
+/* 购买按钮 */
+#buy{
+	margin: 0;
+	text-align: center;
+	color: #ff4e00;
+	font-size: 14px;
+	width: 40%;
+	border: 1px solid #ff4e00;
+}
+#buy:hover{
+	background-color: #ff4e00;
+	color: #fff;
+	border: solid 1px #fff;
+	cursor: pointer;
+}
+#buy:active{
+	background-color: #f00;
+	color: #fff;
+	border: solid 1px #fff;
+}
+/* 加入购物车按钮 */
+#addCar{
+	padding-left: 30px;
+	font-size: 14px;
+	width: 60%;
+	background:url(../picture/j_car.png) no-repeat 10px center;
+	background-size: 130px;
+	background-position: -10px -4px;
+}
+#addCar:hover{
+	border: 1px solid #fff;
+	cursor: pointer;
+}
+
