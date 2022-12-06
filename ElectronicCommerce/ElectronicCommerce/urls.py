@@ -19,6 +19,8 @@ from NetworkingMall import views
 
 
 urlpatterns = [
+    path('search/<str:keyword>/', views.search_goods, name='search_goods'),
+    path('search/', views.search_goods, name='search_nothing'),
     path('admin/', admin.site.urls),
     path('', views.test_page),
     path('index/', views.index, name='index'),

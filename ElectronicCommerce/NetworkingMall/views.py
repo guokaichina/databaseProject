@@ -3,6 +3,7 @@ from . import databaseApi
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from . import models
+import os
 
 # Create your views here.
 
@@ -13,6 +14,10 @@ def index(request):
         obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
         return render(request, 'index.html', {'customerName': obj_customer.customerName,
                                               'customerID': obj_customer.customerID})
+    if request.session.get('seller_id'):
+        obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
+        return render(request, 'index.html', {'sellerName': obj_seller.sellerName,
+                                              'sellerID': obj_seller.sellerID})
     else:
         return render(request, 'index.html')
 
@@ -82,7 +87,7 @@ def register(request):
 
 def logout(request):
     request.session.flush()
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('login'))
 
 
 def goods_page(request, goods_id):
@@ -108,8 +113,8 @@ def goods_page(request, goods_id):
     else:
         comment_list = databaseApi.show_comment(goods_id)
         goods_photo = models.Photos.objects.get(goods_id=goods_id)
-        return render(request, 'goods_page.html', {'goods': goods, 'comment_list': comment_list,
-                                                   'goods_photo': goods_photo})
+        return render(request, 'goods_page.html', {'goods': goods, 'commentList': comment_list,
+                                                   'goodsPhoto': goods_photo})
 
 
 def shopping_cart(request, customer_id):
@@ -131,7 +136,7 @@ def shopping_cart(request, customer_id):
             order_id = databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
             return HttpResponseRedirect(reverse('order', args=(order_id,)))
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
-    return render(request, 'shopping_cart.html', {'intended_goods_list': intended_goods_list})
+    return render(request, 'shopping_cart.html', {'intendedGoodsList': intended_goods_list})
 
 
 def order(request, customer_id):
@@ -146,7 +151,7 @@ def order(request, customer_id):
             else:
                 return HttpResponseRedirect(reverse('order', args=(customer_id, )))
     order_list = databaseApi.show_order(customer_id)
-    return render(request, 'order.html', {'order_list': order_list})
+    return render(request, 'order.html', {'orderList': order_list})
 
 
 def order_message(request, customer_id, order_id):
@@ -165,7 +170,10 @@ def goods_management(request, seller_id):
     if request.method == 'POST':
         if request.POST['behavior'] == 'delete':
             goods_id = int(request.POST['goodsId'])
-            databaseApi.delete_goods(goods_id)
+            photo_path = models.Photos.objects.get(goodsID=goods_id)  # 查找对应图片
+            path = "../static/picture/" + photo_path
+            os.remove(path)  # 删除对应图片
+            databaseApi.delete_goods(goods_id)  # 由于完整性约束，删掉对应的图片
             msg = '删除成功'
             return render(request, 'goods_management.html', {'msg': msg})
         elif request.POST['behavior'] == 'change':
@@ -180,10 +188,12 @@ def goods_management(request, seller_id):
             goods.save()
             msg = '改变成功'
             return render(request, 'goods_management.html', {'msg': msg})
-
-    goods_management_list = databaseApi.show_goods_for_management(seller_id)
-    return render(request, 'goods_management.html', {'seller_id': seller_id,
-                                                     'goods_management_list': goods_management_list})
+    else:
+        obj_seller = models.Seller.objects.get(pk=seller_id)
+        goods_management_list = databaseApi.show_goods_for_management(seller_id)
+        return render(request, 'goods_management.html', {'sellerId': seller_id,
+                                                         'sellerName': obj_seller.sellerName,
+                                                         'goodsManagementList': goods_management_list})
 
 
 def goods_add(request, seller_id):
@@ -202,8 +212,8 @@ def goods_add(request, seller_id):
         goods_id = databaseApi.create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type)
         if goods_id:
             photo_id = databaseApi.create_photo_path(goods_id, extension_name)
-            path = str(photo_id) + extension_name
-            handle_uploaded_file(goods_image, path)
+            path = "../static/picture/" + str(photo_id) + extension_name  # 路径设计
+            handle_uploaded_file(goods_image, path)  # 保存
             msg = '提交成功'
             return render(request, 'goods_add.html', {'msg': msg})
         # 提交商品成功
@@ -214,14 +224,18 @@ def goods_add(request, seller_id):
         return render(request, 'goods_add.html')
 
 
+def search_goods(request, keyword=''):
+    if request.GET.get('keyword'):
+        keyword = request.GET['keyword']
+        print('ok')
+        return HttpResponseRedirect(reverse('search_goods', args=(keyword, )))
+
+    return render(request, 'search.html', {'keyword': keyword})
+
+
 def test_page(request):
     # 用于临时显示首页
-    return HttpResponseRedirect(reverse('login'))
-
-
-def do_something(arg):
-    pass
-    return
+    return HttpResponseRedirect(reverse('index'))
 
 
 def handle_uploaded_file(f, path):

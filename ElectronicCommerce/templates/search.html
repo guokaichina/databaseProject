@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+        <label for="keyword"></label>
+        <input id="keyword" type="text" value="{{ keyword }}" class="s_ipt" name="keyword"/>
+        <button class="s_btn" id="search">搜索</button><br>
+    this is the result.
+</body>
+    <script>
+        $('#keyword').click(function(){
+            this.select();
+        })
+        $('#search').click(function(){
+            let keyword = $('#keyword').val();
+            if(keyword === '' ) {
+                window.location.href = "/search"
+            }
+            else
+                window.location.href = "/search/" +keyword
+            return false;
+        })
+    </script>
+</html>

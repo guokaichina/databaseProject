@@ -78,16 +78,26 @@ form{
 	vertical-align: middle;
 	width: 11px;
 	height: 16px;
-	background-image: url(./../数据库UI/Images/sprites.png);
+	background-image: url(../images/sprites.png);
 	background-position: -160px -70px;
 }
 
 .shortcut .wrapper li:hover{
 	/* background-color: #333; */
 	background-color: rgb(255,136,33);
-
+}
+.shortcut .wrapper li button{
+	background-color:#333;
+	color:#fff;
+	border: none;
 }
 
+.shortcut .wrapper li button:hover{
+	background-color: rgb(255,136,33);
+}
+.shortcut .wrapper li:hover button{
+	background-color: rgb(255,136,33);
+}
 
 /*---------------Footer---------------*/
 .b_btm_bg{
