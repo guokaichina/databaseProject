@@ -1,3 +1,6 @@
+*{
+	box-sizing: border-box;
+}
 body{
 	margin:0; padding:0; font-size:12px; font-family:"Microsoft YaHei"; line-height:25px; color:#555555;
 }
@@ -33,4 +36,141 @@ form{
 }
 .none{
 	display:none;
+}
+
+
+/* 版心 */
+.wrapper{
+	width: 1240px;
+	margin: 0 auto;
+}
+
+/* 快捷导航栏~~~~~~~~~~~~ */
+.shortcut{
+	height: 52px;
+	background-color: #333;
+	/* background-color: rgb(255,136,33); */
+}
+
+.shortcut .wrapper li{
+	float: left;
+	line-height: 52px;
+}
+
+.shortcut .wrapper li a{
+	padding: 0 16px;
+	font-size: 14px;
+	color: #fff;
+	border-right: 1px solid #666;
+}
+/* 突出显示“免费注册” */
+.shortcut .wrapper #reg_Btn{
+	color: red;
+}
+.shortcut .wrapper #reg_Btn:hover{
+	color: #fff;
+}
+
+/* 从精灵图中获取小手机这个图标 */
+.shortcut .wrapper li a span{
+	display: inline-block;
+	margin-right: 9px;
+	vertical-align: middle;
+	width: 11px;
+	height: 16px;
+	background-image: url(./../数据库UI/Images/sprites.png);
+	background-position: -160px -70px;
+}
+
+.shortcut .wrapper li:hover{
+	/* background-color: #333; */
+	background-color: rgb(255,136,33);
+
+}
+
+
+/*---------------Footer---------------*/
+.b_btm_bg{
+	width:100%; min-width:1200px; height:122px; overflow:hidden; margin-top:30px;
+}
+.b_btm_c{
+	background-color:#FFF;
+}
+.b_btm{
+	width:1200px; height:122px; overflow:hidden;
+}
+.b_btm table{
+	color:#888888; font-size:14px;
+}
+.b_btm table h2{
+	color:#3e3e3e; font-size:16px; font-weight:normal;
+}
+
+.b_nav{
+	width:1200px; overflow:hidden; margin:20px auto;
+}
+.b_nav dl{
+	width:125px; height:165px; overflow:hidden; float:left; display:inline; margin-right:50px;
+}
+.b_nav dl dt{
+	height:30px; line-height:30px; overflow:hidden; color:#3e3e3e; font-size:16px; margin-bottom:10px;
+}
+.b_nav dl dt a{
+	color:#3e3e3e;
+}
+.b_nav dl dt a:hover{
+	color:#3e3e3e; text-decoration:underline;
+}
+.b_nav dl dd{
+	height:24px; line-height:24px; overflow:hidden; color:#888888;
+}
+.b_nav dl dd a{
+	color:#888888;
+}
+.b_nav dl dd a:hover{
+	color:#ff4e00;
+}
+
+.b_er{
+	width:120px; height:160px; overflow:hidden; text-align:center; float:right; display:inline; margin-right:22px; margin-top:5px;
+}
+.b_er_c{
+	width:118px; height:118px; overflow:hidden; margin-bottom:10px; border:1px solid #e9e9e9;
+}
+.b_tel_bg{
+	width:133px; height:140px; overflow:hidden; color:#888888; float:right; margin-top:5px;
+}
+.b_tel_bg a.b_sh1{
+	width:100%; height:35px; line-height:35px; overflow:hidden; background:url(../Images/b_sh_1.png) no-repeat left center; color:#888888; font-size:14px; text-indent:32px; display:inline-block;
+}
+.b_tel_bg a.b_sh1:hover{
+	color:#ff4e00;
+}
+.b_tel_bg a.b_sh2{
+	width:100%; height:35px; line-height:35px; overflow:hidden; background:url(../Images/b_sh_2.png) no-repeat left center; color:#888888; font-size:14px; text-indent:32px; display:inline-block;
+}
+.b_tel_bg a.b_sh2:hover{
+	color:#ff4e00;
+}
+.b_tel_bg p{
+	margin-top:10px;
+}
+.b_tel_bg p span{
+	color:#ff4e00; font-size:18px;
+}
+
+.btmbg{
+	width:100%; min-width:1200px; overflow:hidden; padding:30px 0 40px 0; border-top:1px solid #eaeaea;
+}
+.btm{
+	width:1200px; overflow:hidden; color:#999999; font-family:"宋体"; text-align:center;
+}
+.btm a{
+	color:#999999;
+}
+.btm a:hover{
+	color:#999999; text-decoration:underline;
+}
+.btm img{
+	display:inline-block; margin:15px 5px 5px 5px; border:1px solid #d9d9d9; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;
 }

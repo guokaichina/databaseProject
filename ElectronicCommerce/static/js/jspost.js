@@ -1,7 +1,6 @@
-function jsPost(url, params, fileParams={}){
+function jsPost(url, params) {
     let temp_form = document.createElement("form");
     temp_form.action = url;
-    temp_form.enctype ="multipart/form-data";
     temp_form.method = "post";
     temp_form.style.display = "none";
     for (let x in params) {
@@ -10,13 +9,6 @@ function jsPost(url, params, fileParams={}){
         opt.value = params[x];
         temp_form .appendChild(opt);
     }
-    for (let x in fileParams){
-        let opt = document.createElement("input")
-        opt.type = "file";
-        opt.name = "x";
-        opt.value = fileParams[x];
-        temp_form.appendChild(opt);
-    }
     document.body.appendChild(temp_form);
-    temp_form.submit();
+    temp_form .submit();
 }

@@ -164,7 +164,7 @@ def goods_management(request, seller_id):
     # 进入对应的商品管理页面
     if request.method == 'POST':
         if request.POST['behavior'] == 'delete':
-            goods_id = request.POST['goodsId']
+            goods_id = int(request.POST['goodsId'])
             databaseApi.delete_goods(goods_id)
             msg = '删除成功'
             return render(request, 'goods_management.html', {'msg': msg})
