@@ -1,10 +1,9 @@
 from .models import *
 
-# 创建元组
 
 
 def create_customer(customer_name, mail_address, password, phone_number):
-    # 在数据库中创建一个customer，返回bool值， 创建成功则返回True， 创建失败(mail_address重复或customer重复)返回False  
+    # 在数据库中创建一个customer，返回bool值， 创建成功则返回True， 创建失败(mail_address重复或customer重复)返回False
     try:
         customer_set_1 = Customer.objects.filter(customerName=customer_name)
         customer_set_2 = Customer.objects.filter(mailAddress=mail_address)
@@ -67,34 +66,30 @@ def create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type):
 
 
 def create_photo_path(goods_id, extension_name):
-    # 关于photos的path上，我有一个问题，那就是数据库是否会存储一个static/images/image_name，这样的前面的结构，
-    # 由于目录是知道的，所以我觉得static/images这个是多余的，不需要多余的存储空间
-    # 这个path会不会什么特殊约束，比如说，他在存储的时候，是否会检测该路径下是否存在着这个文件
-    # 为了让路径不会重名，所以简单的来看，图片的路径就用图片ID.后缀(png，img，jpg等).
-    # 实际上，这里的path，只需要起到简单的varchar作用就足够了
-    # 因为在创建过后才能真正知道图片ID，所以可以分为两步，先创建，再修改path.
-    # 我会传递一个后缀名。
-    # 这里假设我要传递的图片是ui.png
-    # 那么这里的extension_name = '.png'
-    # 要求这个函数最后创建的元组的path='id.png'
+    # 在数据库Photos表中，插入一个元组，成功创建返回ID,失败则返回0
+    try:
+        goods = Goods.objects.get(goodsID=goods_id)
+        photo = Photos.objects.create(photoPath=extension_name, goodsID=goods)
 
-    # 在数据库Photos表中，插入一个元组，成功创建返回True,失败则返回False
-    # try:
-    #     goods = Goods.objects.get(goodsID=goods_id)
-    #     Photos.objects.create(goodsID=goods, photosPath=photo_path)
-    # except Goods.DoesNotExist:
-    #     print('goods_id_error:商品不存在')
-    #     return False
-    # except:
-    #     return False
-    pass
+        photo.photoPath = str(photo.photoID) + extension_name
+        photo.save()
+
+        return photo.photoID
+    except Goods.DoesNotExist:
+        print("goods_id_error:商品不存在")
+        return 0
+    except:
+        print("add_photo_error:添加新图片失败")
+        return 0
+
 
 def create_intended_goods(customer_id, goods_id, quantity):
     # 意向商品表中插入一项 不需要返回值
     try:
         customer = Customer.objects.get(customerID=customer_id)
         goods = Goods.objects.get(goodsID=goods_id)
-        IntendedGoods.objects.create(goodsID=goods, customerID=customer, quantity=quantity)
+        IntendedGoods.objects.create(
+            goodsID=goods, customerID=customer, quantity=quantity)
     except Customer.DoesNotExist:
         print('customer_id_error:顾客不存在')
     except Goods.DoesNotExist:
@@ -112,6 +107,10 @@ def create_order(customer_id, goods_id, quantity, ship_to_address):
         goods = Goods.objects.get(goodsID=goods_id)
         seller = Seller.objects.filter(goods__goodsID=goods_id)
 
+        goods.goodsStock -= quantity
+        goods.goodsSold += quantity
+        goods.save()
+
         Order.objects.create(amount=goods.goodsPrice * quantity,
                              goodsName=goods.goodsName,
                              goodsQuantity=quantity,
@@ -120,6 +119,7 @@ def create_order(customer_id, goods_id, quantity, ship_to_address):
                              shipTpAddress=ship_to_address,
                              customerID=customer
                              )
+
     except Customer.DoesNotExist:
         print('customer_id_error:顾客不存在')
     except Goods.DoesNotExist:
@@ -133,7 +133,8 @@ def create_comment(customer_id, goods_id, comment):
     try:
         customer = Customer.objects.get(customerID=customer_id)
         goods = Goods.objects.get(goodsID=goods_id)
-        Comment.objects.create(goodsID=goods, customerID=customer, comment=comment)
+        Comment.objects.create(
+            goodsID=goods, customerID=customer, comment=comment)
     except Customer.DoesNotExist:
         print('customer_id_error:顾客不存在')
     except Goods.DoesNotExist:
@@ -178,7 +179,7 @@ def seller_login_by_mail_address(mail_address, password):
         return 0
     else:
         if user.password == password:
-            return user.sellerID
+            return user.get().sellerID
         else:
             print('登录失败，密码错误')
             return 0
@@ -191,7 +192,7 @@ def seller_login_by_name(name, password):
         return 0
     else:
         if user.password == password:
-            return user.sellerID
+            return user.get().sellerID
         else:
             print('登录失败，密码错误')
             return 0
@@ -200,45 +201,93 @@ def seller_login_by_name(name, password):
 
 def show_goods_for_management(seller_id):
     # 返回列表seller_id对应的商品列表，按商品id排序
-    #
-    pass
+    try:
+        goods_query_list = Goods.objects.filter(seller__sellerID=seller_id).order_by('goodsID') # 多对一的正向跨关系查询
+    except:
+        pass
+    else:
+        return list(goods_query_list)
 
 
 def delete_goods(goods_id):
     # 下架商品
-    pass
+    try:
+        goods = Goods.objects.get(goodsID = goods_id)
+       
+    except Goods.DoesNotExist:
+        print('goods_id_error:商品不存在')
+    else:
+         goods.delete()    
+
 
 # 用户管理方面
 
-
 def show_intended_goods(customer_id):
-    #
-    pass
+    # 返回对应顾客的感兴趣商品列表
+    try:
+        intended_goods_querylist = IntendedGoods.objects.filter(customer__customerID = customer_id)
+    except:
+        pass
+    else:
+        return list(intended_goods_querylist)
 
 
 def delete_intended_goods(customer_id, goods_id):
-    pass
+    try:
+        intended_goods = IntendedGoods.objects.filter(goods__goodsID = goods_id, customer__customerID = customer_id)
+        pass
+    except:
+        pass
+    else:
+        intended_goods.get().delete()
 
 
 def show_order(customer_id):
-    pass
+    try:
+        order_query_set = Order.objects.filter(customer__customerID = customer_id).order_by('-orderID')
+    except:
+        pass
+    else:
+        return list(order_query_set)
+
 
 
 def cancel_order(order_id):
-    # 取消订单
-    pass
+    # 取消订单 返回True代表取消成功，返回False代表超时不可取消
+    # 我觉得这里可以传一个以秒为单位的时间间隔，代表确认订单后多久时间内允许取消
+    try:
+        order = Order.objects.get(orderID = order_id)
+    except Order.DoesNotExist:
+        print("ordre_id_error:订单不存在")
+    else:
+        if order.cancel():
+
+            goods = Goods.objects.filter(seller__sellerName=order.sellerName).get(goodsName = order.goodsName)
+            goods.goodsStock += order.goodsQuantity
+            goods.goodsSold -= order.goodsQuantity
+            goods.save()
+            order.delete()
+
+            return True
+        else:
+            return False
+        
 
 
 # 商品展示方面
 
 def show_comment(goods_id):
     # 同样返回列表即可，按照时间反向排序
-    pass
+    try:
+        comment_query_set = Comment.objects.filter(goods__goodsID = goods_id).order_by('-commentID')
+    except:
+        pass
+    else:
+        return list(comment_query_set)
 
 
 def comment(comment_id):
     # 删除对应评论
-    #
     try:
         obj = Comment.objects.get(pk=comment_id)
     except Comment.DoesNotExist:
