@@ -13,7 +13,8 @@
     <!-- 大盒子：添加新的商品 -->
     <div class="add_box">
         <!-- 表单，用于填写新的商品信息 -->
-        <form action="" method="post" id="form">
+        <form action="" method="post" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
             <!-- 商品种类 -->
             <div class="goodType">
                 <span>商品种类</span>
@@ -88,7 +89,6 @@
             }
             //只是展示一下宽高
             document.body.appendChild(show_image); //展示(其实可以不用展示)
-
         };
     });
 

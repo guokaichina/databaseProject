@@ -1,0 +1,331 @@
+body{
+    background-color: rgb(223, 221, 221);
+}
+
+/* 版心 */
+.wrapper{
+	width: 1240px;
+	margin: 0 auto;
+}
+
+/* 快捷导航栏~~~~~~~~~~~~ */
+.shortcut{
+	height: 52px;
+	background-color: #333;
+	/* background-color: rgb(255,136,33); */
+}
+
+.shortcut .wrapper li{
+	float: left;
+	line-height: 52px;
+}
+
+.shortcut .wrapper li a{
+	padding: 0 16px;
+	font-size: 14px;
+	color: #fff;
+	border-right: 1px solid #666;
+}
+/* 突出显示“免费注册” */
+.shortcut .wrapper #reg_Btn{
+	color: red;
+}
+.shortcut .wrapper #reg_Btn:hover{
+	color: #fff;
+}
+
+/* 从精灵图中获取小手机这个图标 */
+.shortcut .wrapper li a span{
+	display: inline-block;
+	margin-right: 9px;
+	vertical-align: middle;
+	width: 11px;
+	height: 16px;
+	background-image: url(/static/images/sprites.png);
+	background-position: -160px -70px;
+}
+
+.shortcut .wrapper li:hover{
+	/* background-color: #333; */
+	background-color: rgb(255,136,33);
+
+}
+
+.header{
+    background-color: #fff;
+}
+
+.top{
+	width:1200px; height:140px;
+    background-color: #fff;
+}
+/* logo样式 */
+.logo{
+	width:207px; height:137px;  float:left;
+}
+.logo img{
+	width: 207px;
+	overflow:visible;
+}
+.search{
+	width:520px; 
+    height:65px; 
+    overflow:hidden; 
+    float:left; 
+    display:inline; 
+    margin-left:134px; 
+    margin-top:50px;
+    position: relative;
+}
+.search .searchResult{
+    position: absolute;
+    top: 65%;
+}
+.s_ipt{
+	width:408px; height:40px; line-height:36px\9; overflow:hidden; color:#555555; font-size:14px; font-family:"Microsoft YaHei"; float:left; padding:0 10px; border:2px solid #ff4e00; border-right:0;
+}
+.s_btn{
+	width:90px; height:40px; line-height:40px\9; background-color:#ff4e00; color:#FFF; font-size:16px; font-family:"Microsoft YaHei"; text-align:center; float:left; border:0; cursor:pointer;
+}
+.search a{
+	margin-right:12px; display:inline-block;
+}
+
+.i_car{
+	width:141px; height:38px; line-height:38px;
+    background: #f6f6f6 url(/static/images/car.png) no-repeat 10px center;
+    float:right; margin-top:50px; border:1px solid #d9d9d9; position:relative;
+}
+.car_t{
+	width:95px; height:38px; overflow:hidden; background:url(/static/images/d_arrow.png) no-repeat right center; font-size:14px; margin-left:38px; cursor:pointer;
+}
+.car_t span{
+	color:#ff4e00;
+}
+.i_car:hover .car_bg{
+	display:block;
+}
+.car_bg{
+	width:283px; overflow:hidden; background-color:#FFF; border:1px solid #d9d9d9; position:absolute; right:-1px; top:38px; z-index:900; display:none;
+}
+.un_login{
+	overflow:hidden; text-align:center; margin:15px auto;
+}
+ul.cars{
+	overflow:hidden;
+}
+ul.cars li{
+	height:70px; overflow:hidden; margin-top:10px; border-bottom:1px solid #e2e2e2;
+}
+ul.cars li .img{
+	width:58px; height:58px; overflow:hidden; float:left; display:inline; margin-left:15px; border:1px solid #e2e2e2;
+}
+ul.cars li .name{
+	width:180px; height:40px; line-height:20px; overflow:hidden; color:#888888; font-family:"宋体"; float:left; display:inline; margin-left:8px;
+}
+ul.cars li .name a{
+	color:#888888;
+}
+ul.cars li .name a:hover{
+	color:#ff4e00;
+}
+ul.cars li .price{
+	width:180px; height:20px; line-height:20px; overflow:hidden; color:#888888; font-size:14px; float:left; display:inline; margin-left:8px;
+}
+.price_sum{
+	width:255px; height:30px; line-height:30px; overflow:hidden; font-size:14px; text-align:right; margin-top:10px;
+}
+.price_sum span{
+	color:#ff4e00; font-size:20px; font-weight:bold;
+}
+.price_a{
+	width:120px; height:35px; line-height:35px; overflow:hidden; background:url(/static/images/a_link.gif) repeat-x center top; color:#FFF; font-size:14px; text-align:center; margin-right:13px; margin-top:5px; margin-bottom:20px; -webkit-border-radius:2px; -moz-border-radius:2px; border-radius:2px;
+}
+.price_a a{
+	color:#FFF;
+}
+
+
+
+.menu_bg{
+	width:100%; min-width:1200px; height:43px; border-bottom:2px solid #ff4e00;background-color: #fff;
+}
+.menu{
+	width:1200px; height:43px; line-height:43px; color:#3e3e3e; font-size:16px; position:relative; z-index:800;
+}
+ul.menu_r{
+	width:720px; height:40px; overflow:hidden; float:left; display:inline; margin-left:211px;
+}
+ul.menu_r li{
+	width:70px; height:40px; line-height:40px; overflow:hidden; text-align:center; float:left; display:inline; margin-right:10px;
+}
+ul.menu_r li a{
+	width:70px; height:40px; overflow:hidden; float:left; color:#3e3e3e;
+}
+ul.menu_r li a:hover, ul.menu_r li a.now{
+	color:#ff4e00;
+}
+.m_ad{
+	width:260px; height:43px; line-height:40px; overflow:hidden; color:#ff3600; font-size:20px; font-weight:bold; text-align:right; float:right;
+}
+
+.good_bg{
+    margin-top: 10px;
+    padding: 10px;
+    width: 1200px;
+    height: auto;
+    background-color: #fff;
+}
+
+.detailTop{
+    height: 355px;
+}
+.detailTop .left_img{
+    float: left;
+    width: 410px;
+    padding: 5px;
+    border: 1px solid gainsboro;
+}
+.detailTop .left_img img{
+    width: 400px;
+}
+.detailTop .right_msg{
+    float: right;
+    padding: 10px;
+    width: 750px;
+    height: 355px;
+}
+
+/* 分享 */
+.lim_sh_bg{
+	overflow:hidden; margin:10px 0;
+}
+.lim_sh{
+	height:30px; line-height:30px; background:url(/static/images/sh.png) no-repeat left 8px; text-indent:20px; font-family:"宋体"; float:left; display:inline; margin-right:30px;
+}
+.lim_sh_bg a{
+	float:left; display:inline; margin-right:6px; margin-top:7px;
+}
+/* “新品”字样 */
+.newGd{
+    padding: 2px;
+    color: #fff;
+    font-size: 16px;
+    background-color: rgb(3, 163, 3);
+    border-radius: 5px;
+}
+.gdName{
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+}
+.gdPrice{
+    margin: 10px 0;
+}
+.gdPrice span{
+    color: red;
+    font-size: 14px;
+}
+.gdPrice .gdPrice_1{
+    color: red;
+    font-size: 25px;
+}
+.youhui{
+    margin: 10px 0;
+}
+.youhui span:nth-child(1){
+    font-size: 14px;
+}
+.youhui span:nth-child(2){
+    margin-left: 5px;
+    padding: 0 5px;
+    font-size: 14px;
+    background-color: #f5cece;
+    color: red;
+    border: #ff4e00 solid 1px;
+    border-radius: 5px;
+}
+
+/* 加入购物车按钮 */
+#addCar{
+    margin: 10px 0;
+	font-size: 14px;
+	width: 180px;
+    height: 45px;
+    background-size: 180px;
+    background: url(/static/picture/j_car.png) no-repeat -10px -4px;
+}
+#addCar:hover{
+	border: 1px solid #fff;
+	cursor: pointer;
+}
+.buyBox{
+    margin: 10px 0;
+    width: 200px;
+    display: flex;
+    justify-content: flex-start;
+}
+/* 购买按钮 */
+#buy{
+	margin: 0;
+	text-align: center;
+	color: #ff4e00;
+	font-size: 14px;
+	width: 80px;
+    height: 45px;
+    line-height: 45px;
+    background-color: #f5cece;
+	border: 1px solid #ff4e00;
+}
+#buy:hover{
+	background-color: #ff4e00;
+	color: #fff;
+	border: solid 1px #fff;
+	cursor: pointer;
+}
+#buy:active{
+	background-color: #f00;
+	color: #fff;
+	border: solid 1px #fff;
+}
+/* 购买数量 */
+.purchasenumber {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.purchasenumber input{
+    margin-left: 5px;
+    width: 50px;
+}
+
+
+
+.detailComment{
+    height: auto;
+    background-color: #fff;
+}
+.detailComment .c1{
+    padding: 10px;
+    font-size: 19px;
+    color: #000;
+    background-color: rgb(222, 222, 222);
+}
+/* 每一个用户的评论 */
+.comentMsg{
+    padding:10px 0;
+    border-bottom: 1px solid gainsboro;
+}
+
+.detailComment .comentMsg .headImage span::before{
+    content: '';
+    display: inline-block;
+    border-radius: 15px;
+    border: #d3d2d2 solid 1px;
+    width: 30px;
+    height: 30px;
+    background:url(/static/images/head.jpg) no-repeat;
+    background-size: 30px;
+    vertical-align: middle;
+    margin-right: 5px;
+}

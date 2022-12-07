@@ -109,10 +109,14 @@ def goods_page(request, goods_id):
             databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
             return HttpResponse('1')
     else:
+        context = {}
+        login_message(request, context)
         comment_list = databaseApi.show_comment(goods_id)
-        goods_photo = models.Photos.objects.get(goods_id=goods_id)
-        return render(request, 'goods_page.html', {'goods': goods, 'commentList': comment_list,
-                                                   'goodsPhoto': goods_photo})
+        goods_photo = models.Photos.objects.get(goodsID=goods_id)
+        context['goods'] = goods
+        context['commentList'] = comment_list
+        context['goodsPhoto'] = goods_photo
+        return render(request, 'goods_page.html', context)
 
 
 def shopping_cart(request, customer_id):
@@ -169,7 +173,7 @@ def goods_management(request, seller_id):
         if request.POST['behavior'] == 'delete':
             goods_id = int(request.POST['goodsId'])
             photo_path = models.Photos.objects.get(goodsID=goods_id)  # 查找对应图片
-            path = "../static/picture/" + photo_path
+            path = "static/picture/" + photo_path
             os.remove(path)  # 删除对应图片
             databaseApi.delete_goods(goods_id)  # 由于完整性约束，删掉对应的图片
             msg = '删除成功'
@@ -210,7 +214,7 @@ def goods_add(request, seller_id):
         goods_id = databaseApi.create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type)
         if goods_id:
             photo_id = databaseApi.create_photo_path(goods_id, extension_name)
-            path = "../static/picture/" + str(photo_id) + extension_name  # 路径设计
+            path = "static/picture/" + str(photo_id) + extension_name  # 路径设计
             handle_uploaded_file(goods_image, path)  # 保存
             msg = '提交成功'
             return render(request, 'goods_add.html', {'msg': msg})
@@ -237,10 +241,21 @@ def search_goods(request, keyword=''):
 
 def test_page(request):
     # 用于临时显示首页
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('goods', args=(6, )))
 
 
 def handle_uploaded_file(f, path):
-    with open(path, 'wb+') as destination:
+    with open(path, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+
+def login_message(request, context):
+    if request.session.get('customer_id'):
+        obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
+        context['customerName'] = obj_customer.customerName
+        context['customerID'] = obj_customer.customerID
+    elif request.session.get('seller_id'):
+        obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
+        context['sellerName'] = obj_seller.sellerName
+        context['sellerID'] = obj_seller.sellerID

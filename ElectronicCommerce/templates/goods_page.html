@@ -2,9 +2,233 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/goodDetail.css"/>
+    <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <title>Document</title>
 </head>
 <body>
+<!--Begin Header Begin-->
+<!-- 快捷导航栏 -->
+<div class="shortcut">
+    <div class="wrapper clearfix">
+        <ul class="fr">
+            {% if customerName %}
+                <li><a href="#">你好，{{ customerName }}</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="#">我的订单</a></li>
+            {% elif sellerName %}
+                <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="{% url 'goods_management' sellerID %}">商品管理</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">你好，请登录</a></li>
+                <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
+            {% endif %}
+            <li><a href="#">我的订单</a></li>
+            <li><a href="#">会员中心</a></li>
+            <li><a href="#">帮助中心</a></li>
+            <li><a href="#">在线客服</a></li>
+            <li><a href="#"><span></span>手机版</a></li>
+        </ul>
+    </div>
+</div>
+<div class="header">
+    <div class="top">
+        <!-- logo,改成自己的 -->
+        <div class="logo"><a href="{% url 'index' %}"><img src="/static/picture/logo.png"/></a></div>
+        <!-- 搜索框 -->
+        <div class="search">
+            <form>
+                <input id="keyword" type="text" value="" class="s_ipt" name="keyword"/>
+                <input id="search" type="submit" value="搜索" class="s_btn"/>
+            </form>
+            <script type="text/javascript">
+                $('#keyword').click(function () {
+                    this.select();
+                })
+                $('#search').click(function () {
+                    let keyword = $('#keyword').val();
+                    if (keyword === '') {
+                        window.location.href = "/search"
+                    } else
+                        window.location.href = "/search/" + keyword
+                    return false;
+                })
+            </script>
+        </div>
+        <div class="i_car">
+            <div class="car_t">购物车 [ <span>3</span> ]</div>
+            <div class="car_bg">
+                <!--Begin 购物车未登录 Begin-->
+                <div class="un_login">还未登录！<a href="{% url 'login' %}" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
+                <!--End 购物车未登录 End-->
+                <!--Begin 购物车已登录 Begin-->
+                <ul class="cars">
+                    <li>
+                        <div class="img"><a href="#"><img src="/static/picture/car1.jpg" width="58" height="58"/></a>
+                        </div>
+                        <div class="name"><a href="#">法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只</a></div>
+                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
+                    </li>
+                    <li>
+                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58"/></a>
+                        </div>
+                        <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
+                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
+                    </li>
+                    <li>
+                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58"/></a>
+                        </div>
+                        <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
+                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
+                    </li>
+                </ul>
+                <div class="price_sum">共计&nbsp;<span style="color:#ff4e00;">￥399</span><span>1058</span></div>
+                <div class="price_a"><a href="#">去购物车结算</a></div>
+                <!--End 购物车已登录 End-->
+            </div>
+        </div>
+    </div>
+    <!--Begin Menu Begin-->
+    <!-- <div class="menu_bg">
+        <div class="menu">
+            <ul class="menu_r">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">美食</a></li>
+                <li><a href="#">生鲜</a></li>
+                <li><a href="#">家居</a></li>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">团购</a></li>
+            </ul>
+            <div class="m_ad">中秋送好礼！</div>
+        </div>
+    </div> -->
+    <!--End Menu End-->
+</div>
 
+<!-- 商品详情 -->
+<div class="good_bg">
+    <!-- 详情顶部，用于展示图片，商品信息等 -->
+    <div class="detailTop">
+        <!-- 商品图片 -->
+        <div class="left_img">
+            <img src="/static/picture/fre_1.jpg">
+        </div>
+        <!-- 商品其他信息 -->
+        <div class="right_msg">
+            <!-- 分享 -->
+            <div class="lim_sh_bg">
+                <span class="lim_sh">分享</span>
+                <a href="#"><img src="/static/picture/sh_1.gif"/></a>
+                <a href="#"><img src="/static/picture/sh_2.gif"/></a>
+                <a href="#"><img src="/static/picture/sh_3.gif"/></a>
+                <a href="#"><img src="/static/picture/sh_4.gif"/></a>
+                <a href="#"><img src="/static/picture/sh_5.gif"/></a>
+            </div>
+            <!-- 商品名称（描述） -->
+            <div>
+                <span class="newGd">新品</span>
+                <span class="gdName">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</span>
+            </div>
+            <!-- 商品价格 -->
+            <div class="gdPrice">
+                <span>限时优惠价 ￥</span>
+                <span class="gdPrice_1">88</span>
+            </div>
+            <!-- 优惠券 -->
+            <div class="youhui">
+                <span>优惠券</span>
+                <span>暂无</span>
+            </div>
+            <!-- 加入购物车 -->
+            <div id="addCar"></div>
+            <!-- 购买 -->
+            <div class="buyBox">
+                <div id="buy">购买</div>
+                <div class="purchasenumber">
+                    <h3>购买数量</h3>
+                    <div class="number">
+                        <input type="number" id="purNumber" min="1" step="1" value="1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情底部，用于展示评论 -->
+    <div class="detailComment">
+        <div class="c1">商品评论</div>
+        <!-- 每一个顾客的评论信息 -->
+        <div class="comentMsg">
+            <!-- 头像 -->
+            <div class="headImage">
+                <span>清新的青菜</span>
+            </div>
+            <!-- 评论内容 -->
+            <div class="comContent">
+                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
+            </div>
+        </div>
+        <!-- 每一个顾客的评论信息 -->
+        <div class="comentMsg">
+            <!-- 头像 -->
+            <div class="headImage">
+                <span>清新的青菜</span>
+            </div>
+            <!-- 评论内容 -->
+            <div class="comContent">
+                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
+            </div>
+        </div>
+        <!-- 每一个顾客的评论信息 -->
+        <div class="comentMsg">
+            <!-- 头像 -->
+            <div class="headImage">
+                <span>清新的青菜</span>
+            </div>
+            <!-- 评论内容 -->
+            <div class="comContent">
+                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
+            </div>
+        </div>
+        <!-- 每一个顾客的评论信息 -->
+        <div class="comentMsg">
+            <!-- 头像 -->
+            <div class="headImage">
+                <span>清新的青菜</span>
+            </div>
+            <!-- 评论内容 -->
+            <div class="comContent">
+                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
+            </div>
+        </div>
+        <!-- 每一个顾客的评论信息 -->
+        <div class="comentMsg">
+            <!-- 头像 -->
+            <div class="headImage">
+                <span>清新的青菜</span>
+            </div>
+            <!-- 评论内容 -->
+            <div class="comContent">
+                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
+            </div>
+        </div>
+        <!-- 每一个顾客的评论信息 -->
+        <div class="comentMsg">
+            <!-- 头像 -->
+            <div class="headImage">
+                <span>清新的青菜</span>
+            </div>
+            <!-- 评论内容 -->
+            <div class="comContent">
+                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

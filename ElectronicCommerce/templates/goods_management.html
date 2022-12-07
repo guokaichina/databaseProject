@@ -40,18 +40,11 @@
             margin-bottom: 10px;
             padding-top: 40px;
         }
-        .top_bg #loginOut{
-            background-color: #fff;
-            border: none;
-        }
-        .top_bg #loginOut:hover{
-            color: #ff4e00;
-        }
 
         .seller_content{
             margin: 20px auto;
             width: 1200px;
-            height: 1000px;
+            /* height: 1000px; */
             /* background-color: rgb(243, 191, 191); */
             display: flex;
             flex-direction: row;
@@ -79,9 +72,7 @@
             height:35px;
             line-height:35px;
             overflow:hidden;
-            background:url(/static/images/m_t.png)
-            no-repeat 31px center;
-            background-color:#ff4e00;
+            background: #ff4e00 url(/static/images/m_t.png) no-repeat 31px center;
             color:#FFF;
             font-size:14px;
             text-indent:68px;
@@ -317,7 +308,7 @@
     </style>
 </head>
 <body>
-<div class="shortcut" style="position:fixed; width: 100%; top:0px">
+<div class="shortcut" style="position:fixed; width: 100%; top:0">
     <div class="wrapper clearfix">
         <ul class="fr">
             <li><a href="#" >商家{{ sellerName }}你好</a></li>
@@ -376,7 +367,7 @@
             <!-- 单个商品列表元素 -->
             {% for goods in goodsManagementList %}
                 <div class="showGood">
-                    <div><img src="/static/picture/{{ goods.photo_set.first.photoPath }}" alt="goods"></div>
+                    <div><img src="/static/picture/{{ goods.photos_set.first.photoPath }}" alt="goods"></div>
                     <div class="g_name_1">
                         <div>{{ goods.goodsName }}</div>
                         <div><span>￥</span>{{ goods.goodsPrice }}</div>
@@ -512,8 +503,7 @@
         let post_data = {
             csrfmiddlewaretoken: '{{ csrf_token }}',
         }
-        jsPost("{% url 'logout' %}",post_data);
-
+        jsPost("{% url 'logout' %}",post_data)
         hideShelter() // 记得关闭遮罩层
         document.getElementById("pop_loginOut").style.display = "none";
     }

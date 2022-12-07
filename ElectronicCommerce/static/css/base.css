@@ -88,7 +88,7 @@ form{
 }
 .shortcut .wrapper li button{
 	background-color:#333;
-	color:#fff;
+	color:#fff; 
 	border: none;
 }
 
@@ -132,7 +132,7 @@ form{
 	color:#3e3e3e; text-decoration:underline;
 }
 .b_nav dl dd{
-	height:24px; line-height:24px; overflow:hidden; color:#888888;
+	height:24px; line-height:24px; overflow:hidden; color:#888888; 
 }
 .b_nav dl dd a{
 	color:#888888;

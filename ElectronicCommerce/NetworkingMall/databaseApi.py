@@ -54,7 +54,7 @@ def create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type):
     # 暂时先返回goods_id
     try:
         seller = Seller.objects.get(sellerID=seller_id)
-        goods = Goods.objects.create(goodsName=goods_name, goodsStock=goods_stock, goodsPrice=goods_price,
+        goods = Goods.objects.create(goodsName=goods_name, goodsStock=goods_stock, goodsSold=0, goodsPrice=goods_price,
                                      goodsType=goods_type, sellerID=seller)
         return goods.goodsID
     except django.core.exceptions:
@@ -263,7 +263,7 @@ def cancel_order(order_id):
 def show_comment(goods_id):
     # 同样返回列表即可，按照时间反向排序
     try:
-        comment_query_set = Comment.objects.filter(goods__goodsID=goods_id).order_by('-commentID')
+        comment_query_set = Comment.objects.filter(goodsID=goods_id).order_by('-commentID')
     except django.core.exceptions:
         return
     else:
