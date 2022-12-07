@@ -5,7 +5,8 @@
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
     <link type="text/css" rel="stylesheet" href="/static/css/base.css" />
 	<link type="text/css" rel="stylesheet" href="/static/css/search.css" />
-<title>优品购物</title>
+    <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <title>优品购物</title>
 <meta name="keywords" content="国内网站模板,橙色,购物,网站源码,html模板,服装商城,化妆品商城" />
 <meta name="description" content="橙色的网上购物零售商城网站html源码。" />
 </head>
@@ -99,6 +100,26 @@
 <!-- Begin 搜索结果展示 Begin -->
 <div class="showSearch">
     <!-- 搜索出来的单个商品 -->
+    {% for goods in searchList %}
+        <div class="result">
+        <!-- 商品图片 -->
+        <div class="goodImage">
+            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photo_set.first.photosPath }}"></a>
+        </div>
+        <!-- 商品价格 -->
+        <div class="goodPrice">￥{{ goods.goodsPrice }}</div>
+        <!-- 商品名称（描述） -->
+        <div class="goodName">
+            <a href="{% url 'goods' goods.goodsID %}" title="{{ goods.goodsName }}">{{ goods.goodsName }}</a>
+        </div>
+        <!-- 商品评价 -->
+        <div class="goodComment"><span>{{ goods.comment_set.count }}</span>评价</div>
+        <div class="resultBtn">
+            <div id="buy">购买</div>
+            <div id="addCar"></div>
+        </div>
+    </div>
+    {% endfor %}
     <div class="result">
         <!-- 商品图片 -->
         <div class="goodImage">
@@ -366,12 +387,19 @@
     </div>
 </div>
 </body>
+
+
+
     <script>
-        $('#keyword').click(function(){
+        let obj_keyword = $('#keyword')
+        {% if keyword %}
+            obj_keyword.val({{ keyword }});
+        {% endif %}
+        obj_keyword.click(function(){
             this.select();
         })
         $('#search').click(function(){
-            let keyword = $('#keyword').val();
+            let keyword = obj_keyword.val();
             if(keyword === '' ) {
                 window.location.href = "/search"
             }

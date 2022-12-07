@@ -228,11 +228,11 @@ def search_goods(request, keyword=''):
     search_list = get_search_list(keyword)
     if request.session.get('customer_id'):
         obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
-        return render(request, 'search.html', {'customerName': obj_customer.customerName,
+        return render(request, 'search.html', {'customerName': obj_customer.customerName, 'keyword': keyword,
                                                'customerID': obj_customer.customerID, 'searchList': search_list})
     if request.session.get('seller_id'):
         obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
-        return render(request, 'search.html', {'sellerName': obj_seller.sellerName,
+        return render(request, 'search.html', {'sellerName': obj_seller.sellerName, 'keyword': keyword,
                                                'sellerID': obj_seller.sellerID, 'searchList': search_list})
     return render(request, 'search.html', {'keyword': keyword, 'searchList': search_list})
 
