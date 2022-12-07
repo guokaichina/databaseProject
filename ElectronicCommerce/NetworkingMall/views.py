@@ -225,7 +225,7 @@ def goods_add(request, seller_id):
 
 
 def search_goods(request, keyword=''):
-    search_list = get_search_list(keyword)
+    search_list = databaseApi.get_search_list(keyword)
     if request.session.get('customer_id'):
         obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
         return render(request, 'search.html', {'customerName': obj_customer.customerName, 'keyword': keyword,
@@ -246,7 +246,3 @@ def handle_uploaded_file(f, path):
     with open(path, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-
-
-def get_search_list(keyword):
-    return models.Goods.objects.filter(goodsName__contains=keyword)

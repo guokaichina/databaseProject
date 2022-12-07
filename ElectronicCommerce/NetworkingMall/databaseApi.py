@@ -209,7 +209,7 @@ def show_goods_for_management(seller_id):
     except django.core.exceptions:
         return
     else:
-        return list(goods_query_list)
+        return goods_query_list
 
 
 def delete_goods(goods_id):
@@ -231,7 +231,7 @@ def show_intended_goods(customer_id):
     except django.core.exceptions:
         return
     else:
-        return list(intended_goods_querylist)
+        return intended_goods_querylist
 
 
 def delete_intended_goods(customer_id, goods_id):
@@ -249,7 +249,7 @@ def show_order(customer_id):
     except django.core.exceptions:
         return
     else:
-        return list(order_query_set)
+        return order_query_set
 
 
 def cancel_order(order_id):
@@ -261,13 +261,11 @@ def cancel_order(order_id):
         print("order_id_error:订单不存在")
     else:
         if order.cancel():
-
             goods = Goods.objects.filter(seller__sellerName=order.sellerName).get(goodsName=order.goodsName)
             goods.goodsStock += order.goodsQuantity
             goods.goodsSold -= order.goodsQuantity
             goods.save()
             order.delete()
-
             return True
         else:
             return False
@@ -282,7 +280,7 @@ def show_comment(goods_id):
     except django.core.exceptions:
         return
     else:
-        return list(comment_query_set)
+        return comment_query_set
 
 
 def comment(comment_id):
@@ -290,7 +288,16 @@ def comment(comment_id):
     try:
         obj = Comment.objects.get(pk=comment_id)
     except Comment.DoesNotExist:
-        return 0
+        return
     else:
         obj.delete()
     return
+
+
+def get_search_list(keyword):
+    try:
+        search_list = Goods.objects.filter(goodsName__contains=keyword)
+    except django.core.exceptions:
+        return
+    else:
+        return search_list
