@@ -8,10 +8,7 @@ def images_path():
     return os.path.join(settings.STATIC_URL, 'image')
 
 
-
 # 顾客信息模型
-
-
 class Customer(models.Model):
     # 主键 顾客用户ID IntegerField, 可以根据可用的ID自动递增
     customerID = models.AutoField(primary_key=True)
@@ -22,11 +19,10 @@ class Customer(models.Model):
     phoneNumber = models.CharField(max_length=20)  # 手机号
 
     def __str__(self):
-        return "{} {} {} {} {}".format(self.customerID, self.mailAddress, self.customerName, self.password, self.phoneNumber)
+        return "顾客ID:{} {} {} 密码:{} 手机号:{}".format(self.customerID,  self.customerName, self.mailAddress, self.password, self.phoneNumber)
+
 
 # 商家信息模型
-
-
 class Seller(models.Model):
 
     sellerID = models.AutoField(primary_key=True)  # 主键 商家用户ID IntegerField
@@ -37,19 +33,22 @@ class Seller(models.Model):
     shippingAddress = models.CharField(max_length=80)  # 发货地址
 
     def __str__(self):
-        return "{} {} {} {} {} {}".format(self.sellerID, self.mailAddress, self.sellerName, self.password, self.phoneNumber, self.shippingAddress)
+        return "商家ID:{} {} {} 密码:{} 手机号:{} {}".format(self.sellerID, self.sellerName, self.mailAddress, self.password, self.phoneNumber, self.shippingAddress)
 
 
 # 商品信息模型
 class Goods(models.Model):
 
     goodtype = [
-        ('1', '女装'), ('2', '男装'), ('3', '食品'), ('4', '医药'),  # 后期根据需求再添加选项
+        ('1', '女装'), ('2', '男装'), ('3', '食品'), ('4', '医药'), ('5', '洗护'), ('6', '饰品'), ('7', '百货'), ('8', '内衣'),
+        ('9', '运动'), ('10', '企业'), ('11', '进口'), ('12', '母婴'), ('13', '手机'), ('14', '鞋靴'), ('15', '数码'), ('16', '箱包'),
+        ('17', '电器'), ('18', '美妆'), ('19', '图书'), ('20', '家装'), ('21', '保健'), ('22', '车品'), ('23', '生鲜'), ('24', '奢品'),
     ]
 
     goodsID = models.AutoField(primary_key=True)  # 主键 商品ID IntegerField
     goodsName = models.CharField(max_length=60)  # 商品名
     goodsStock = models.IntegerField()  # 商品库存量
+    goodsSold = models.IntegerField() # 商品销量
     goodsPrice = models.DecimalField(
         max_digits=12, decimal_places=2)  # 商品价格 使用TextInput表单部件
     # 以两位小数的精度来存储整数位有10位的数字 ； 以DecimalValidator来验证输入是否是固定精度的十进制
@@ -64,15 +63,15 @@ class Goods(models.Model):
         Customer, through='Comment')  # 商品和顾客之间通过中间模型Comment关联起来
 
     def __str__(self):
-        return "{} {} 库存{}件 {}RMB {} 卖家ID:{}".format(self.goodsID, self.goodsName,
+        return "商品ID:{} {} 库存{}件 {}RMB {} 卖家ID:{}".format(self.goodsID, self.goodsName,
                                                      self.goodsStock, self.goodsPrice, self.goodsType, self.sellerID)
 
 
 # 商品照片模型
 class Photos(models.Model):
 
-    photosID = models.AutoField(primary_key=True)  # 主码 图片ID
-    photosPath = models.FilePathField(path=images_path, unique=True)  # 图片路径
+    photoID = models.AutoField(primary_key=True)  # 主码 图片ID
+    photoPath = models.CharField(max_length=10, unique=True, null=False)  # 图片名
     # goodsID仍需更完善的定义
     goodsID = models.ForeignKey(
         'Goods',
@@ -80,11 +79,10 @@ class Photos(models.Model):
     )   # 外码 商品ID 商家和图片之间是一对多关系
 
     def __str__(self):
-        return "{} {} 商品ID{}".format(self.photosID, self.photosPath, self.goodsID)
+        return "照片ID:{} {} 商品ID:{}".format(self.photosID, self.photosPath, self.goodsID)
+
 
 # 意向商品模型
-
-
 class IntendedGoods(models.Model):
     goodsID = models.ForeignKey(
         'Goods',
@@ -97,12 +95,12 @@ class IntendedGoods(models.Model):
     )  # 外码 顾客ID 顾客和意向商品之间是一对多关系
 
     def __str__(self):
-        return "顾客ID{} 商品ID{} {}件".format(self.customerID, self.goodsID, self.quantity)
+        return "顾客ID{} 商品ID:{} {}件".format(self.customerID, self.goodsID, self.quantity)
 
 
 # 订单信息模型
 class Order(models.Model):
-    orderID = models.AutoField(primary_key=True)  # 主码 商品ID
+    orderID = models.AutoField(primary_key=True)  # 主码 订单号
     amount = models.DecimalField(max_digits=12, decimal_places=2)  # 订单价格
     goodsName = models.CharField(max_length=60)  # 商品名
     goodsQuantity = models.IntegerField()  # 商品数量
@@ -117,13 +115,14 @@ class Order(models.Model):
     )  # 外码 顾客ID
 
     def __str__(self):
-        return "商品ID{} {}RMB {} {}件 顾客:{} 商家:{} {} 收货地址{}".format(self.orderID, self.amount, self.goodsName, self.goodsQuantity,
+        return "订单ID:{} {}RMB {} {}件 顾客:{} 商家:{} {} 收货地址{}".format(self.orderID, self.amount, self.goodsName, self.goodsQuantity,
                                                                   self.customerName, self.sellerName, self.createTime, self.shipToAddress)
 
     # 判断此订单在某一时间间隔内是否可以取消
-    def cancel(self, interval=4320):  # 默认三天内可取消,暂时以秒为单位
+    def cancel(self, interval=4320):  # 默认三天内可取消,以秒为单位
         nowtime = datetime.datetime.now()
-        createTime = datetime.datetime.strptime(self.createTime, "%Y-%m-%d %H:%M:%S")
+        createTime = datetime.datetime.strptime(
+            self.createTime, "%Y-%m-%d %H:%M:%S")
 
         if (nowtime-createTime).total_seconds <= interval:
             return True
@@ -131,18 +130,23 @@ class Order(models.Model):
             return False
 
 
-# 评论模型 （中间模型）
-# 建议这里增加一项，创建时间，一般按时间排序
+# 评论模型
 class Comment(models.Model):
+    
+    commentID  = models.AutoField(primary_key=True) # 评论ID
     customerID = models.ForeignKey(
         'Customer',
         on_delete=models.CASCADE,
-    )  # 外码  顾客用户ID
+    )  # 外码 顾客ID
     goodsID = models.ForeignKey(
         'Goods',
         on_delete=models.CASCADE,
     )  # 外码 商品ID
     comment = models.CharField(max_length=100)  # 评论内容
+    commentTime = models.DateTimeField(auto_now=False, auto_now_add=True) # 评论时间
 
     def __str__(self):
-        return "{} {} {}".format(self.customerID, self.goodsID, self.comment)
+        return "顾客ID:{} 商品ID:{} {} {}".format(self.customerID, self.goodsID, self.comment, self.commentTime)
+
+    class Meta:
+        ordering = ["goodsID", "-commentTime"] # 默认先按ID升排，再按时间降排
