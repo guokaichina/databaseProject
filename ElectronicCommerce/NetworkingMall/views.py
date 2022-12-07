@@ -5,8 +5,6 @@ from django.urls import reverse
 from . import models
 import os
 
-# Create your views here.
-
 
 def index(request):
     # 商品目录展示

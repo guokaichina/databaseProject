@@ -181,7 +181,7 @@
         .showGood .g_op_1 button{
             height: 30px;
             width:40%;
-            font-size: bold;
+            font-weight: bold;
             background-color: #fa8350;
             border: none;
             color: #fff;
@@ -376,14 +376,14 @@
             <!-- 单个商品列表元素 -->
             {% for goods in goodsManagementList %}
                 <div class="showGood">
-                    <div><img src="/static/picture/{{ goods.photo_set.first.photosPath }}" alt="goods"></div>
+                    <div><img src="/static/picture/{{ goods.photo_set.first.photoPath }}" alt="goods"></div>
                     <div class="g_name_1">
                         <div>{{ goods.goodsName }}</div>
                         <div><span>￥</span>{{ goods.goodsPrice }}</div>
                         <div>{{ goods.goodsType }}</div>
                     </div>
-                    <div class="g_stock_1">{{ goods.goodsStrock }}</div>
-                    <div class="g_sold_1">{{ goods.goodsSell }}</div>
+                    <div class="g_stock_1">{{ goods.goodsStock }}</div>
+                    <div class="g_sold_1">{{ goods.goodsSold }}</div>
                     <div class="g_op_1">
                         <button id="goodsDrop_{{ goods.goodsID }}" class="drop">下架</button>
                         <button>修改</button>

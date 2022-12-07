@@ -38,7 +38,7 @@
 <div class="header">
     <div class="top">
         <!-- logo,改成自己的 -->
-        <div class="logo"><a href="index.html"><img src="/static/picture/logo.png" /></a></div>
+        <div class="logo"><a href="{% url 'index' %}"><img src="/static/picture/logo.png" /></a></div>
         <!-- 搜索框 -->
         <div class="search">
             <form>
@@ -104,7 +104,7 @@
         <div class="result">
         <!-- 商品图片 -->
         <div class="goodImage">
-            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photo_set.first.photosPath }}"></a>
+            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"></a>
         </div>
         <!-- 商品价格 -->
         <div class="goodPrice">￥{{ goods.goodsPrice }}</div>

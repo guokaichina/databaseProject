@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/migrations/0002_alter_customer_mailaddress_alter_seller_mailaddress.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/goods_management.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_management.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +56,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/static/js" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="settings.editor.selected.configurable" value="preferences.rainbow.brackets" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -121,7 +128,9 @@
       <workItem from="1670312262120" duration="13538000" />
       <workItem from="1670338306749" duration="2185000" />
       <workItem from="1670380881752" duration="3418000" />
-      <workItem from="1670385402543" duration="3725000" />
+      <workItem from="1670385402543" duration="4056000" />
+      <workItem from="1670404074751" duration="4444000" />
+      <workItem from="1670408629238" duration="1222000" />
     </task>
     <servers />
   </component>
