@@ -19,7 +19,8 @@ class Customer(models.Model):
     phoneNumber = models.CharField(max_length=20)  # 手机号
 
     def __str__(self):
-        return "顾客ID:{} {} {} 密码:{} 手机号:{}".format(self.customerID,  self.customerName, self.mailAddress, self.password, self.phoneNumber)
+        return "顾客ID:{} {} {} 密码:{} 手机号:{}".format(self.customerID,  self.customerName, self.mailAddress,
+                                                   self.password, self.phoneNumber)
 
 
 # 商家信息模型
@@ -33,7 +34,8 @@ class Seller(models.Model):
     shippingAddress = models.CharField(max_length=80)  # 发货地址
 
     def __str__(self):
-        return "商家ID:{} {} {} 密码:{} 手机号:{} {}".format(self.sellerID, self.sellerName, self.mailAddress, self.password, self.phoneNumber, self.shippingAddress)
+        return "商家ID:{} {} {} 密码:{} 手机号:{} {}".format(self.sellerID, self.sellerName, self.mailAddress,
+                                                      self.password, self.phoneNumber, self.shippingAddress)
 
 
 # 商品信息模型
@@ -48,7 +50,7 @@ class Goods(models.Model):
     goodsID = models.AutoField(primary_key=True)  # 主键 商品ID IntegerField
     goodsName = models.CharField(max_length=60)  # 商品名
     goodsStock = models.IntegerField()  # 商品库存量
-    goodsSold = models.IntegerField() # 商品销量
+    goodsSold = models.IntegerField()  # 商品销量
     goodsPrice = models.DecimalField(
         max_digits=12, decimal_places=2)  # 商品价格 使用TextInput表单部件
     # 以两位小数的精度来存储整数位有10位的数字 ； 以DecimalValidator来验证输入是否是固定精度的十进制
@@ -63,8 +65,8 @@ class Goods(models.Model):
         Customer, through='Comment')  # 商品和顾客之间通过中间模型Comment关联起来
 
     def __str__(self):
-        return "商品ID:{} {} 库存{}件 {}RMB {} 卖家ID:{}".format(self.goodsID, self.goodsName,
-                                                     self.goodsStock, self.goodsPrice, self.goodsType, self.sellerID)
+        return "商品ID:{} {} 库存{}件 {}RMB {} 卖家ID:{}".format(self.goodsID, self.goodsName, self.goodsStock,
+                                                          self.goodsPrice, self.goodsType, self.sellerID)
 
 
 # 商品照片模型
@@ -79,7 +81,7 @@ class Photos(models.Model):
     )   # 外码 商品ID 商家和图片之间是一对多关系
 
     def __str__(self):
-        return "照片ID:{} {} 商品ID:{}".format(self.photosID, self.photosPath, self.goodsID)
+        return "照片ID:{} {} 商品ID:{}".format(self.photoID, self.photoPath, self.goodsID)
 
 
 # 意向商品模型
@@ -115,16 +117,16 @@ class Order(models.Model):
     )  # 外码 顾客ID
 
     def __str__(self):
-        return "订单ID:{} {}RMB {} {}件 顾客:{} 商家:{} {} 收货地址{}".format(self.orderID, self.amount, self.goodsName, self.goodsQuantity,
-                                                                  self.customerName, self.sellerName, self.createTime, self.shipToAddress)
+        return "订单ID:{} {}RMB {} {}件 顾客:{} 商家:{} {} 收货地址{}".format(self.orderID, self.amount, self.goodsName,
+                                                                   self.goodsQuantity, self.customerName,
+                                                                   self.sellerName, self.createTime, self.shipToAddress)
 
     # 判断此订单在某一时间间隔内是否可以取消
     def cancel(self, interval=4320):  # 默认三天内可取消,以秒为单位
-        nowtime = datetime.datetime.now()
-        createTime = datetime.datetime.strptime(
-            self.createTime, "%Y-%m-%d %H:%M:%S")
-
-        if (nowtime-createTime).total_seconds <= interval:
+        now_time = datetime.datetime.now()
+        create_time = datetime.datetime.strptime(
+            self.createTime.__str__(), "%Y-%m-%d %H:%M:%S")
+        if (now_time-create_time).total_seconds() <= interval:
             return True
         else:
             return False
@@ -133,7 +135,7 @@ class Order(models.Model):
 # 评论模型
 class Comment(models.Model):
     
-    commentID  = models.AutoField(primary_key=True) # 评论ID
+    commentID = models.AutoField(primary_key=True)  # 评论ID
     customerID = models.ForeignKey(
         'Customer',
         on_delete=models.CASCADE,
@@ -143,10 +145,10 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
     )  # 外码 商品ID
     comment = models.CharField(max_length=100)  # 评论内容
-    commentTime = models.DateTimeField(auto_now=False, auto_now_add=True) # 评论时间
+    commentTime = models.DateTimeField(auto_now=False, auto_now_add=True)  # 评论时间
 
     def __str__(self):
         return "顾客ID:{} 商品ID:{} {} {}".format(self.customerID, self.goodsID, self.comment, self.commentTime)
 
     class Meta:
-        ordering = ["goodsID", "-commentTime"] # 默认先按ID升排，再按时间降排
+        ordering = ["goodsID", "-commentTime"]  # 默认先按ID升排，再按时间降排
