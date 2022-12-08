@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/js/jquery-3.6.1.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
     <title>Document</title>
-    </head>
+</head>
 <body>
 <div class="addNewGoods_bg">
     <h1>上架新商品</h1>
@@ -18,22 +19,22 @@
             <!-- 商品种类 -->
             <div class="goodType">
                 <span>商品种类</span>
-                <input type="text" name="goodsType" id="goodsType">
+                <label for="goodsType"></label><input type="text" name="goodsType" id="goodsType">
             </div>
             <!-- 商品名称 -->
             <div class="goodsName">
                 <span>商品名称</span>
-                <input type="text" name="goodsName" id="goodsName">
+                <label for="goodsName"></label><input type="text" name="goodsName" id="goodsName">
             </div>
             <!-- 商品价格 -->
             <div class="goodsPrice">
                 <span>商品价格</span>
-                <input type="text" name="goodsPrice" id="goodsPrice">
+                <label for="goodsPrice"></label><input type="text" name="goodsPrice" id="goodsPrice">
             </div>
             <!-- 商品库存量（数量） -->
             <div class="goodsStock">
                 <span>商品库存量</span>
-                <input type="text" name="goodsStock" id="goodsStock">
+                <label for="goodsStock"></label><input type="text" name="goodsStock" id="goodsStock">
             </div>
             <!-- 商品介绍、描述等 -->
             <div class="goodsImage">
@@ -44,32 +45,45 @@
         </form>
     </div>
 </div>
+<div id="popBox">
+    <div id="msgContent"></div>
+    <div class="close">
+        <button onclick="closePopBox()">确定</button>
+    </div>
+</div>
 </body>
 <script type="text/javascript">
     //这里是file处理部分：
-
+    let objMsgContent = $('#msgContent')
+    {% if msg %}
+        objMsgContent.text('{{ msg }}')
+        openPopBox();
+    {% endif %}
     let fileInput = document.getElementById('file');//对应<input id="file", type="file">
     let file = 0; //设一个初始值,file是真正的照片的数据
     //每当fileInput改变时调用以下函数
     fileInput.addEventListener('change', function () {
         //当fileInput没有东西时，下面的表达式成立
         if (!fileInput.value) {
-            alert('没有选择文件');
+            objMsgContent.text('没有选择文件');
+            openPopBox();
             return;
         }
         file = fileInput.files[0];//得到file
         if (file.size >= 1024 * 1024) {
-            alert('文件大小超出限制');
+            objMsgContent.text('文件大小超出限制');
+            openPopBox();
             return false;
         }
         //
         let old_image = document.getElementById('show_image')
-        if(old_image !== null)
+        if (old_image !== null)
             document.body.removeChild(old_image);
         //上面那段是把旧的照片扔了
         //下面是模式检测
         if (!['image/jpeg', 'image/png', 'image/gif', 'image/bmp'].includes(file.type)) {
-            alert('不是有效的图片文件!');
+            objMsgContent.text('不是有效的图片文件!');
+            openPopBox();
             return;
         }
         // 读取文件:
@@ -83,8 +97,8 @@
             show_image.src = e.target.result.toString(); //输入结果
             //现在show_image就是我们准备上传的image对象
             //这里可以进行判断
-            show_image.onload = function(){ //加载完成才能有宽高属性
-                console.log('width:',show_image.width);
+            show_image.onload = function () { //加载完成才能有宽高属性
+                console.log('width:', show_image.width);
                 console.log('height:', show_image.height);
             }
             //只是展示一下宽高
@@ -94,18 +108,20 @@
 
     $('#submit').click(function () {
         if (!$('#goodsName').val().match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ]{3,80}$/)) {
-            alert('商品名字格式错误')
+            objMsgContent.text('商品名字格式错误')
+            openPopBox();
         } else if (!$('#goodsPrice').val().match(/^[0-9]{1,10}(\.[0-9]{0,2})?$/)) {
-            alert('价格格式不对')
-        } else if (!$('#goodsStock').val().match(/^[0-9]{1,10}$/)) {
-            alert('库存格式不对')
-        } else if(file === 0){
-            alert('未选择照片')
-        }
-        else{
+            objMsgContent.text('价格格式错误，整数请输入1位到10位，若要输入小数，只能输入两位')
+            openPopBox();
+        } else if (!$('#goodsStock').val().match(/^[0-9]{1,9}$/)) {
+            objMsgContent.text('请输入9位数以内的库存')
+            openPopBox();
+        } else if (file === 0) {
+            objMsgContent.text('未选择照片')
+            openPopBox();
+        } else {
             let extension_name = file.name.substring(file.name.lastIndexOf('.'));
             console.log('后缀名:', extension_name);
-            console.log('ok')
             let obj_form = document.getElementById('form');
             let opt = document.createElement('textarea');
             opt.name = 'extensionName';
@@ -116,5 +132,13 @@
         return false;
     })
 
+    function openPopBox() {
+        document.getElementById("popBox").style.display = "block";
+    }
+
+    // 关闭弹窗
+    function closePopBox() {
+        document.getElementById("popBox").style.display = "none";
+    }
 </script>
 </html>

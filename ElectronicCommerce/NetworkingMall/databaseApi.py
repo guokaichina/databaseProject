@@ -281,9 +281,9 @@ def comment(comment_id):
     return
 
 
-def get_search_list(keyword):
+def get_search_list(keyword, goods_type=''):
     try:
-        search_list = Goods.objects.filter(goodsName__contains=keyword)
+        search_list = Goods.objects.filter(goodsName__contains=keyword).filter(goodsType__contains=goods_type)
     except django.core.exceptions:
         return
     else:

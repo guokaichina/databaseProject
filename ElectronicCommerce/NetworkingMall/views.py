@@ -227,16 +227,16 @@ def goods_add(request, seller_id):
 
 
 def search_goods(request, keyword=''):
-    search_list = databaseApi.get_search_list(keyword)
-    if request.session.get('customer_id'):
-        obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
-        return render(request, 'search.html', {'customerName': obj_customer.customerName, 'keyword': keyword,
-                                               'customerID': obj_customer.customerID, 'searchList': search_list})
-    if request.session.get('seller_id'):
-        obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
-        return render(request, 'search.html', {'sellerName': obj_seller.sellerName, 'keyword': keyword,
-                                               'sellerID': obj_seller.sellerID, 'searchList': search_list})
-    return render(request, 'search.html', {'keyword': keyword, 'searchList': search_list})
+    context = {}
+    login_message(request, context)
+    if request.method == 'POST':  # 种类选择
+        search_type = request.POST['goodsType']
+        context['searchType'] = search_type
+    else:
+        search_type = ''
+    search_list = databaseApi.get_search_list(keyword, search_type)
+    context.update({'keyword': keyword, 'searchList': search_list})
+    return render(request, 'search.html', context)
 
 
 def test_page(request):

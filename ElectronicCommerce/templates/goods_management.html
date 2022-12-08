@@ -468,6 +468,27 @@
 </div>
 <!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
 <div id="hideBg"></div>
+
+{% if msg %}
+<link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
+    <div id="popBox">
+        <div>{{ msg }}</div>
+        <div class="close">
+            <button onclick="closePopBox()">确定</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function openPopBox(){
+        document.getElementById("popBox").style.display = "block";
+    }
+    // 关闭弹窗
+	function closePopBox()
+	{
+	   document.getElementById("popBox").style.display="none";
+	}
+    openPopBox();
+    </script>
+{% endif %}
 </body>
 
 <script>

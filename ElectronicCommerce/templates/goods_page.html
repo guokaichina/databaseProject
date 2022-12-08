@@ -117,7 +117,7 @@
     <div class="detailTop">
         <!-- 商品图片 -->
         <div class="left_img">
-            <img src="/static/picture/fre_1.jpg">
+            <img src="/static/picture/{{ goodsPhoto.photoPath }}">
         </div>
         <!-- 商品其他信息 -->
         <div class="right_msg">
@@ -133,12 +133,12 @@
             <!-- 商品名称（描述） -->
             <div>
                 <span class="newGd">新品</span>
-                <span class="gdName">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</span>
+                <span class="gdName">{{ goods.goodsName }}</span>
             </div>
             <!-- 商品价格 -->
             <div class="gdPrice">
                 <span>限时优惠价 ￥</span>
-                <span class="gdPrice_1">88</span>
+                <span class="gdPrice_1">{{ goods.goodsPrice }}</span>
             </div>
             <!-- 优惠券 -->
             <div class="youhui">

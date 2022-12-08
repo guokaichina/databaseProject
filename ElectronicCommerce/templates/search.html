@@ -6,6 +6,7 @@
     <link type="text/css" rel="stylesheet" href="/static/css/base.css" />
 	<link type="text/css" rel="stylesheet" href="/static/css/search.css" />
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jsPost.js"></script>
     <title>优品购物</title>
 <meta name="keywords" content="橙色购物网站" />
 <meta name="description" content="橙色的网上购物" />
@@ -47,7 +48,7 @@
                 <!-- 点击搜索  -->
                 <input type="submit" value="搜索" class="s_btn" id="search"/>
             </form>
-            <div class="searchResult">搜索结果</div>
+            <div id="searchResult" class="searchResult">搜索结果</div>
         </div>
         <div class="i_car">
             <div class="car_t">购物车 [ <span>3</span> ]</div>
@@ -83,18 +84,30 @@
     <div class="menu_bg">
         <div class="menu">
             <ul class="menu_r">
-                <li><a href="#">首页</a></li>
-                <li><a href="#">美食</a></li>
-                <li><a href="#">生鲜</a></li>
-                <li><a href="#">家居</a></li>
-                <li><a href="#">女装</a></li>
-                <li><a href="#">美妆</a></li>
-                <li><a href="#">数码</a></li>
-                <li><a href="#">团购</a></li>
+                <li><a class="forSearchType">女装</a></li>
+                <li><a class="forSearchType">男装</a></li>
+                <li><a class="forSearchType">食品</a></li>
+                <li><a class="forSearchType">医药</a></li>
+                <li><a class="forSearchType">日用</a></li>
+                <li><a class="forSearchType">电子</a></li>
+                <li><a class="forSearchType">饰品</a></li>
+                <li><a class="forSearchType">运动</a></li>
+                <li><a class="forSearchType">图书</a></li>
+                <li><a class="forSearchType">其它</a></li>
             </ul>
             <div class="m_ad">中秋送好礼！</div>
         </div>
     </div>
+    <script>
+        {% if searchType %}
+            document.getElementById('searchResult').innerText += ',' + '{{ searchType }}' + '类';
+        {% endif %}
+
+        $('a.forSearchType').click(function(){
+            let goodsType = this.innerText;
+            jsPost('', {'goodsType': goodsType, csrfmiddlewaretoken: '{{ csrf_token }}'})
+        })
+    </script>
     <!--End Menu End-->
 </div>
 <!-- Begin 搜索结果展示 Begin -->
@@ -104,7 +117,7 @@
         <div class="result">
         <!-- 商品图片 -->
         <div class="goodImage">
-            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"></a>
+            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photos_set.first.photoPath }}"></a>
         </div>
         <!-- 商品价格 -->
         <div class="goodPrice">￥{{ goods.goodsPrice }}</div>
@@ -120,6 +133,12 @@
         </div>
     </div>
     {% endfor %}
+
+
+
+
+
+
     <div class="result">
         <!-- 商品图片 -->
         <div class="goodImage">
@@ -129,254 +148,7 @@
         <div class="goodPrice">￥99</div>
         <!-- 商品名称（描述） -->
         <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
-        </div>
-    </div>
-    <!-- 搜索出来的单个商品 -->
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
+            <a href="#" title="参考用：大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
         </div>
         <!-- 商品评价 -->
         <div class="goodComment"><span>1万+</span>评价</div>
@@ -388,12 +160,10 @@
 </div>
 </body>
 
-
-
     <script>
         let obj_keyword = $('#keyword')
         {% if keyword %}
-            obj_keyword.val({{ keyword }});
+            obj_keyword.val('{{ keyword }}');
         {% endif %}
         obj_keyword.click(function(){
             this.select();

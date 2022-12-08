@@ -9,6 +9,7 @@
     <meta name="keywords" content="橙色购物网站"/>
     <meta name="description" content="网上购物零售商城网站"/>
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jsPost.js"></script>
 </head>
 <body>
 <!--Begin Header Begin-->
@@ -101,66 +102,73 @@
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav1.png"/></span>
-                            <span class="fl">进口食品、生鲜</span>
+                            <span class="fl">食品</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav2.png"/></span>
-                            <span class="fl">食品、饮料、酒</span>
+                            <span class="fl">图书</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav3.png"/></span>
-                            <span class="fl">母婴、玩具、童装</span>
+                            <span class="fl">医药</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav4.png"/></span>
-                            <span class="fl">家居、家庭清洁、纸品</span>
+                            <span class="fl">运动</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav5.png"/></span>
-                            <span class="fl">美妆、个人护理、洗护</span>
+                            <span class="fl">日用</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav6.png"/></span>
-                            <span class="fl">女装、内衣、中老年</span>
+                            <span class="fl">女装</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav7.png"/></span>
-                            <span class="fl">鞋靴、箱包、腕表配饰</span>
+                            <span class="fl">饰品</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav8.png"/></span>
-                            <span class="fl">男装、运动</span>
+                            <span class="fl">男装</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav9.png"/></span>
-                            <span class="fl">手机、小家电、电脑</span>
+                            <span class="fl">电子</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
                             <span class="n_img"><span></span><img src="/static/picture/nav10.png"/></span>
-                            <span class="fl">礼品、充值</span>
+                            <span class="fl">其它</span>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
+        <script>
+            $('div.fj').click(function(){
+                let goodsType = this.querySelector('span.fl').innerText
+                jsPost('{% url 'search_nothing' %}', {'goodsType' : goodsType, csrfmiddlewaretoken: '{{ csrf_token }}'})
+            })
+        </script>
+
         <!--End 商品分类详情 End-->
         <ul class="menu_r">
             <li><a href="#">首页</a></li>
