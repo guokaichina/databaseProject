@@ -117,7 +117,7 @@
         <div class="result">
         <!-- 商品图片 -->
         <div class="goodImage">
-            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photos_set.first.photoPath }}"></a>
+            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"></a>
         </div>
         <!-- 商品价格 -->
         <div class="goodPrice">￥{{ goods.goodsPrice }}</div>

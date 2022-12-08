@@ -367,7 +367,7 @@
             <!-- 单个商品列表元素 -->
             {% for goods in goodsManagementList %}
                 <div class="showGood">
-                    <div><img src="/static/picture/{{ goods.photos_set.first.photoPath }}" alt="goods"></div>
+                    <div><img src="/static/picture/{{ goods.photo_set.first.photoPath }}" alt="goods"></div>
                     <div class="g_name_1">
                         <div>{{ goods.goodsName }}</div>
                         <div><span>￥</span>{{ goods.goodsPrice }}</div>

@@ -69,7 +69,7 @@ class Goods(models.Model):
 
 
 # 商品照片模型
-class Photos(models.Model):
+class Photo(models.Model):
 
     photoID = models.AutoField(primary_key=True)  # 主码 图片ID
     photoPath = models.CharField(max_length=10, unique=True, null=False)  # 图片名
@@ -133,7 +133,7 @@ class Order(models.Model):
 
 # 评论模型
 class Comment(models.Model):
-    
+
     commentID = models.AutoField(primary_key=True)  # 评论ID
     customerID = models.ForeignKey(
         'Customer',

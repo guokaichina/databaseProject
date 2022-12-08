@@ -162,61 +162,18 @@
     <!-- 详情底部，用于展示评论 -->
     <div class="detailComment">
         <div class="c1">商品评论</div>
-        <!-- 每一个顾客的评论信息 -->
-        <div class="comentMsg">
-            <!-- 头像 -->
-            <div class="headImage">
-                <span>清新的青菜</span>
+        {% for comment in commentList %}
+            <div class="comentMsg">
+                <!-- 头像 -->
+                <div class="headImage">
+                    <span>{{ comment.customer.customerName }}</span>
+                </div>
+                <!-- 评论内容 -->
+                <div class="comContent">
+                    {{ comment.comment }}
+                </div>
             </div>
-            <!-- 评论内容 -->
-            <div class="comContent">
-                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
-            </div>
-        </div>
-        <!-- 每一个顾客的评论信息 -->
-        <div class="comentMsg">
-            <!-- 头像 -->
-            <div class="headImage">
-                <span>清新的青菜</span>
-            </div>
-            <!-- 评论内容 -->
-            <div class="comContent">
-                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
-            </div>
-        </div>
-        <!-- 每一个顾客的评论信息 -->
-        <div class="comentMsg">
-            <!-- 头像 -->
-            <div class="headImage">
-                <span>清新的青菜</span>
-            </div>
-            <!-- 评论内容 -->
-            <div class="comContent">
-                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
-            </div>
-        </div>
-        <!-- 每一个顾客的评论信息 -->
-        <div class="comentMsg">
-            <!-- 头像 -->
-            <div class="headImage">
-                <span>清新的青菜</span>
-            </div>
-            <!-- 评论内容 -->
-            <div class="comContent">
-                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
-            </div>
-        </div>
-        <!-- 每一个顾客的评论信息 -->
-        <div class="comentMsg">
-            <!-- 头像 -->
-            <div class="headImage">
-                <span>清新的青菜</span>
-            </div>
-            <!-- 评论内容 -->
-            <div class="comContent">
-                好评好评！虽然大闸蟹又贵又不新鲜，而且还缺斤少两，外加口感干柴苦涩，但是我还是想要给好评
-            </div>
-        </div>
+        {% endfor %}
         <!-- 每一个顾客的评论信息 -->
         <div class="comentMsg">
             <!-- 头像 -->

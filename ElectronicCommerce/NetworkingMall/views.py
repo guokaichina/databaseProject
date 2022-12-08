@@ -112,7 +112,7 @@ def goods_page(request, goods_id):
         context = {}
         login_message(request, context)
         comment_list = databaseApi.show_comment(goods_id)
-        goods_photo = models.Photos.objects.get(goodsID=goods_id)
+        goods_photo = models.Photo.objects.get(goodsID=goods_id)
         context['goods'] = goods
         context['commentList'] = comment_list
         context['goodsPhoto'] = goods_photo
@@ -169,15 +169,15 @@ def goods_management(request, seller_id):
     if login_id != seller_id:  # 未登录页面
         return HttpResponseRedirect(reverse('login'))
     # 进入对应的商品管理页面
+    context = {}
     if request.method == 'POST':
         if request.POST['behavior'] == 'delete':
             goods_id = int(request.POST['goodsId'])
-            photo_path = models.Photos.objects.get(goodsID=goods_id)  # 查找对应图片
-            path = "static/picture/" + photo_path
+            photo = models.Photo.objects.get(goodsID=goods_id)  # 查找对应图片
+            path = "static/picture/" + photo.photoPath
             os.remove(path)  # 删除对应图片
             databaseApi.delete_goods(goods_id)  # 由于完整性约束，删掉对应的图片
-            msg = '删除成功'
-            return render(request, 'goods_management.html', {'msg': msg})
+            context['msg'] = '删除成功'
         elif request.POST['behavior'] == 'change':
             goods_id = request.POST['goodsId']
             goods_name = request.POST['goodsName']
@@ -188,14 +188,12 @@ def goods_management(request, seller_id):
             goods.goodsStock = goods_stock
             goods.goodsPrice = goods_price
             goods.save()
-            msg = '改变成功'
-            return render(request, 'goods_management.html', {'msg': msg})
-    else:
-        obj_seller = models.Seller.objects.get(pk=seller_id)
-        goods_management_list = databaseApi.show_goods_for_management(seller_id)
-        return render(request, 'goods_management.html', {'sellerId': seller_id,
-                                                         'sellerName': obj_seller.sellerName,
-                                                         'goodsManagementList': goods_management_list})
+            context['msg'] = '改变成功'
+    obj_seller = models.Seller.objects.get(pk=seller_id)
+    goods_management_list = databaseApi.show_goods_for_management(seller_id)
+    context.update({'sellerId': seller_id, 'sellerName': obj_seller.sellerName,
+                    'goodsManagementList': goods_management_list})
+    return render(request, 'goods_management.html', context)
 
 
 def goods_add(request, seller_id):
