@@ -4,13 +4,6 @@
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NetworkingMall/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/picture/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/picture/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/goods_management.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_management.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/goods_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +129,8 @@
       <workItem from="1670408629238" duration="1565000" />
       <workItem from="1670410244293" duration="9524000" />
       <workItem from="1670421284412" duration="5000" />
-      <workItem from="1670459057035" duration="14206000" />
+      <workItem from="1670459057035" duration="14381000" />
+      <workItem from="1670482547683" duration="484000" />
     </task>
     <servers />
   </component>

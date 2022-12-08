@@ -1,11 +1,5 @@
-import os
 import datetime
-from django.conf import settings
 from django.db import models
-
-
-def images_path():
-    return os.path.join(settings.STATIC_URL, 'image')
 
 
 # 顾客信息模型
