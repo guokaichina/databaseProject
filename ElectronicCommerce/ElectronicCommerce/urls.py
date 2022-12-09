@@ -30,7 +30,7 @@ urlpatterns = [
     path('order/<int:customer_id>', views.order, name='order'),
     path('order/<int:customer_id>/information/<int:order_id>', views.order_message, name='order_message'),
     path('shopping_cart/<int:customer_id>', views.shopping_cart, name='shopping_cart'),
-    path('goods_management/<int:seller_id>', views.goods_management, name='goods_management'),
-    path('goods_management/goods_add/<int:seller_id>', views.goods_add, name='goods_add'),
+    path('seller_index/<int:seller_id>', views.seller_index, name='seller_index'),
+    path('goods_add/', views.goods_add, name='goods_add'),
     path('logout/', views.logout, name='logout'),
 ]

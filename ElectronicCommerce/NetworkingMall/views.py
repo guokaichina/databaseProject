@@ -26,7 +26,7 @@ def login(request):
         return HttpResponseRedirect(reverse('index'))
     if request.session.get('seller_id'):
         seller_id = request.session['seller_id']
-        return HttpResponseRedirect(reverse('goods_management', args=(seller_id,)))
+        return HttpResponseRedirect(reverse('seller_index', args=(seller_id,)))
     # 已登录时的强制跳转
     #
     if request.method == 'POST':
@@ -164,7 +164,7 @@ def order_message(request, customer_id, order_id):
     return render(request, 'order_message.html', {'order': order_info})
 
 
-def goods_management(request, seller_id):
+def seller_index(request, seller_id):
     login_id = request.session.get('seller_id')
     if login_id != seller_id:  # 未登录页面
         return HttpResponseRedirect(reverse('login'))
@@ -193,35 +193,27 @@ def goods_management(request, seller_id):
     goods_management_list = databaseApi.show_goods_for_management(seller_id)
     context.update({'sellerId': seller_id, 'sellerName': obj_seller.sellerName,
                     'goodsManagementList': goods_management_list})
-    return render(request, 'goods_management.html', context)
+    return render(request, 'seller_index.html', context)
 
 
-def goods_add(request, seller_id):
-    login_id = request.session.get('seller_id')
-    if login_id != seller_id:  # 未登录页面
-        return HttpResponseRedirect(reverse('login'))
-    # 进入添加商品页面
-    # def create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type):
-    if request.POST.get('goodsName'):
-        goods_name = request.POST['goodsName']
-        goods_stock = request.POST['goodsStock']
-        goods_price = request.POST['goodsPrice']
-        goods_type = request.POST['goodsType']
-        goods_image = request.FILES['goodsImage']
-        extension_name = request.POST['extensionName']
-        goods_id = databaseApi.create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type)
-        if goods_id:
-            photo_id = databaseApi.create_photo_path(goods_id, extension_name)
-            path = "static/picture/" + str(photo_id) + extension_name  # 路径设计
-            handle_uploaded_file(goods_image, path)  # 保存
-            msg = '提交成功'
-            return render(request, 'goods_add.html', {'msg': msg})
-        # 提交商品成功
-        else:
-            msg = '失败，请检查是否有输入格式上的错误'
-            return render(request, 'goods_add.html', {'msg': msg})
+def goods_add(request):
+    if request.method == 'GET':
+        return HttpResponseRedirect(reverse('index'))
+    seller_id = request.session.get('seller_id')
+    goods_name = request.POST['goodsName']
+    goods_stock = request.POST['goodsStock']
+    goods_price = request.POST['goodsPrice']
+    goods_type = request.POST['goodsType']
+    goods_image = request.FILES['goodsImage']
+    extension_name = request.POST['extensionName']
+    goods_id = databaseApi.create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type)
+    if goods_id:
+        photo_id = databaseApi.create_photo_path(goods_id, extension_name)
+        path = "static/picture/" + str(photo_id) + extension_name  # 路径设计
+        handle_uploaded_file(goods_image, path)  # 保存
+        return HttpResponseRedirect(reverse('seller_index', args=(seller_id, )))
     else:
-        return render(request, 'goods_add.html')
+        return HttpResponseRedirect(reverse('seller_index', args=(seller_id, )))
 
 
 def search_goods(request, keyword=''):
@@ -239,7 +231,7 @@ def search_goods(request, keyword=''):
 
 def test_page(request):
     # 用于临时显示首页
-    return HttpResponseRedirect(reverse('goods', args=(6, )))
+    return HttpResponseRedirect(reverse('index'))
 
 
 def handle_uploaded_file(f, path):

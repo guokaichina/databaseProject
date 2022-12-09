@@ -63,10 +63,10 @@ def create_goods(seller_id, goods_name, goods_stock, goods_price, goods_type):
 
 
 def create_photo_path(goods_id, extension_name):
-    # 在数据库Photos表中，插入一个元组，成功创建返回ID,失败则返回0
+    # 在数据库Photo表中，插入一个元组，成功创建返回ID,失败则返回0
     try:
         goods = Goods.objects.get(goodsID=goods_id)
-        photo = Photos.objects.create(photoPath=extension_name, goodsID=goods)
+        photo = Photo.objects.create(photoPath=extension_name, goodsID=goods)
         photo.photoPath = str(photo.photoID) + extension_name
         photo.save()
         return photo.photoID
@@ -189,7 +189,7 @@ def show_goods_for_management(seller_id):
     # 返回列表seller_id对应的商品列表，按商品id排序
     # 返回QuerySet就行，暂时不考虑分页的问题
     try:
-        goods_query_list = Goods.objects.filter(sellerID=seller_id).order_by('goodsID')  # 多对一的正向跨关系查询
+        goods_query_list = Goods.objects.filter(sellerID=seller_id).order_by('-goodsID')  # 多对一的正向跨关系查询
     except django.core.exceptions:
         return 0
     else:

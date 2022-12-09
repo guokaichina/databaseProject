@@ -20,9 +20,9 @@
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
                 <li><a href="#">我的订单</a></li>
             {% elif sellerName %}
-                <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
+                <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
-                <li><a href="{% url 'goods_management' sellerID %}">商品管理</a></li>
+                <li><a href="{% url 'seller_index' sellerID %}">商品管理</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">你好，请登录</a></li>
                 <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
