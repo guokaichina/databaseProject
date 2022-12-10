@@ -21,6 +21,7 @@
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
                 <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
@@ -127,17 +128,12 @@
         </div>
         <!-- 商品评价 -->
         <div class="goodComment"><span>{{ goods.comment_set.count }}</span>评价</div>
-        <div class="resultBtn">
+        <div class="resultBtn" id="goods_{{ goods.goodsID }}">
             <div id="buy">购买</div>
             <div id="addCar"></div>
         </div>
     </div>
     {% endfor %}
-
-
-
-
-
 
     <div class="result">
         <!-- 商品图片 -->
@@ -176,6 +172,17 @@
             else
                 window.location.href = "/search/" +keyword
             return false;
+        })
+
+        $('#addCar').click(function(){
+            let now_id = this.parentNode.id;
+            let goods_id = now_id.substring(now_id.indexOf('_') + 1);
+            let post_data = {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                'behavior':'addCart',
+                'goodsId': goods_id,
+            }
+            jsPost('', post_data);
         })
     </script>
 </html>

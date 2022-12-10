@@ -125,8 +125,6 @@ def create_comment(customer_id, goods_id, comment_text):
     except django.core.exceptions:
         # print('添加评论失败')
         return False
-
-
 # 登录
 
 
@@ -212,7 +210,7 @@ def delete_goods(goods_id):
 def show_intended_goods(customer_id):
     # 返回对应顾客的感兴趣商品列表
     try:
-        intended_goods_querylist = IntendedGoods.objects.filter(customer__customerID=customer_id)
+        intended_goods_querylist = IntendedGoods.objects.filter(customerID=customer_id)
     except django.core.exceptions:
         return
     else:

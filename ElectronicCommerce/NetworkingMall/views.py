@@ -125,20 +125,23 @@ def shopping_cart(request, customer_id):
     if login_id != customer_id:
         return HttpResponseRedirect('login')
     # 登录页面
+    context = {}
+    login_message(request, context)
     if request.method == 'POST':  # jsPost
         if request.POST['behavior'] == 'delete':
-            goods_id = request.POST['goodsId']
+            goods_id = int(request.POST['goodsId'])
             databaseApi.delete_intended_goods(customer_id, goods_id)
-            return HttpResponseRedirect(reverse('shopping_cart'))
+            return HttpResponseRedirect(reverse('shopping_cart', args=(login_id, )))
         elif request.POST['behavior']:  # buy
-            goods_id = request.POST['goodsId']
+            goods_id = int(request.POST['goodsId'])
             quantity = request.POST['quantity']
             ship_to_address = request.POST['shipToAddress']
             databaseApi.delete_intended_goods(customer_id, goods_id)
             order_id = databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
             return HttpResponseRedirect(reverse('order', args=(order_id,)))
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
-    return render(request, 'shopping_cart.html', {'intendedGoodsList': intended_goods_list})
+    context['intendedGoodsList'] = intended_goods_list
+    return render(request, 'shopping_cart.html', context)
 
 
 def order(request, customer_id):
@@ -179,7 +182,7 @@ def seller_index(request, seller_id):
             databaseApi.delete_goods(goods_id)  # 由于完整性约束，删掉对应的图片
             context['msg'] = '删除成功'
         elif request.POST['behavior'] == 'change':
-            goods_id = request.POST['goodsId']
+            goods_id = int(request.POST['goodsId'])
             goods_name = request.POST['goodsName']
             goods_stock = request.POST['goodsStock']
             goods_price = request.POST['goodsPrice']
@@ -218,12 +221,23 @@ def goods_add(request):
 
 def search_goods(request, keyword=''):
     context = {}
+    search_type = ''
     login_message(request, context)
     if request.method == 'POST':  # 种类选择
-        search_type = request.POST['goodsType']
-        context['searchType'] = search_type
-    else:
-        search_type = ''
+        if request.POST.get('behavior'):
+            if context.get('customerID'):  # 登录检测
+                customer_id = context['customerID']
+                if request.POST['behavior'] == 'addCart':
+                    goods_id = request.POST['goodsId']
+                    databaseApi.create_intended_goods(customer_id, goods_id, 1)  # 暂且为1
+                    context['msg'] = '加入购物车成功'
+            else:
+                context['msg'] = '顾客未登录不能进行此操作'
+
+        else:
+            search_type = request.POST['goodsType']
+            context['searchType'] = search_type
+
     search_list = databaseApi.get_search_list(keyword, search_type)
     context.update({'keyword': keyword, 'searchList': search_list})
     return render(request, 'search.html', context)

@@ -1,0 +1,72 @@
+body{
+    background-color: rgb(223, 221, 221);
+}
+
+/* 版心 */
+.wrapper{
+	width: 1240px;
+	margin: 0 auto;
+}
+
+
+/* 快捷导航栏~~~~~~~~~~~~ */
+.shortcut{
+	height: 52px;
+	background-color: #333;
+	/* background-color: rgb(255,136,33); */
+}
+
+.shortcut .wrapper li{
+	float: left;
+	line-height: 52px;
+}
+
+.shortcut .wrapper li a{
+	padding: 0 16px;
+	font-size: 14px;
+	color: #fff;
+	border-right: 1px solid #666;
+}
+
+/* 突出显示“免费注册” */
+.shortcut .wrapper #reg_Btn{
+	color: red;
+}
+.shortcut .wrapper #reg_Btn:hover{
+	color: #fff;
+}
+
+
+.shortcut .wrapper li:hover{
+	/* background-color: #333; */
+	background-color: rgb(255,136,33);
+
+}
+
+.header{
+    background-color: #fff;
+}
+
+.top{
+	width:1200px; height:140px;
+    background-color: #fff;
+}
+
+/* logo样式 */
+.logo{
+	width:207px; height:137px;  float:left;
+}
+.logo img{
+	width: 207px;
+	overflow:visible;
+}
+
+a {
+	text-decoration:none;
+	color:black;
+}
+
+.goon .orderbtn {
+	
+	background-color: rgb(255,136,33);
+}
