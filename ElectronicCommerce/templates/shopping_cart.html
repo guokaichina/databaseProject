@@ -53,12 +53,12 @@
                         <th width='20%'>操作</th>
                     </tr>
                     </thead>
-
+                
                     <tbody id="j_tb">
 
                     {% if intendedGoodsList %}
-                        {% for data in intendedGoodsList %}
-                            {% with goods=data.goodsID %}
+                        {% for intendedGood in intendedGoodsList %}
+                            {% with goods=intendedGood.goodsID %}
                             <tr>
                                 {# 选择框 #}
                                 <td width = "10%">
@@ -78,12 +78,12 @@
                                 {# 商品数量 #}
                                 <td>
                                     <input type="submit" name="-" value="-" class="btn1" formaction=""/>
-                                    <input type="text" value="{{ data.quantity }}" name="count" class="text1" width="10%"/>
+                                    <input type="text" value="{{ intendedGood.quantity }}" name="count" class="text1" width="10%"/>
                                     <input type="submit" name="+" value="+" class="btn1" formaction=""/>
                                 </td>
 
                                 {# 计算总价格 #}
-                                <td>￥{%  widthratio data.quantity 1 goods.goodsPrice %} </td>
+                                <td>￥{%  widthratio intendedGood.quantity 1 goods.goodsPrice %} </td>
                                 <td>
                                     <a href="/buyer/delete_goods/{{ goods.goodsID }}/">删除</a>
                                 </td>
