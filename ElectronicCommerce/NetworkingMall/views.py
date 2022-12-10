@@ -8,18 +8,18 @@ import os
 
 def index(request):
     # 商品目录展示
-    if request.session.get('customer_id'):
-        obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
-        return render(request, 'index.html', {'customerName': obj_customer.customerName,
-                                              'customerID': obj_customer.customerID,
-                                              'customer': obj_customer,
-                                              })
-    if request.session.get('seller_id'):
-        obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
-        return render(request, 'index.html', {'sellerName': obj_seller.sellerName,
-                                              'sellerID': obj_seller.sellerID})
-    else:
-        return render(request, 'index.html')
+    context = {}
+    login_message(request, context)
+    #  ('1', '女装'), ('2', '男装'), ('3', '食品'), ('4', '医药'), ('5', '日用'),('8', '电子')
+    list_1 = models.Goods.objects.filter(goodsType='女装').order_by('-goodsID')[:6]
+    list_2 = models.Goods.objects.filter(goodsType='男装').order_by('-goodsID')[:6]
+    list_3 = models.Goods.objects.filter(goodsType='食品').order_by('-goodsID')[:6]
+    list_4 = models.Goods.objects.filter(goodsType='医药').order_by('-goodsID')[:6]
+    list_5 = models.Goods.objects.filter(goodsType='日用').order_by('-goodsID')[:6]
+    list_6 = models.Goods.objects.filter(goodsType='电子').order_by('-goodsID')[:6]
+    context.update({'type1': list_1, 'type2': list_2, 'type3': list_3, 'type4': list_4, 'type5': list_5,
+                    'type8': list_6})
+    return render(request, 'index.html', context)
 
 
 def login(request):
@@ -142,18 +142,24 @@ def shopping_cart(request, customer_id):
             intended_goods_array = request.POST['intendedGoodsArray'].split(',')
             for intended_goods_id in intended_goods_array:
                 intended_goods = models.IntendedGoods.objects.get(pk=int(intended_goods_id))
-                goods_id = intended_goods.goodsID
+                goods_id = intended_goods.goodsID.goodsID
                 quantity = intended_goods.quantity
                 databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
-                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
-        elif request.POST['behavior']:  # buy
-            intended_goods_id = int(request.POST['intendedGoodsId'])
-            goods_id = int(request.POST['goodsId'])
-            quantity = request.POST['quantity']
-            ship_to_address = request.POST['shipToAddress']
-            databaseApi.delete_intended_goods(intended_goods_id)
-            order_id = databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
-            return HttpResponseRedirect(reverse('order', args=(order_id,)))
+                intended_goods.delete()
+            return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+        elif request.POST['behavior'] == 'add':
+            intended_goods_id = request.POST['intendedGoodsId']
+            intended_goods = models.IntendedGoods.objects.get(pk=intended_goods_id)
+            intended_goods.quantity += 1
+            intended_goods.save()
+            return HttpResponse(intended_goods.quantity)
+        elif request.POST['behavior'] == 'minus':
+            intended_goods_id = request.POST['intendedGoodsId']
+            intended_goods = models.IntendedGoods.objects.get(pk=intended_goods_id)
+            intended_goods.quantity -= 1
+            intended_goods.save()
+            return HttpResponse(intended_goods.quantity)
+
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
     context['intendedGoodsList'] = intended_goods_list
     return render(request, 'shopping_cart.html', context)
@@ -286,4 +292,3 @@ def login_message(request, context):
         obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
         context['sellerName'] = obj_seller.sellerName
         context['sellerID'] = obj_seller.sellerID
-

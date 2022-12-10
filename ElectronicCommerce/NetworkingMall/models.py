@@ -99,8 +99,8 @@ class Order(models.Model):
     amount = models.DecimalField(max_digits=12, decimal_places=2)  # 订单价格
     goodsName = models.CharField(max_length=60)  # 商品名
     goodsQuantity = models.IntegerField()  # 商品数量
-    customerName = models.CharField(max_length=40, unique=True)  # 顾客用户名
-    sellerName = models.CharField(max_length=40, unique=True)  # 商家用户名
+    customerName = models.CharField(max_length=40)  # 顾客用户名
+    sellerName = models.CharField(max_length=40)  # 商家用户名
     createTime = models.DateTimeField(
         auto_now=False, auto_now_add=True)  # 创建时间
     shipToAddress = models.CharField(max_length=80)  # 收货地址
