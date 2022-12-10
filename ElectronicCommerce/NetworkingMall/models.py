@@ -1,8 +1,10 @@
 import datetime
 from django.db import models
-
+from django.utils import timezone
 
 # 顾客信息模型
+
+
 class Customer(models.Model):
     # 主键 顾客用户ID IntegerField, 可以根据可用的ID自动递增
     customerID = models.AutoField(primary_key=True)
@@ -41,7 +43,7 @@ class Goods(models.Model):
     ]
 
     goodsID = models.AutoField(primary_key=True)  # 主键 商品ID IntegerField
-    goodsName = models.CharField(max_length=60)  # 商品名
+    goodsName = models.CharField(max_length=80, unique=True)  # 商品名
     goodsStock = models.IntegerField()  # 商品库存量
     goodsSold = models.IntegerField()  # 商品销量
     goodsPrice = models.DecimalField(
@@ -116,17 +118,15 @@ class Order(models.Model):
                                                                    self.sellerName, self.createTime, self.shipToAddress)
 
     # 判断此订单在某一时间间隔内是否可以取消
-    def cancel(self, interval=4320):  # 默认三天内可取消,以秒为单位
-        now_time = datetime.datetime.now()
-        create_time = datetime.datetime.strptime(
-            self.createTime.__str__(), "%Y-%m-%d %H:%M:%S")
-        if (now_time-create_time).total_seconds() <= interval:
+    def cancel(self):  # 默认三天内可取消,以秒为单位
+        time = timezone.now() - datetime.timedelta(days=1)
+        if self.createTime > time:
             return True
         else:
             return False
-
-
 # 评论模型
+
+
 class Comment(models.Model):
 
     commentID = models.AutoField(primary_key=True)  # 评论ID

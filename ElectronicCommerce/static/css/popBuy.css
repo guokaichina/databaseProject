@@ -1,0 +1,19 @@
+body{position: relative;}
+    .menu_bg{position: relative;z-index: 1;}
+    .popBuy{display: none;position: fixed;width: 40vw;height: 300px;left: 50%;top: 60%;transform: translate(-50%,-50%);background-color: #fff;z-index: 3;}
+    .popBuy .cancleBox{width:30px; height: 30px;background:url(https://ts1.cn.mm.bing.net/th/id/R-C.63e6eebb13cee5b32ea6ac66595dbb25?rik=CRKkGOBPPWky%2fw&riu=http%3a%2f%2fbpic.588ku.com%2felement_pic%2f16%2f12%2f22%2ffd4b03d1740c0ab7f9bd27d543a12d84.jpg&ehk=AKl4J4QU%2fP1Li7P6cVeoHviuDO0B4VZlQHo0L5TM39I%3d&risl=&pid=ImgRaw&r=0);background-size: 34px; background-position: -2px -2px; float: right;}
+    .showGoodMsg{display: flex;border-bottom: 1px solid gainsboro;}
+    .showGoodMsg .gdMsg{margin-left: 10px;margin-right: 15px;}
+    .showGoodMsg .gdImage img{width: 190px;max-height: 160px;}
+    .showGoodMsg .newGd{padding: 1px;color: #fff;font-size: 13px;background-color: rgb(3, 163, 3);border-radius: 5px;}
+    .showGoodMsg .youhui span:nth-child(1){font-size: 12px;}
+    .showGoodMsg .youhui span:nth-child(2){margin-left: 5px;padding: 0px 5px;font-size: 12px;background-color: #f5cece;color: red;border: #ff4e00 solid 1px;border-radius: 5px;}
+    .popBuy .destAddresdd, .payPwd{margin-top: 5px;}
+    .popBuy .destAddresdd span{color: red;}
+    .popBuy .payPwd span{color: red;}
+    .popBuy .payBtn{text-align: center;margin-top: 10px;font-size: 16px;}
+    .popBuy .payBtn span{color: #ff4e00;}
+    .popBuy .payBtn button{margin-left: 20px;background-color: #ff4e00;color: #fff;border: none;}
+    .popBuy .payBtn button:hover{background-color: #e54a07;}
+    .popBuy .payBtn button:active{background-color: #f00;}
+    #hideBg2{display: none; position: fixed; width: 100vw; height: 100vh;top: 0; z-index: 2; background-color:rgba(47,79,79,0.1) ;}

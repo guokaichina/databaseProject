@@ -212,7 +212,7 @@ def delete_goods(goods_id):
 def show_intended_goods(customer_id):
     # 返回对应顾客的感兴趣商品列表
     try:
-        intended_goods_querylist = IntendedGoods.objects.filter(customerID=customer_id)
+        intended_goods_querylist = IntendedGoods.objects.filter(customerID=customer_id).order_by('-id')
     except django.core.exceptions:
         return
     else:
@@ -249,7 +249,10 @@ def cancel_order(order_id):
         return False
     else:
         if order.cancel():
-            goods = Goods.objects.filter(seller__sellerName=order.sellerName).get(goodsName=order.goodsName)
+            try:
+                goods = Goods.objects.filter(sellerID__sellerName=order.sellerName).get(goodsName=order.goodsName)
+            except Goods.DoesNotExist:
+                return False
             goods.goodsStock += order.goodsQuantity
             goods.goodsSold -= order.goodsQuantity
             goods.save()

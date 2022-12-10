@@ -5,9 +5,12 @@
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
     <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
     <link type="text/css" rel="stylesheet" href="/static/css/cart.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/popBuy.css"/>
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
-    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
+     <script type="text/javascript" src="/static/js/popBox.js"></script>
+    <script type="text/javascript" src="/static/js/popBuy.js"></script>
     <title>优品购物</title>
 </head>
 <body>
@@ -18,7 +21,7 @@
             {% if customerName %}
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'order' customerID %}">我的订单</a></li>
                 <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
@@ -120,7 +123,29 @@
     </div>
 </div>
 
-
+<!-- 点击“购买”时，弹窗购买 -->
+<div class="popBuy" id="popBuy">
+    <div class="cancleBox" onclick="closePopBuy()"></div>
+        <!-- 收货地址 -->
+        <div class="destAddresdd">
+            {% if shipToAddress %}
+                <span>*</span>收货地址
+                <input id="shipToAddress" type="text" placeholder="请输入收货地址" value="{{ shipToAddress }}">
+            {% else %}
+                <span>*</span>收货地址<input id="shipToAddress" type="text" placeholder="请输入收货地址">
+            {% endif %}
+        </div>
+        <!-- 付款密码 -->
+        <div class="payPwd">
+            <span>*</span>付款密码<input id="password" type="text" name="" placeholder="请输入你的密码">
+        </div>
+        <!-- 付款按钮 -->
+        <div class="payBtn">
+            <button id="buyGoods">确认支付</button>
+        </div>
+</div>
+<!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
+<div id="hideBg2"></div>
 </body>
 
 <script>
@@ -146,29 +171,7 @@
         $('#totalPrice').text('总计' + total_price + '元');
     })
 
-    $('#buyFromCart').click(function () {
-
-        let check_item_list = document.querySelectorAll('.checkItem');
-        let intendedGoodsArray = []
-        for (let i = 0; i !== check_item_list.length; ++i) {
-            const node = check_item_list[i];
-            if (node.checked === true) {
-                intendedGoodsArray.push(node.value);
-            }
-        }
-        if (intendedGoodsArray.length === 0) {
-            objMsgContent.text('你没有选中任何商品');
-            openPopBox();
-        } else {
-            let post_data = {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                'behavior': 'buy',
-                'intendedGoodsArray': intendedGoodsArray,
-                'shipToAddress': 'nowhere',
-            }
-            jsPost('', post_data);
-        }
-    })
+    $('#buyFromCart').click(function () { showPopBuy(); })
 
     $('#deleteCartAll').click(function () {
         let post_data = {
@@ -199,21 +202,12 @@
         }
     }
 
-    function openPopBox() {
-        document.getElementById("popBox").style.display = "block";
-    }
-
-    // 关闭弹窗
-    function closePopBox() {
-        document.getElementById("popBox").style.display = "none";
-    }
     $('.btn1').click(function(){
         let obj_tr = this.parentNode.parentNode;
         let obj_the_price = obj_tr.querySelector('.the_price');
         const goodsPrice = parseFloat(obj_tr.querySelector('.goodsPrice').innerText.replace(/[￥元]/g, ''));
         let obj_quantity = this.parentNode.querySelector('.text1');
         let now_id = obj_tr.id.substring(obj_tr.id.indexOf('_') + 1);
-
         let ajaxSettings = {
                     type: 'POST',
                     url: '',
@@ -246,6 +240,46 @@
         })
     })
 
+    $('#buyGoods').click(function(){
+        let shipToAddress = document.getElementById('shipToAddress').value;
+        let password = document.getElementById('password').value;
+        if (!shipToAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ，,]{5,80}$/)) {
+            objMsgContent.text('收货地址不合法，不能为空，不能输入特殊符号长度需要小于80');
+            closePopBuy();
+            openPopBox();
+        } else if (!password.match(/^[0-9]{6,20}$/)) {
+            objMsgContent.text('密码格式不合法，只能输入6到20位的数字');
+            closePopBuy();
+            openPopBox();
+        }
+        else{
+           buyIntendedGoods(shipToAddress, password)
+        }
+    })
+
+    function buyIntendedGoods(shipToAddress, password){
+        let check_item_list = document.querySelectorAll('.checkItem');
+        let intendedGoodsArray = []
+        for (let i = 0; i !== check_item_list.length; ++i) {
+            const node = check_item_list[i];
+            if (node.checked === true) {
+                intendedGoodsArray.push(node.value);
+            }
+        }
+        if (intendedGoodsArray.length === 0) {
+            objMsgContent.text('你没有选中任何商品');
+            openPopBox();
+        } else {
+            let post_data = {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                'behavior': 'buy',
+                'intendedGoodsArray': intendedGoodsArray,
+                'shipToAddress': shipToAddress,
+                'password':password,
+            }
+            jsPost('', post_data);
+        }
+    }
 
 </script>
 </html>

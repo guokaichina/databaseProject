@@ -97,28 +97,28 @@ def goods_page(request, goods_id):
     except models.Goods.DoesNotExist:
         return render(request, 'no_goods.html')
     # 商品下架检测
-    if request.method == "POST":  # ajax
+    context = {}
+    if request.method == "POST":
         customer_id = request.session.get('customer_id')
         if customer_id is None:
-            return HttpResponse('0')  # 要求登录
-        if request.POST['behavior'] == 'intended_goods':
-            quantity = request.POST['quantity']
-            databaseApi.create_intended_goods(customer_id, goods_id, quantity)
-            return HttpResponse('1')
-        if request.POST['behavior'] == 'buy':
+            context['msg'] = '请登录'
+        if request.POST['behavior'] == 'addCart':
             quantity = int(request.POST['quantity'])
-            ship_to_address = request.POST['shipToAddress']
-            databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
-            return HttpResponse('1')
-    else:
-        context = {}
-        login_message(request, context)
-        comment_list = databaseApi.show_comment(goods_id)
-        goods_photo = models.Photo.objects.get(goodsID=goods_id)
-        context['goods'] = goods
-        context['commentList'] = comment_list
-        context['goodsPhoto'] = goods_photo
-        return render(request, 'goods_page.html', context)
+            goods_id = int(request.POST['goodsId'])
+            databaseApi.create_intended_goods(customer_id, goods_id, quantity)
+            context['msg'] = '加入购物车成功'
+        if request.POST['behavior'] == 'buy':
+            if buy(request, customer_id):
+                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+            else:
+                context['msg'] = '购买失败，密码输入错误'
+    login_message(request, context)
+    comment_list = databaseApi.show_comment(goods_id)
+    goods_photo = models.Photo.objects.get(goodsID=goods_id)
+    context['goods'] = goods
+    context['commentList'] = comment_list
+    context['goodsPhoto'] = goods_photo
+    return render(request, 'goods_page.html', context)
 
 
 def shopping_cart(request, customer_id):
@@ -138,15 +138,22 @@ def shopping_cart(request, customer_id):
             models.IntendedGoods.objects.filter(customerID=customer_id).delete()
             context['msg'] = '清空购物车成功'
         elif request.POST['behavior'] == 'buy':
-            ship_to_address = request.POST['shipToAddress']
-            intended_goods_array = request.POST['intendedGoodsArray'].split(',')
-            for intended_goods_id in intended_goods_array:
-                intended_goods = models.IntendedGoods.objects.get(pk=int(intended_goods_id))
-                goods_id = intended_goods.goodsID.goodsID
-                quantity = intended_goods.quantity
-                databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
-                intended_goods.delete()
-            return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+            # 密码检测
+            password = request.POST['password']
+            customer = models.Customer.objects.get(pk=customer_id)
+            if password != customer.password:
+                context['msg'] = '购买失败，密码错误'
+            else:
+                ship_to_address = request.POST['shipToAddress']
+                request.session['shipToAddress'] = ship_to_address
+                intended_goods_array = request.POST['intendedGoodsArray'].split(',')
+                for intended_goods_id in intended_goods_array:
+                    intended_goods = models.IntendedGoods.objects.get(pk=int(intended_goods_id))
+                    goods_id = intended_goods.goodsID.goodsID
+                    quantity = intended_goods.quantity
+                    databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
+                    intended_goods.delete()
+                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
         elif request.POST['behavior'] == 'add':
             intended_goods_id = request.POST['intendedGoodsId']
             intended_goods = models.IntendedGoods.objects.get(pk=intended_goods_id)
@@ -159,7 +166,6 @@ def shopping_cart(request, customer_id):
             intended_goods.quantity -= 1
             intended_goods.save()
             return HttpResponse(intended_goods.quantity)
-
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
     context['intendedGoodsList'] = intended_goods_list
     return render(request, 'shopping_cart.html', context)
@@ -172,12 +178,20 @@ def order(request, customer_id):
     customer = models.Customer.objects.get(pk=customer_id)
     context = {'customer': customer}
     if request.method == 'POST':
+        order_id = int(request.POST['orderId'])
         if request.POST['behavior'] == 'cancel':
-            order_id = request.POST['order_id']
             if databaseApi.cancel_order(order_id):
                 context['msg'] = '删除成功'
             else:
-                context['msg'] = '删除失败'
+                context['msg'] = '删除失败，超过一天的订单不能取消，或商品已下架'
+        elif request.POST['behavior'] == 'confirm':
+            the_order = models.Order.objects.get(orderID=order_id)
+            if not the_order.receivingStatus:
+                the_order.receivingStatus = True
+                the_order.save()
+                context['msg'] = '确认收货'
+            else:
+                context['msg'] = '此商品已确认收货'
     order_list = databaseApi.show_order(customer_id)
     context['orderList'] = order_list
     return render(request, 'order.html', context)
@@ -255,19 +269,19 @@ def search_goods(request, keyword=''):
                     databaseApi.create_intended_goods(customer_id, goods_id, 1)  # 暂且为1
                     context['msg'] = '加入购物车成功'
                 elif request.POST['behavior'] == 'buy':
-                    goods_id = int(request.POST['goodsId'])
-                    ship_to_address = request.POST['shipToAddress']
-                    quantity = int(request.POST['quantity'])
-                    databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
-                    return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+                    if buy(request, customer_id):
+                        return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+                    else:
+                        context['msg'] = '密码输入错误'
             else:
                 context['msg'] = '顾客未登录不能进行此操作'
         else:
             search_type = request.POST['goodsType']
             context['searchType'] = search_type
-
     search_list = databaseApi.get_search_list(keyword, search_type)
     context.update({'keyword': keyword, 'searchList': search_list})
+    if request.session.get('shipToAddress'):
+        context['shipToAddress'] = request.session['shipToAddress']
     return render(request, 'search.html', context)
 
 
@@ -292,3 +306,16 @@ def login_message(request, context):
         obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
         context['sellerName'] = obj_seller.sellerName
         context['sellerID'] = obj_seller.sellerID
+
+
+def buy(request, customer_id):
+    password = request.POST['password']
+    customer = models.Customer.objects.get(pk=customer_id)
+    if password != customer.password:
+        return False
+    goods_id = int(request.POST['goodsId'])
+    ship_to_address = request.POST['shipToAddress']
+    request.session['shipToAddress'] = ship_to_address
+    quantity = int(request.POST['quantity'])
+    databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
+    return True

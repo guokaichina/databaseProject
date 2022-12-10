@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="/static/css/base.css" />
-	<link type="text/css" rel="stylesheet" href="/static/css/search.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/search.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBuy.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
+    <script type="text/javascript" src="/static/js/popBuy.js"></script>
+    <script type="text/javascript" src="/static/js/popBox.js"></script>
+
     <title>优品购物</title>
-<meta name="keywords" content="橙色购物网站" />
-<meta name="description" content="橙色的网上购物" />
+    <meta name="keywords" content="橙色购物网站"/>
+    <meta name="description" content="橙色的网上购物"/>
 </head>
 <body>
 <!--Begin Header Begin-->
@@ -20,7 +25,7 @@
             {% if customerName %}
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'order' customerID %}">我的订单</a></li>
                 <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
@@ -40,12 +45,12 @@
 <div class="header">
     <div class="top">
         <!-- logo,改成自己的 -->
-        <div class="logo"><a href="{% url 'index' %}"><img src="/static/picture/logo.png" /></a></div>
+        <div class="logo"><a href="{% url 'index' %}"><img src="/static/picture/logo.png"/></a></div>
         <!-- 搜索框 -->
         <div class="search">
             <form>
                 <!-- 输入搜索的关键词 -->
-                <input type="text" value="" class="s_ipt" id="keyword"/>
+                <label for="keyword"></label><input type="text" value="" class="s_ipt" id="keyword"/>
                 <!-- 点击搜索  -->
                 <input type="submit" value="搜索" class="s_btn" id="search"/>
             </form>
@@ -54,23 +59,26 @@
         <div class="i_car">
             <div class="car_t">购物车 [ <span>3</span> ]</div>
             <div class="car_bg">
-                   <!--Begin 购物车未登录 Begin-->
+                <!--Begin 购物车未登录 Begin-->
                 <div class="un_login">还未登录！<a href="login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
                 <!--End 购物车未登录 End-->
                 <!--Begin 购物车已登录 Begin-->
                 <ul class="cars">
                     <li>
-                        <div class="img"><a href="#"><img src="/static/picture/car1.jpg" width="58" height="58" /></a></div>
+                        <div class="img"><a href="#"><img src="/static/picture/car1.jpg" width="58" height="58"/></a>
+                        </div>
                         <div class="name"><a href="#">法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只</a></div>
                         <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
                     </li>
                     <li>
-                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58" /></a></div>
+                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58"/></a>
+                        </div>
                         <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
                         <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
                     </li>
                     <li>
-                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58" /></a></div>
+                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58"/></a>
+                        </div>
                         <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
                         <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
                     </li>
@@ -104,7 +112,7 @@
             document.getElementById('searchResult').innerText += ',' + '{{ searchType }}' + '类';
         {% endif %}
 
-        $('a.forSearchType').click(function(){
+        $('a.forSearchType').click(function () {
             let goodsType = this.innerText;
             jsPost('', {'goodsType': goodsType, csrfmiddlewaretoken: '{{ csrf_token }}'})
         })
@@ -116,92 +124,129 @@
     <!-- 搜索出来的单个商品 -->
     {% for goods in searchList %}
         <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="{% url 'goods' goods.goodsID %}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"></a>
+            <!-- 商品图片 -->
+            <div class="goodImage">
+                <a href="{% url 'goods' goods.goodsID %}"><img
+                        src="/static/picture/{{ goods.photo_set.first.photoPath }}"></a>
+            </div>
+            <!-- 商品价格 -->
+            <div class="goodPrice">￥{{ goods.goodsPrice }}</div>
+            <!-- 商品名称（描述） -->
+            <div class="goodName">
+                <a href="{% url 'goods' goods.goodsID %}" title="{{ goods.goodsName }}">{{ goods.goodsName }}</a>
+            </div>
+            <!-- 商品评价 -->
+            <div class="goodComment"><span>{{ goods.comment_set.count }}</span>评价</div>
+            <div class="resultBtn" id="goods_{{ goods.goodsID }}">
+                <div class="buy">购买</div>
+                <div class="addCar"></div>
+            </div>
         </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥{{ goods.goodsPrice }}</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="{% url 'goods' goods.goodsID %}" title="{{ goods.goodsName }}">{{ goods.goodsName }}</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>{{ goods.comment_set.count }}</span>评价</div>
-        <div class="resultBtn" id="goods_{{ goods.goodsID }}">
-            <div class="buy">购买</div>
-            <div class="addCar"></div>
-        </div>
-    </div>
     {% empty %}
         <p>空空如也</p>
     {% endfor %}
 
 </div>
 
-{% if msg %}
-    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
-    <div id="popBox">
-        <div>{{ msg }}</div>
-        <div class="close">
-            <button onclick="closePopBox()">确定</button>
-        </div>
+<div id="popBox">
+    <div id="msgContent"></div>
+    <div class="close">
+        <button onclick="closePopBox()">确定</button>
     </div>
-    <script type="text/javascript">
-        function openPopBox(){
-        document.getElementById("popBox").style.display = "block";
-        }
-    // 关闭弹窗
-	    function closePopBox()
-	    {
-	        document.getElementById("popBox").style.display="none";
-	    }
-        openPopBox();
-    </script>
-{% endif %}
+</div>
 
+
+<!-- 点击“购买”时，弹窗购买 -->
+<div class="popBuy" id="popBuy">
+    <div class="cancleBox" onclick="closePopBuy()"></div>
+        <!-- 收货地址 -->
+        <div class="destAddresdd">
+            {% if shipToAddress %}
+                <span>*</span>收货地址
+                <input id="shipToAddress" type="text" placeholder="请输入收货地址" value="{{ shipToAddress }}">
+            {% else %}
+                <span>*</span>收货地址<input id="shipToAddress" type="text" placeholder="请输入收货地址">
+            {% endif %}
+        </div>
+        <!-- 付款密码 -->
+        <div class="payPwd">
+            <span>*</span>付款密码<input id="password" type="text" name="" placeholder="请输入你的密码">
+        </div>
+        <!-- 付款按钮 -->
+        <div class="payBtn">
+            <button id="buyGoods">确认支付</button>
+        </div>
+</div>
+<!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
+<div id="hideBg2"></div>
 </body>
+<script>
+    let click_id = 0;
+    let objMsgContent = $('#msgContent');
+    {% if msg %}
+        objMsgContent.text('{{ msg }}')
+        openPopBox();
+    {% endif %}
 
-    <script>
-        let obj_keyword = $('#keyword')
-        {% if keyword %}
-            obj_keyword.val('{{ keyword }}');
-        {% endif %}
-        obj_keyword.click(function(){
-            this.select();
-        })
+    let obj_keyword = $('#keyword')
+    {% if keyword %}
+        obj_keyword.val('{{ keyword }}');
+    {% endif %}
+    obj_keyword.click(function () {
+        this.select();
+    })
 
-        $('#search').click(function(){
-            let keyword = obj_keyword.val();
-            if(keyword === '' ) {
-                window.location.href = "/search"
-            }
-            else
-                window.location.href = "/search/" +keyword
-            return false;
-        })
+    $('#search').click(function () {
+        let keyword = obj_keyword.val();
+        if (keyword === '') {
+            window.location.href = "/search"
+        } else
+            window.location.href = "/search/" + keyword
+        return false;
+    })
 
-        $('.buy').click(function(){
-            let now_id = this.parentNode.id;
-            let goods_id = now_id.substring(now_id.indexOf('_') + 1);
+    $('.buy').click(function () {
+        showPopBuy();
+        let now_id = this.parentNode.id;
+        click_id = parseInt(now_id.substring(now_id.indexOf('_') + 1));
+    })
+
+    $('#buyGoods').click(function(){
+        let shipToAddress = document.getElementById('shipToAddress').value;
+        let password = document.getElementById('password').value;
+        if (!shipToAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ，,]{5,80}$/)) {
+            objMsgContent.text('收货地址不合法，不能为空，不能输入特殊符号长度需要小于80');
+            closePopBuy();
+            openPopBox();
+        } else if (!password.match(/^[0-9]{6,20}$/)) {
+            objMsgContent.text('密码格式不合法，只能输入6到20位的数字');
+            closePopBuy();
+            openPopBox();
+        }
+        else{
             let post_data = {
-                csrfmiddlewaretoken : '{{ csrf_token }}',
-                'behavior':'buy',
-                'goodsId': goods_id,
-                'quantity': 1,
-                'shipToAddress': 'nowhere',
-            }
-            jsPost('', post_data);
-        })
-        $('.addCar').click(function(){
-            let now_id = this.parentNode.id;
-            let goods_id = now_id.substring(now_id.indexOf('_') + 1);
-            let post_data = {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                'behavior':'addCart',
-                'goodsId': goods_id,
-            }
-            jsPost('', post_data);
-        })
-    </script>
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    'behavior': 'buy',
+                    'goodsId': click_id,
+                    'quantity': 1,
+                    'shipToAddress': shipToAddress,
+                    'password':password,
+                }
+                jsPost("", post_data);
+        }
+    })
+
+    $('.addCar').click(function () {
+        let now_id = this.parentNode.id;
+        let goods_id = now_id.substring(now_id.indexOf('_') + 1);
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior': 'addCart',
+            'goodsId': goods_id,
+        }
+        jsPost('', post_data);
+    })
+
+
+</script>
 </html>

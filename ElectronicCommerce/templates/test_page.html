@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优品购物</title>
+    <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
+    <link type='text/css' rel='stylesheet' href='/static/css/base.css'/>
+    <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jsPost.js"></script>
+    <!--     <script type='text/javascript' src='/static/js/order.js'></script>  -->
+</head>
+<body>
+
+<div class="shortcut">
+    <div class="wrapper clearfix">
+        <ul class="fr">
+
+                <li><a href="#">你好，customerName</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="{% url 'shopping_cart' customer.customerID %}">购物车</a></li>
+
+                <li><a href="{% url 'login' %}">你好，请登录</a></li>
+                <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
+
+            <li><a href="#">帮助中心</a></li>
+        </ul>
+    </div>
+</div>
+<div class='orderlist'>
+    <table>
+        <thead>
+        <tr>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>实付款</th>
+            <th>收货地址</th>
+            <th>交易操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dec. 10, 2022, 12:51 p.m.</td>
+                <td>10</td>
+                <td>NeilWilliams</td>
+            </tr>
+            <tr>
+                <td>大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</td>
+                <td>2</td>
+                <td>￥12600.00</td>
+                <td>一个奇怪的不知道是哪里的地方</td>
+                <td>
+                    <button class="cancel" name='cancelButton' id="cancel_{{ order.orderID }}">取消订单</button>
+
+                    <button class="confirm" id="confirm_{{ order.orderID }}">确认收货</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Dec. 10, 2022, 12:51 p.m.</td>
+
+                <td>10</td>
+                <td>NeilWilliams</td>
+            </tr>
+            <tr>
+                <td>大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</td>
+                <td>2</td>
+                <td>￥12600.00</td>
+                <td>一个奇怪的不知道是哪里的地方</td>
+                <td>
+                    <button class="cancel" name='cancelButton' id="cancel_{{ order.orderID }}">取消订单</button>
+
+                    <button class="confirm" id="confirm_{{ order.orderID }}">确认收货</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Dec. 10, 2022, 12:51 p.m.</td>
+
+                <td>10</td>
+                <td>NeilWilliams</td>
+            </tr>
+            <tr>
+                <td>大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</td>
+                <td>2</td>
+                <td>￥12600.00</td>
+                <td>一个奇怪的不知道是哪里的地方</td>
+                <td>
+                    <button class="cancel" name='cancelButton' id="cancel_{{ order.orderID }}">取消订单</button>
+
+                    <button class="confirm" id="confirm_{{ order.orderID }}">确认收货</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+<script>
+    $('.cancel').click(function () {
+        let order_id = this.id.substring(this.id.indexOf('_') + 1);
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior': 'cancel',
+            'orderId': order_id,
+        }
+        jsPost('', post_data)
+    })
+    $('.confirm').click(function () {
+        let order_id = this.id.substring(this.id.indexOf('_') + 1);
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior': 'confirm',
+            'orderId': order_id,
+        }
+        jsPost('', post_data)
+    })
+</script>
+</html>

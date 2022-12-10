@@ -5,14 +5,13 @@
     <title>优品购物</title>
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
     <link type='text/css' rel='stylesheet' href='/static/css/base.css'/>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
-    <!--     <script type='text/javascript' src='/static/js/order.js'></script>  -->
+    <script type="text/javascript" src="/static/js/popBox.js"></script>
 </head>
 <body>
-{# 得改databaseApi 231行的customer_customerID为customerID_customerID #}
-{# 改成 customerID 就能跑了#}
-{# 之前写的databaseApi不好，跨关系查询可能都要像这样改一改 #}
+
 
 <div class="shortcut">
     <div class="wrapper clearfix">
@@ -26,6 +25,7 @@
                 <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
             {% endif %}
             <li><a href="#">帮助中心</a></li>
+            <li><a href="{% url 'index' %}">返回主页</a></li>
         </ul>
     </div>
 </div>
@@ -49,7 +49,7 @@
                 <td>{{ order.createTime }}</td>
                 {# 订单创建日期 #}
                 <td>{{ order.orderID }}</td>
-                <td>{{ order.customerName }}</td>
+                <td>{{ order.sellerName }}</td>
                 {# 商家名 #}
             </tr>
             <tr>
@@ -57,7 +57,7 @@
                 <td>￥{{ order.amount }}</td>
                 <td>{{ order.goodsQuantity }}</td>
                 <td>￥{{ order.amount }}</td>
-                <td>{{ order.amount }}</td>
+                <td>{{ order.shipToAddress }}</td>
                 <td>
                     <button class="cancel" name='cancelButton' id="cancel_{{ order.orderID }}">取消订单</button>
 
@@ -69,8 +69,20 @@
     </table>
 </div>
 
+<div id="popBox">
+    <div id="msgContent"></div>
+    <div class="close">
+        <button onclick="closePopBox()">确定</button>
+    </div>
+</div>
+
 </body>
 <script>
+    let objMsgContent = $('#msgContent');
+    {% if msg %}
+        objMsgContent.text('{{ msg }}')
+        openPopBox();
+    {% endif %}
     $('.cancel').click(function () {
         let order_id = this.id.substring(this.id.indexOf('_') + 1);
         let post_data = {

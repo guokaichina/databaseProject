@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
     <link type="text/css" rel="stylesheet" href="/static/css/goodDetail.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBuy.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jsPost.js"></script>
+    <script type="text/javascript" src="/static/js/popBuy.js"></script>
+    <script type="text/javascript" src="/static/js/popBox.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -148,7 +153,7 @@
             <div class="buyBox">
                 <div id="buy">购买</div>
                 <div class="purchasenumber">
-                    <h3>购买数量</h3>
+                    <h3>数量</h3>
                     <div class="number">
                         <input type="number" id="purNumber" min="1" step="1" value="1">
                     </div>
@@ -184,5 +189,82 @@
         </div>
     </div>
 </div>
+
+<div id="popBox">
+    <div id="msgContent"></div>
+    <div class="close">
+        <button onclick="closePopBox()">确定</button>
+    </div>
+</div>
+
+
+<!-- 点击“购买”时，弹窗购买 -->
+<div class="popBuy" id="popBuy">
+    <div class="cancleBox" onclick="closePopBuy()"></div>
+    <!-- 收货地址 -->
+    <div class="destAddresdd">
+        {% if shipToAddress %}
+            <span>*</span>收货地址
+            <input id="shipToAddress" type="text" placeholder="请输入收货地址" value="{{ shipToAddress }}">
+        {% else %}
+            <span>*</span>收货地址<input id="shipToAddress" type="text" placeholder="请输入收货地址">
+        {% endif %}
+    </div>
+    <!-- 付款密码 -->
+    <div class="payPwd">
+        <span>*</span>付款密码<input id="password" type="text" name="" placeholder="请输入你的密码">
+    </div>
+    <!-- 付款按钮 -->
+    <div class="payBtn">
+        <button id="buyGoods">确认支付</button>
+    </div>
+</div>
+<!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
+<div id="hideBg2"></div>
+
 </body>
+<script>
+    $('#buy').click(function () {
+        showPopBuy();
+    })
+    let objMsgContent = $('#msgContent');
+    {% if msg %}
+        objMsgContent.text('{{ msg }}')
+        openPopBox();
+    {% endif %}
+
+    $('#buyGoods').click(function () {
+        let shipToAddress = document.getElementById('shipToAddress').value;
+        let password = document.getElementById('password').value;
+        if (!shipToAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ，,]{5,80}$/)) {
+            objMsgContent.text('收货地址不合法，不能为空，不能输入特殊符号长度需要小于80');
+            closePopBuy();
+            openPopBox();
+        } else if (!password.match(/^[0-9]{6,20}$/)) {
+            objMsgContent.text('密码格式不合法，只能输入6到20位的数字');
+            closePopBuy();
+            openPopBox();
+        } else {
+            let post_data = {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                'behavior': 'buy',
+                'goodsId': '{{ goods.goodsID }}',
+                'quantity': $('#purNumber').val(),
+                'shipToAddress': shipToAddress,
+                'password': password,
+            }
+            jsPost("", post_data);
+        }
+    })
+
+    $('#addCar').click(function(){
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+                'behavior': 'addCart',
+                'goodsId': '{{ goods.goodsID }}',
+                'quantity': $('#purNumber').val(),
+        }
+        jsPost("", post_data);
+    })
+</script>
 </html>
