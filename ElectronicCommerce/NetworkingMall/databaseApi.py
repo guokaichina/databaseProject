@@ -97,6 +97,8 @@ def create_order(customer_id, goods_id, quantity, ship_to_address):
         goods = Goods.objects.get(goodsID=goods_id)
         seller = Seller.objects.filter(goods__goodsID=goods_id)
         # 这里需要检测，goodsStock减去过后是否大于0
+        if goods.goodsStock < quantity:
+            return 0
         goods.goodsStock -= quantity
         goods.goodsSold += quantity
         goods.save()
@@ -105,7 +107,7 @@ def create_order(customer_id, goods_id, quantity, ship_to_address):
                                      goodsQuantity=quantity,
                                      customerName=customer.customerName,
                                      sellerName=seller[0].sellerName,
-                                     shipTpAddress=ship_to_address,
+                                     shipToAddress=ship_to_address,
                                      customerID=customer
                                      )
         return order.orderID

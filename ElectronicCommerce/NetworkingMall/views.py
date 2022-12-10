@@ -11,7 +11,9 @@ def index(request):
     if request.session.get('customer_id'):
         obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
         return render(request, 'index.html', {'customerName': obj_customer.customerName,
-                                              'customerID': obj_customer.customerID})
+                                              'customerID': obj_customer.customerID,
+                                              'customer': obj_customer,
+                                              })
     if request.session.get('seller_id'):
         obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
         return render(request, 'index.html', {'sellerName': obj_seller.sellerName,
@@ -246,9 +248,14 @@ def search_goods(request, keyword=''):
                     goods_id = request.POST['goodsId']
                     databaseApi.create_intended_goods(customer_id, goods_id, 1)  # 暂且为1
                     context['msg'] = '加入购物车成功'
+                elif request.POST['behavior'] == 'buy':
+                    goods_id = int(request.POST['goodsId'])
+                    ship_to_address = request.POST['shipToAddress']
+                    quantity = int(request.POST['quantity'])
+                    databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
+                    return HttpResponseRedirect(reverse('order', args=(customer_id, )))
             else:
                 context['msg'] = '顾客未登录不能进行此操作'
-
         else:
             search_type = request.POST['goodsType']
             context['searchType'] = search_type
@@ -279,4 +286,4 @@ def login_message(request, context):
         obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
         context['sellerName'] = obj_seller.sellerName
         context['sellerID'] = obj_seller.sellerID
-        
+

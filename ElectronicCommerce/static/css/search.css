@@ -214,7 +214,7 @@ ul.menu_r li a:hover, ul.menu_r li a.now{
 	display: flex;
 }
 /* 购买按钮 */
-#buy{
+.buy{
 	margin: 0;
 	text-align: center;
 	color: #ff4e00;
@@ -222,19 +222,19 @@ ul.menu_r li a:hover, ul.menu_r li a.now{
 	width: 40%;
 	border: 1px solid #ff4e00;
 }
-#buy:hover{
+.buy:hover{
 	background-color: #ff4e00;
 	color: #fff;
 	border: solid 1px #fff;
 	cursor: pointer;
 }
-#buy:active{
+.buy:active{
 	background-color: #f00;
 	color: #fff;
 	border: solid 1px #fff;
 }
 /* 加入购物车按钮 */
-#addCar{
+.addCar{
 	padding-left: 30px;
 	font-size: 14px;
 	width: 60%;
@@ -242,7 +242,7 @@ ul.menu_r li a:hover, ul.menu_r li a.now{
 	background-size: 130px;
 	background-position: -10px -4px;
 }
-#addCar:hover{
+.addCar:hover{
 	border: 1px solid #fff;
 	cursor: pointer;
 }
