@@ -1,143 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
-	<link type="text/css" rel="stylesheet" href="/static/css/cart.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/cart.css"/>
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
     <title>优品购物</title>
 </head>
 <body>
-    {# 导航栏 #}
-    <div class="shortcut">
-        <div class="wrapper clearfix">
-            <ul class="fr">
-                {% if customerName %}
-                    <li><a href="#">你好，{{ customerName }}</a></li>
-                    <li><a href="{% url 'logout' %}">退出登录</a></li>
-                    <li><a href="#">我的订单</a></li>
-                    <li><a href="{% url 'shopping_cart' customerID %}"></a></li>
-                {% elif sellerName %}
-                    <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
-                    <li><a href="{% url 'logout' %}">退出登录</a></li>
-                    <li><a href="{% url 'goods_management' sellerID %}">商品管理</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">你好，请登录</a></li>
-                    <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
-                {% endif %}
-                <li><a href="#">帮助中心</a></li>
-            </ul>
+{# 导航栏 #}
+<div class="shortcut">
+    <div class="wrapper clearfix">
+        <ul class="fr">
+            {% if customerName %}
+                <li><a href="#">你好，{{ customerName }}</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
+            {% elif sellerName %}
+                <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="{% url 'goods_management' sellerID %}">商品管理</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">你好，请登录</a></li>
+                <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
+            {% endif %}
+            <li><a href="{% url 'index' %}">返回主页</a></li>
+            <li><a href="#">帮助中心</a></li>
+        </ul>
+    </div>
+</div>
+
+{# 购物车列表 #}
+<div>
+    <!--<form action="" method="post"> 不使用表单的原因是，不能内部提交，不能在表单内部提交一个post请求-->
+        {#{% csrf_token %}#} <!--暂时先注释掉-->
+        <div class="cart_listbox">
+            <table width="100%">
+                <thead>
+                <tr>
+                    <th width='10%'>
+                        <input name="allCheckbox" type="checkbox" id="all"
+                               style="margin-top: 20px; margin-left: 10px;width: 24px; height: 24px;"
+                               onclick="allCheck('allCheckbox','checkItem')">
+                    </th>
+                    <th width='10%'>商品名称</th>
+                    <th width='20%'>商品缩略图</th>
+                    <th width='10%'>商品单价</th>
+                    <th width='20%'>商品数量</th>
+                    <th width='20%'>商品小计</th>
+                    <th width='20%'>操作</th>
+                </tr>
+                </thead>
+                <tbody id="j_tb">
+                {% for intendedGoods in intendedGoodsList %}
+                    {% with goods=intendedGoods.goodsID %}
+                        <tr>
+                            {# 选择框 #}
+                            <td width="10%">
+                                <input class="checkItem" name="name_{{ goods.goodsID }}" value="{{ intendedGoods.id }}"
+                                       type="checkbox"
+                                       style="margin-left: 60px; width: 24px; height: 24px;">
+                            </td>
+
+                            {# 商品名称 #}
+                            <td><a href="#">{{ goods.goodsName }}</a></td>
+
+                            {# 缩略图 #}
+                            <td><a href="#"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"/></a>
+                            </td>
+                            {# 单 价 #}
+                            <td>￥{{ goods.goodsPrice }}元</td>
+                            {# 商品数量 #}
+                            <td>
+                                <button class="btn1" formaction="">-</button>
+                                <span class="text1">{{ intendedGoods.quantity }}</span>
+                                <button class="btn1" formaction="">+</button>
+                            </td>
+                            {# 计算总价格 #}
+                            <td>￥<span class="the_price">{% widthratio intendedGoods.quantity 1 goods.goodsPrice %}</span></td>
+                            <td>
+                                <button id="delete_{{ intendedGoods.id }}" class="deleteFromCart">删除</button>
+                            </td>
+                        </tr>
+                    {% endwith %}
+                {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center;">购物车空空如也~~，请快去购物吧！</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="goon">
+            <div class="clearcart">
+                <button id="deleteCartAll" class="clearbtn">清空购物车</button>
+            </div>
+
+            <div class="totalprice" id="totalPrice">
+                总计0元 <!--根据有没有选中来异步请求计算总价，这里不会了-->
+            </div>
+
+            <div class="confirm_order">
+                <input id="buyFromCart" type="submit" value="立即下单" class="orderbtn"/>
+            </div>
+        </div>
+</div>
+
+{% if msg %}
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
+    <div id="popBox">
+        <div>{{ msg }}</div>
+        <div class="close">
+            <button onclick="closePopBox()">确定</button>
         </div>
     </div>
-
-    {# 购物车列表 #}
-    <div>
-    <form action="" method="post">
-            {% csrf_token %}
-            <div class="cart_listbox">
-                <table width="100%" >
-                    <thead>
-                    <tr>
-                        {# 全选框 #}
-                        <th width='10%'>
-                            <input name = "allcheckbox" type="checkbox" id="all"
-                                   style="margin-top: 20px; margin-left: 10px;width: 24px; height: 24px;"
-                                   onclick="allCheck('allcheckbox','checkItem')">
-                        </th>
-                        <th width='10%'>商品名称</th>
-                        <th width='20%'>商品缩略图</th>
-                        <th width='10%'>商品单价</th>
-                        <th width='20%'>商品数量</th>
-                        <th width='20%'>商品小计</th>
-                        <th width='20%'>操作</th>
-                    </tr>
-                    </thead>
-                
-                    <tbody id="j_tb">
-
-                    {% if intendedGoodsList %}
-                        {% for intendedGood in intendedGoodsList %}
-                            {% with goods=intendedGood.goodsID %}
-                            <tr>
-                                {# 选择框 #}
-                                <td width = "10%">
-                                    <input class = "checkItem" name="name_{{ goods.goodsID }}" value="{{ goods.goodsID }}" type="checkbox"
-                                           style="margin-left: 60px; width: 24px; height: 24px;">
-                                </td>
-
-                                {# 商品名称 #}
-                                <td><a href="#">{{ goods.goodsName }}</a></td>
-
-                                {# 缩略图 #}
-                                <td><a href="#"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"/></a></td>
-
-                                {# 单 价 #}
-                                <td>￥{{ goods.goodsPrice }}元</td>
-
-                                {# 商品数量 #}
-                                <td>
-                                    <input type="submit" name="-" value="-" class="btn1" formaction=""/>
-                                    <input type="text" value="{{ intendedGood.quantity }}" name="count" class="text1" width="10%"/>
-                                    <input type="submit" name="+" value="+" class="btn1" formaction=""/>
-                                </td>
-
-                                {# 计算总价格 #}
-                                <td>￥{%  widthratio intendedGood.quantity 1 goods.goodsPrice %} </td>
-                                <td>
-                                    <a href="/buyer/delete_goods/{{ goods.goodsID }}/">删除</a>
-                                </td>
-
-                            </tr>
-                            {% endwith %}
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td colspan="6" style="text-align: center;">购物车空空如也~~，请快去购物吧！</td>
-                        </tr>
-                    {% endif %}
-                    </tbody>
-                </table>
-            </div>
-
-            {% comment '地址在订单处确认的话便无需此项' %}
-            <div class="shouhuo">
-                <span class="shouhuo_top">收货信息</span>
-                <label>收货地址:</label>
-               <input type='text'/>
-            </div>
-            {% endcomment %}
-
-
-            <div class="goon">
-                <div class="clearcart">
-                    <a href="/buyer/clear_goods/" class="clearbtn">清空购物车</a>
-                </div>
-
-                <div class="totalprice">
-                    总计100元 <!--根据有没有选中来异步请求计算总价，这里不会了-->
-                </div>
-
-                <div class="confirm_order">
-                    <input type="submit" value="立即下单" class="orderbtn"/>
-                </div>
-            </div>
-
-        </form>
-    </div>
-
-    <script>
-        function allCheck(allBox,itemBox) {
-
-        	if($("input[name="+allBox+"]").prop("checked"))
-        	{
-        		$("input[class=" + itemBox + "]").prop("checked",true);
-        	}
-        	else
-        	{
-        		$("input[class=" + itemBox + "]").prop("checked",false);
-        	}
+    <script type="text/javascript">
+        function openPopBox() {
+            document.getElementById("popBox").style.display = "block";
         }
+
+        // 关闭弹窗
+        function closePopBox() {
+            document.getElementById("popBox").style.display = "none";
+        }
+
+        openPopBox();
     </script>
+{% endif %}
+
 </body>
+
+<script>
+
+    $('.checkItem').click(function(){
+        // 异步计算
+        let check_item_list = document.querySelectorAll('.checkItem');
+        let total_price = 0;
+        for(let i = 0;i !== check_item_list.length;++i){
+            const node = check_item_list[i];
+            if(node.checked === true){
+                const node_tr = node.parentNode.parentNode;
+                const node_the_price = node_tr.querySelector('.the_price');
+                const node_price = parseFloat(node_the_price.innerText);
+                total_price += node_price;
+            }
+        }
+        $('#totalPrice').text('总计' +total_price + '元');
+    })
+    $('#buyFromCart').click(function(){
+
+        let check_item_list = document.querySelectorAll('.checkItem');
+        let intendedGoodsArray = []
+        for(let i = 0;i!== check_item_list.length;++i){
+            const node = check_item_list[i];
+            if(node.checked===true){
+                intendedGoodsArray.push(node.value);
+            }
+        }
+        if(intendedGoodsArray.length === 0){
+
+        }
+        else{
+            let post_data = {
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                'behavior': 'buy',
+                'intendedGoodsArray':intendedGoodsArray,
+                'shipToAddress':'', //此处缺少一个收货地址
+            }
+           // jsPost('',post_data); 数据的传输是没问题的，已经测试过了，但是这里还是要阻止发送，防止对数据库造成意外。
+        }
+    })
+
+    $('#deleteCartAll').click(function(){
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior':'deleteCartAll',
+
+        }
+        jsPost('', post_data)
+    })
+
+    $('.deleteFromCart').click(function(){
+        let now_id = this.id;
+        let intended_goods_id = now_id.substring(now_id.indexOf('_') + 1);
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior':'delete',
+            'intendedGoodsId': intended_goods_id,
+
+        }
+        jsPost('', post_data);
+    })
+
+
+    function allCheck(allBox, itemBox) {
+
+        if ($("input[name=" + allBox + "]").prop("checked")) {
+            $("input[class=" + itemBox + "]").prop("checked", true);
+        } else {
+            $("input[class=" + itemBox + "]").prop("checked", false);
+        }
+    }
+</script>
 </html>

@@ -20,7 +20,7 @@
             {% if customerName %}
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'order' customerID %}">我的订单</a></li>
                 <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
@@ -129,31 +129,37 @@
         <!-- 商品评价 -->
         <div class="goodComment"><span>{{ goods.comment_set.count }}</span>评价</div>
         <div class="resultBtn" id="goods_{{ goods.goodsID }}">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
+            <div id="buy" class="buy">购买</div>
+            <div id="addCar" class="addCar"></div>
         </div>
     </div>
+    {% empty %}
+        <p>空空如也</p>
     {% endfor %}
 
-    <div class="result">
-        <!-- 商品图片 -->
-        <div class="goodImage">
-            <a href="#"><img src="/static/picture/fre_1.jpg"></a>
-        </div>
-        <!-- 商品价格 -->
-        <div class="goodPrice">￥99</div>
-        <!-- 商品名称（描述） -->
-        <div class="goodName">
-            <a href="#" title="参考用：大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达">大闸蟹&nbsp;阳澄湖大闸蟹新鲜美味让你享受舌尖上的中国，优品商城冷链直达</a>
-        </div>
-        <!-- 商品评价 -->
-        <div class="goodComment"><span>1万+</span>评价</div>
-        <div class="resultBtn">
-            <div id="buy">购买</div>
-            <div id="addCar"></div>
+</div>
+
+{% if msg %}
+    <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
+    <div id="popBox">
+        <div>{{ msg }}</div>
+        <div class="close">
+            <button onclick="closePopBox()">确定</button>
         </div>
     </div>
-</div>
+    <script type="text/javascript">
+        function openPopBox(){
+        document.getElementById("popBox").style.display = "block";
+        }
+    // 关闭弹窗
+	    function closePopBox()
+	    {
+	        document.getElementById("popBox").style.display="none";
+	    }
+        openPopBox();
+    </script>
+{% endif %}
+
 </body>
 
     <script>
@@ -164,6 +170,7 @@
         obj_keyword.click(function(){
             this.select();
         })
+
         $('#search').click(function(){
             let keyword = obj_keyword.val();
             if(keyword === '' ) {
@@ -174,7 +181,17 @@
             return false;
         })
 
-        $('#addCar').click(function(){
+        $('.buy').click(function(){
+            let now_id = this.parentNode.id;
+            let goods_id = now_id.substring(now_id.indexOf('_') + 1);
+            let post_data = {
+                csrfmiddlewaretoken : '{{ csrf_token }}',
+                'behavior':'buy',
+                'goodsId': goods_id,
+            }
+            // jsPost('', post_data);
+        })
+        $('.addCar').click(function(){
             let now_id = this.parentNode.id;
             let goods_id = now_id.substring(now_id.indexOf('_') + 1);
             let post_data = {

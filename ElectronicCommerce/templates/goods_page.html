@@ -18,7 +18,8 @@
             {% if customerName %}
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'order' customerID %}">我的订单</a></li>
+                <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
@@ -27,11 +28,7 @@
                 <li><a href="{% url 'login' %}">你好，请登录</a></li>
                 <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
             {% endif %}
-            <li><a href="#">我的订单</a></li>
-            <li><a href="#">会员中心</a></li>
             <li><a href="#">帮助中心</a></li>
-            <li><a href="#">在线客服</a></li>
-            <li><a href="#"><span></span>手机版</a></li>
         </ul>
     </div>
 </div>

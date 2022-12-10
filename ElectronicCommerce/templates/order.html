@@ -2,9 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>优品购物</title>
+    <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
+    <link type='text/css' rel='stylesheet' href='/static/css/base.css'/>
+    <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jsPost.js"></script>
+    <!--     <script type='text/javascript' src='/static/js/order.js'></script>  -->
 </head>
 <body>
+{# 得改databaseApi 231行的customer_customerID为customerID_customerID #}
+{# 改成 customerID 就能跑了#}
+{# 之前写的databaseApi不好，跨关系查询可能都要像这样改一改 #}
+
+<div class="shortcut">
+    <div class="wrapper clearfix">
+        <ul class="fr">
+            {% if customer %}
+                <li><a href="#">你好，{{ customer.customerName }}</a></li>
+                <li><a href="{% url 'logout' %}">退出登录</a></li>
+                <li><a href="{% url 'shopping_cart' customer.customerID %}">购物车</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">你好，请登录</a></li>
+                <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
+            {% endif %}
+            <li><a href="#">帮助中心</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class='orderlist'>
+    <table>
+        <thead>
+        <tr>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>实付款</th>
+            <th>收货地址</th>
+            <th>交易操作</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for order in orderList %}
+            <tr>
+                <td>{{ order.createTime }}</td>
+                {# 订单创建日期 #}
+                <td>{{ order.orderID }}</td>
+                <td>{{ order.customerName }}</td>
+                {# 商家名 #}
+            </tr>
+            <tr>
+                <td>{{ order.goodsName }}</td>
+                <td>￥{{ order.amount }}</td>
+                <td>{{ order.goodsQuantity }}</td>
+                <td>￥{{ order.amount }}</td>
+                <td>{{ order.amount }}</td>
+                <td>
+                    <button class="cancel" name='cancelButton' id="cancel_{{ order.orderID }}">取消订单</button>
+
+                    <button class="confirm" id="confirm_{{ order.orderID }}">确认收货</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 </body>
+<script>
+    $('.cancel').click(function () {
+        let order_id = this.id.substring(this.id.indexOf('_') + 1);
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior': 'cancel',
+            'orderId': order_id,
+        }
+        jsPost('', post_data)
+    })
+    $('.confirm').click(function () {
+        let order_id = this.id.substring(this.id.indexOf('_') + 1);
+        let post_data = {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'behavior': 'confirm',
+            'orderId': order_id,
+        }
+        jsPost('', post_data)
+    })
+</script>
 </html>

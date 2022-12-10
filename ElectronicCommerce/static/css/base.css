@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 body{
-	margin:0; padding:0; font-size:12px; font-family:"Microsoft YaHei"; line-height:25px; color:#555555;
+	margin:0; padding:0; font-size:12px; font-family:"Microsoft YaHei", serif; line-height:25px; color:#555555;
 }
 div,table{
 	margin:0 auto;
@@ -19,7 +19,9 @@ img{
 ul,li,dl,dt,dd{
 	list-style:none; margin:0; padding:0;
 }
-input,io,select,checkbox{
+
+/*input, io, select, checkbox */
+input,select{
 	vertical-align:middle;
 }
 h1,h2,h3,h4,h5,h6{
@@ -173,7 +175,7 @@ form{
 	width:100%; min-width:1200px; overflow:hidden; padding:30px 0 40px 0; border-top:1px solid #eaeaea;
 }
 .btm{
-	width:1200px; overflow:hidden; color:#999999; font-family:"宋体"; text-align:center;
+	width:1200px; overflow:hidden; color:#999999; font-family:"宋体", serif; text-align:center;
 }
 .btm a{
 	color:#999999;

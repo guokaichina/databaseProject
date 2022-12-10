@@ -217,18 +217,18 @@ def show_intended_goods(customer_id):
         return intended_goods_querylist
 
 
-def delete_intended_goods(customer_id, goods_id):
+def delete_intended_goods(intended_goods_id):
     try:
-        intended_goods = IntendedGoods.objects.filter(goods__goodsID=goods_id, customer__customerID=customer_id)
+        intended_goods = IntendedGoods.objects.get(pk=intended_goods_id)
     except django.core.exceptions:
         return
     else:
-        intended_goods.get().delete()
+        intended_goods.delete()
 
 
 def show_order(customer_id):
     try:
-        order_query_set = Order.objects.filter(customer__customerID=customer_id).order_by('-orderID')
+        order_query_set = Order.objects.filter(customerID=customer_id).order_by('-orderID')
     except django.core.exceptions:
         return
     else:

@@ -20,7 +20,7 @@
             {% if customerName %}
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="{% url 'order' customerID %}">我的订单</a></li>
                 <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
@@ -1121,9 +1121,4 @@
 </div>
 
 </body>
-
-
-<!--[if IE 6]>
-<script src="Scripts/zh_cn.js"></script>
-<![endif]-->
 </html>

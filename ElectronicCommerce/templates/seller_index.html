@@ -115,7 +115,7 @@
         }
 
         .se_right .ri_top {
-            height: 114px;
+            height: 125px;
             background-color: rgb(248, 184, 184);
             vertical-align: top;
         }
@@ -319,6 +319,20 @@
 
         /* End 上架新商品 End */
 
+        /* begin 发货地址 begin */
+        #sourAddress{
+            margin-left: 130px;
+            display: block;
+            background: none;
+            border: none;
+            width: 550px;
+        }
+        #sourAddress:focus{
+            border: none;
+            outline: 1px solid #000;
+            background-color: #fff;
+        }
+        /* End 发货地址 End */
 
         #pop_loginOut {
             display: none;
@@ -438,6 +452,7 @@
                 <div>本月销售情况不错哦，继续加油</div>
             </div>
             <div class="m_notice">抢首页推送优惠券，推送至首页，好处多多</div>
+            <input type="text" onblur="changeSourAddress(this)" name="sourAddress" id="sourAddress" value="{{ shippingAddress }}"/>
         </div>
         <!-- 列表区：展示商家的商品列表 -->
         <div class="my_goodsList">
@@ -595,6 +610,11 @@
 <script>
     // 弹窗处理
     // 确定点击的商品是什么
+    let obj_sourAddress = document.getElementById('sourAddress');
+    if(obj_sourAddress.value === ''){
+        obj_sourAddress.value = '请在此处填写收货地址'
+    }
+
     let click_id = 0;
     $('button.drop').click(function () {
         click_id = this.id;
@@ -752,6 +772,23 @@
     // 关闭弹窗
     function closePopBox() {document.getElementById("popBox").style.display = "none";}
 
+    function changeSourAddress(obj){
+        let shippingAddress = obj.value;
+        if(obj.value === '请在此处填写收货地址')
+            return;
+        let ajaxSettings = {
+            url: '',
+            type: 'POST',
+            data:{
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                'behavior':'address',
+                'shippingAddress': shippingAddress,
+            },
+        }
+        $.ajax(ajaxSettings).done(function(args){
+            obj.value = args;
+        })
+    }
 
 </script>
 </html>

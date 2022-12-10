@@ -104,6 +104,7 @@ class Order(models.Model):
     createTime = models.DateTimeField(
         auto_now=False, auto_now_add=True)  # 创建时间
     shipToAddress = models.CharField(max_length=80)  # 收货地址
+    receivingStatus = models.BooleanField(default=False)  # 收货状态 True为已收货， False为未收货
     customerID = models.ForeignKey(
         'Customer',
         on_delete=models.CASCADE,

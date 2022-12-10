@@ -129,14 +129,27 @@ def shopping_cart(request, customer_id):
     login_message(request, context)
     if request.method == 'POST':  # jsPost
         if request.POST['behavior'] == 'delete':
-            goods_id = int(request.POST['goodsId'])
-            databaseApi.delete_intended_goods(customer_id, goods_id)
-            return HttpResponseRedirect(reverse('shopping_cart', args=(login_id, )))
+            intended_goods_id = int(request.POST['intendedGoodsId'])
+            databaseApi.delete_intended_goods(intended_goods_id)
+            context['msg'] = '删除成功'
+        elif request.POST['behavior'] == 'deleteCartAll':
+            models.IntendedGoods.objects.filter(customerID=customer_id).delete()
+            context['msg'] = '清空购物车成功'
+        elif request.POST['behavior'] == 'buy':
+            ship_to_address = request.POST['shipToAddress']
+            intended_goods_array = request.POST['intendedGoodsArray'].split(',')
+            for intended_goods_id in intended_goods_array:
+                intended_goods = models.IntendedGoods.objects.get(pk=int(intended_goods_id))
+                goods_id = intended_goods.goodsID
+                quantity = intended_goods.quantity
+                databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
+                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
         elif request.POST['behavior']:  # buy
+            intended_goods_id = int(request.POST['intendedGoodsId'])
             goods_id = int(request.POST['goodsId'])
             quantity = request.POST['quantity']
             ship_to_address = request.POST['shipToAddress']
-            databaseApi.delete_intended_goods(customer_id, goods_id)
+            databaseApi.delete_intended_goods(intended_goods_id)
             order_id = databaseApi.create_order(customer_id, goods_id, quantity, ship_to_address)
             return HttpResponseRedirect(reverse('order', args=(order_id,)))
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
@@ -145,26 +158,21 @@ def shopping_cart(request, customer_id):
 
 
 def order(request, customer_id):
-    login_id = request.session.get('customer_id')
+    login_id = request.session.get('customer_id')  # 登录检测
     if login_id != customer_id:
         return HttpResponseRedirect('login')
-    if request.method == 'POST':  # ajax?
+    customer = models.Customer.objects.get(pk=customer_id)
+    context = {'customer': customer}
+    if request.method == 'POST':
         if request.POST['behavior'] == 'cancel':
             order_id = request.POST['order_id']
             if databaseApi.cancel_order(order_id):
-                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+                context['msg'] = '删除成功'
             else:
-                return HttpResponseRedirect(reverse('order', args=(customer_id, )))
+                context['msg'] = '删除失败'
     order_list = databaseApi.show_order(customer_id)
-    return render(request, 'order.html', {'orderList': order_list})
-
-
-def order_message(request, customer_id, order_id):
-    login_id = request.session.get('customer_id')
-    if login_id != customer_id:
-        return HttpResponseRedirect('login')
-    order_info = models.Order.objects.get(pk=order_id)
-    return render(request, 'order_message.html', {'order': order_info})
+    context['orderList'] = order_list
+    return render(request, 'order.html', context)
 
 
 def seller_index(request, seller_id):
@@ -192,9 +200,16 @@ def seller_index(request, seller_id):
             goods.goodsPrice = goods_price
             goods.save()
             context['msg'] = '改变成功'
+        elif request.POST['behavior'] == 'address':  # ajax
+            shipping_address = request.POST['shippingAddress']
+            seller = models.Seller.objects.get(pk=seller_id)
+            seller.shippingAddress = shipping_address
+            seller.save()
+            return HttpResponse(shipping_address)
     obj_seller = models.Seller.objects.get(pk=seller_id)
     goods_management_list = databaseApi.show_goods_for_management(seller_id)
     context.update({'sellerId': seller_id, 'sellerName': obj_seller.sellerName,
+                    'shippingAddress': obj_seller.shippingAddress,
                     'goodsManagementList': goods_management_list})
     return render(request, 'seller_index.html', context)
 
