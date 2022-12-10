@@ -274,7 +274,9 @@ def login_message(request, context):
         obj_customer = models.Customer.objects.get(pk=request.session['customer_id'])
         context['customerName'] = obj_customer.customerName
         context['customerID'] = obj_customer.customerID
+        context['customer'] = obj_customer
     elif request.session.get('seller_id'):
         obj_seller = models.Seller.objects.get(pk=request.session['seller_id'])
         context['sellerName'] = obj_seller.sellerName
         context['sellerID'] = obj_seller.sellerID
+        

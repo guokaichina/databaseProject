@@ -3,19 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElectronicCommerce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElectronicCommerce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetworkingMall/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/customer.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/goods_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/order_message.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/seller_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/seller_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/shopping_cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shopping_cart.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +147,7 @@
       <workItem from="1670600041424" duration="5772000" />
       <workItem from="1670636819947" duration="2889000" />
       <workItem from="1670639758314" duration="8066000" />
-      <workItem from="1670654358820" duration="11530000" />
+      <workItem from="1670654358820" duration="12445000" />
     </task>
     <servers />
   </component>
