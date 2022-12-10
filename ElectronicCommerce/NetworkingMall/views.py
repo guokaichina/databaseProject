@@ -118,6 +118,8 @@ def goods_page(request, goods_id):
     context['goods'] = goods
     context['commentList'] = comment_list
     context['goodsPhoto'] = goods_photo
+    if request.session.get('shipToAddress'):
+        context['shipToAddress'] = request.session['shipToAddress']
     return render(request, 'goods_page.html', context)
 
 
@@ -168,6 +170,8 @@ def shopping_cart(request, customer_id):
             return HttpResponse(intended_goods.quantity)
     intended_goods_list = databaseApi.show_intended_goods(customer_id)
     context['intendedGoodsList'] = intended_goods_list
+    if request.session.get('shipToAddress'):
+        context['shipToAddress'] = request.session['shipToAddress']
     return render(request, 'shopping_cart.html', context)
 
 
