@@ -1,128 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/css/search.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/css/popBuy.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/base.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/search.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/popBuy.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
+
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
     <script type="text/javascript" src="/static/js/popBuy.js"></script>
     <script type="text/javascript" src="/static/js/popBox.js"></script>
 
     <title>优品购物</title>
-    <meta name="keywords" content="橙色购物网站"/>
-    <meta name="description" content="橙色的网上购物"/>
+
 </head>
+
 <body>
-<!--Begin Header Begin-->
-<!-- 快捷导航栏 -->
-<div class="shortcut">
-    <div class="wrapper clearfix">
-        <ul class="fr">
-            {% if customerName %}
+    <!--Begin Header Begin-->
+    <!-- 快捷导航栏 -->
+    <div class="shortcut">
+        <div class="wrapper clearfix">
+            <ul class="fr">
+                {% if customerName %}
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
                 <li><a href="{% url 'order' customerID %}">我的订单</a></li>
                 <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
-            {% elif sellerName %}
+                {% elif sellerName %}
                 <li><a href="{% url 'seller_index' sellerID %}">商家{{ sellerName }}你好</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
                 <li><a href="{% url 'seller_index' sellerID %}">商品管理</a></li>
-            {% else %}
+                {% else %}
                 <li><a href="{% url 'login' %}">你好，请登录</a></li>
                 <li><a href="{% url 'register' %}" id="reg_Btn">免费注册</a></li>
-            {% endif %}
-            <li><a href="#">会员中心</a></li>
-            <li><a href="#">帮助中心</a></li>
-            <li><a href="#">在线客服</a></li>
-            <li><a href="#"><span></span>手机版</a></li>
-        </ul>
-    </div>
-</div>
-<div class="header">
-    <div class="top">
-        <!-- logo,改成自己的 -->
-        <div class="logo"><a href="{% url 'index' %}"><img src="/static/picture/logo.png"/></a></div>
-        <!-- 搜索框 -->
-        <div class="search">
-            <form>
-                <!-- 输入搜索的关键词 -->
-                <label for="keyword"></label><input type="text" value="" class="s_ipt" id="keyword"/>
-                <!-- 点击搜索  -->
-                <input type="submit" value="搜索" class="s_btn" id="search"/>
-            </form>
-            <div id="searchResult" class="searchResult">搜索结果</div>
+                {% endif %}
+                <li><a href="#">会员中心</a></li>
+                <li><a href="#">帮助中心</a></li>
+            </ul>
         </div>
-        <div class="i_car">
-            <div class="car_t">购物车 [ <span>3</span> ]</div>
-            <div class="car_bg">
-                <!--Begin 购物车未登录 Begin-->
-                <div class="un_login">还未登录！<a href="login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
-                <!--End 购物车未登录 End-->
-                <!--Begin 购物车已登录 Begin-->
-                <ul class="cars">
-                    <li>
-                        <div class="img"><a href="#"><img src="/static/picture/car1.jpg" width="58" height="58"/></a>
-                        </div>
-                        <div class="name"><a href="#">法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只</a></div>
-                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
-                    </li>
-                    <li>
-                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58"/></a>
-                        </div>
-                        <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
-                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
-                    </li>
-                    <li>
-                        <div class="img"><a href="#"><img src="/static/picture/car2.jpg" width="58" height="58"/></a>
-                        </div>
-                        <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
-                        <div class="price"><span style="color:#ff4e00;">￥399</span> X1</div>
-                    </li>
+    </div>
+    <div class="header">
+        <div class="top">
+            <!-- logo,改成自己的 -->
+            <div class="logo"><a href="{% url 'index' %}"><img src="/static/picture/logo.png" /></a></div>
+            <!-- 搜索框 -->
+            <div class="search">
+                <form>
+                    <!-- 输入搜索的关键词 -->
+                    <label for="keyword"></label><input type="text" value="" class="s_ipt" id="keyword" />
+                    <!-- 点击搜索  -->
+                    <input type="submit" value="搜索" class="s_btn" id="search" />
+                </form>
+                <div id="searchResult" class="searchResult">搜索结果</div>
+            </div>
+            {%if sellerID%}
+            <div></div>
+            {%elif customerID%}
+            {% with intendList=customer.intendedgoods_set.all %}
+            <div class="i_car">
+                <div class="car_t">购物车 [ <span>{{ intendList|length }}</span> ]</div>
+                <div class="car_bg">
+                    <!--Begin 购物车已登录 Begin-->
+                    <ul class="cars">
+                        {% for intendedGood in intendList %}
+                        <li>
+                            <div class="img"><a href="#"><img
+                                        src="/static/picture/{{intendedGood.goodsID.photo_set.first.photoPath}}"
+                                        width="58" height="58" /></a></div>
+                            <div class="name"><a href="#">{{intendedGood.goodsID.goodsName}}</a></div>
+                            <div class="price">
+                                <font color="#ff4e00">￥{{intendedGood.goodsID.goodsPrice}}</font>
+                                X{{intendedGood.quantity}}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="price_a"><a href="{% url 'shopping_cart' customerID %}">去购物车结算</a></div>
+                    <!--End 购物车已登录 End-->
+                </div>
+            </div>
+            {% endwith %}
+            {% else %}
+            <div class="i_car">
+                <div class="car_t">购物车</div>
+                <div class="car_bg">
+                    <div class="un_login">
+                        还未登录！
+                        <a href="{% url 'login' %}" style="color:#ff4e00;">马上登录</a>
+                        查看购物车！
+                    </div>
+                </div>
+            </div>
+            {%endif%}
+        </div>
+        <!--Begin Menu Begin-->
+        <div class="menu_bg">
+            <div class="menu">
+                <ul class="menu_r">
+                    <li><a class="forSearchType">女装</a></li>
+                    <li><a class="forSearchType">男装</a></li>
+                    <li><a class="forSearchType">食品</a></li>
+                    <li><a class="forSearchType">医药</a></li>
+                    <li><a class="forSearchType">日用</a></li>
+                    <li><a class="forSearchType">电子</a></li>
+                    <li><a class="forSearchType">饰品</a></li>
+                    <li><a class="forSearchType">运动</a></li>
+                    <li><a class="forSearchType">图书</a></li>
+                    <li><a class="forSearchType">其它</a></li>
                 </ul>
-                <div class="price_sum">共计&nbsp;<span style="color:#ff4e00;">￥399</span><span>1058</span></div>
-                <div class="price_a"><a href="#">去购物车结算</a></div>
-                <!--End 购物车已登录 End-->
+                <div class="m_ad">元旦送好礼！</div>
             </div>
         </div>
-    </div>
-    <!--Begin Menu Begin-->
-    <div class="menu_bg">
-        <div class="menu">
-            <ul class="menu_r">
-                <li><a class="forSearchType">女装</a></li>
-                <li><a class="forSearchType">男装</a></li>
-                <li><a class="forSearchType">食品</a></li>
-                <li><a class="forSearchType">医药</a></li>
-                <li><a class="forSearchType">日用</a></li>
-                <li><a class="forSearchType">电子</a></li>
-                <li><a class="forSearchType">饰品</a></li>
-                <li><a class="forSearchType">运动</a></li>
-                <li><a class="forSearchType">图书</a></li>
-                <li><a class="forSearchType">其它</a></li>
-            </ul>
-            <div class="m_ad">中秋送好礼！</div>
-        </div>
-    </div>
-    <script>
-        {% if searchType %}
+        <script>
+            {% if searchType %}
             document.getElementById('searchResult').innerText += ',' + '{{ searchType }}' + '类';
-        {% endif %}
+            {% endif %}
 
-        $('a.forSearchType').click(function () {
-            let goodsType = this.innerText;
-            jsPost('', {'goodsType': goodsType, csrfmiddlewaretoken: '{{ csrf_token }}'})
-        })
-    </script>
-    <!--End Menu End-->
-</div>
-<!-- Begin 搜索结果展示 Begin -->
-<div class="showSearch">
-    <!-- 搜索出来的单个商品 -->
-    {% for goods in searchList %}
+            $('a.forSearchType').click(function () {
+                let goodsType = this.innerText;
+                jsPost('', { 'goodsType': goodsType, csrfmiddlewaretoken: '{{ csrf_token }}' })
+            })
+        </script>
+        <!--End Menu End-->
+    </div>
+    <!-- Begin 搜索结果展示 Begin -->
+    <div class="showSearch">
+        <!-- 搜索出来的单个商品 -->
+        {% for goods in searchList %}
         <div class="result">
             <!-- 商品图片 -->
             <div class="goodImage">
@@ -142,55 +150,57 @@
                 <div class="addCar"></div>
             </div>
         </div>
-    {% empty %}
+        {% empty %}
         <p>空空如也</p>
-    {% endfor %}
+        {% endfor %}
 
-</div>
-
-<div id="popBox">
-    <div id="msgContent"></div>
-    <div class="close">
-        <button onclick="closePopBox()">确定</button>
     </div>
-</div>
+
+    <div id="popBox">
+        <div id="msgContent"></div>
+        <div class="close">
+            <button onclick="closePopBox()">确定</button>
+        </div>
+    </div>
 
 
-<!-- 点击“购买”时，弹窗购买 -->
-<div class="popBuy" id="popBuy">
-    <div class="cancleBox" onclick="closePopBuy()"></div>
+    <!-- 点击“购买”时，弹窗购买 -->
+    <div class="popBuy" id="popBuy">
+        <div class="cancleBox" onclick="closePopBuy()"></div>
         <!-- 收货地址 -->
-        <div class="destAddresdd">
-            {% if shipToAddress %}
+        <div class="popcontent">
+            <div class="destAddresdd">
+                {% if shipToAddress %}
                 <span>*</span>收货地址
                 <input id="shipToAddress" type="text" placeholder="请输入收货地址" value="{{ shipToAddress }}">
-            {% else %}
+                {% else %}
                 <span>*</span>收货地址<input id="shipToAddress" type="text" placeholder="请输入收货地址">
-            {% endif %}
+                {% endif %}
+            </div>
+            <!-- 付款密码 -->
+            <div class="payPwd">
+                <span>*</span>付款密码<input id="password" type="text" name="" placeholder="请输入你的密码">
+            </div>
+            <!-- 付款按钮 -->
+            <div class="payBtn">
+                <button class = "paybtn"id="buyGoods">确认支付</button>
+            </div>
         </div>
-        <!-- 付款密码 -->
-        <div class="payPwd">
-            <span>*</span>付款密码<input id="password" type="text" name="" placeholder="请输入你的密码">
-        </div>
-        <!-- 付款按钮 -->
-        <div class="payBtn">
-            <button id="buyGoods">确认支付</button>
-        </div>
-</div>
-<!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
-<div id="hideBg2"></div>
+    </div>
+    <!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
+    <div id="hideBg2"></div>
 </body>
 <script>
     let click_id = 0;
     let objMsgContent = $('#msgContent');
     {% if msg %}
-        objMsgContent.text('{{ msg }}')
-        openPopBox();
+    objMsgContent.text('{{ msg }}')
+    openPopBox();
     {% endif %}
 
     let obj_keyword = $('#keyword')
     {% if keyword %}
-        obj_keyword.val('{{ keyword }}');
+    obj_keyword.val('{{ keyword }}');
     {% endif %}
     obj_keyword.click(function () {
         this.select();
@@ -211,7 +221,7 @@
         click_id = parseInt(now_id.substring(now_id.indexOf('_') + 1));
     })
 
-    $('#buyGoods').click(function(){
+    $('#buyGoods').click(function () {
         let shipToAddress = document.getElementById('shipToAddress').value;
         let password = document.getElementById('password').value;
         if (!shipToAddress.match(/^[\u4E00-\u9FA5a-zA-Z0-9_ ，,]{5,80}$/)) {
@@ -223,16 +233,16 @@
             closePopBuy();
             openPopBox();
         }
-        else{
+        else {
             let post_data = {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    'behavior': 'buy',
-                    'goodsId': click_id,
-                    'quantity': 1,
-                    'shipToAddress': shipToAddress,
-                    'password':password,
-                }
-                jsPost("", post_data);
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                'behavior': 'buy',
+                'goodsId': click_id,
+                'quantity': 1,
+                'shipToAddress': shipToAddress,
+                'password': password,
+            }
+            jsPost("", post_data);
         }
     })
 
@@ -249,4 +259,5 @@
 
 
 </script>
+
 </html>

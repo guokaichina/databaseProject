@@ -247,3 +247,42 @@ ul.menu_r li a:hover, ul.menu_r li a.now{
 	cursor: pointer;
 }
 
+.popcontent {
+	margin:50px;
+}
+.destAddresdd{
+	font-size:15px;
+	height:40px;
+	
+	padding:20px;
+	margin-left:100px;
+	margin-top:10px;
+	margin-bottom:20px;
+}
+
+.destAddresdd input {
+	height:30px;
+	
+}
+
+.payPwd {
+   font-size:15px;
+   height:20px;
+   margin-left:100px;
+   padding:20px;
+   margin-top:10px;
+   margin-bottom:40px;
+}
+
+.payPwd input {
+	height:30px;
+	
+}
+
+.paybtn {
+	width:80px;
+	height:30px;
+    border-radius: 5px;
+	background-color: rgb(255,136,33);
+	
+}
