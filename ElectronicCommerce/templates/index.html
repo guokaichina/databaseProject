@@ -37,11 +37,11 @@
 <div class="top">
     
     <div class="logo">
-        <a href="{% url 'index' %}"><img src="/static/picture/logo.png"/></a>
+        <a href="{% url 'index' %}"><img src="/static/picture/logo.png" alt=""/></a>
     </div>
     <div class="search">
         <form action="" method="get">
-            <input id="keyword" type="text" value="" class="s_ipt" name="keyword"/>
+            <label for="keyword"></label><input id="keyword" type="text" value="" class="s_ipt" name="keyword"/>
             <input id="search" type="submit" value="搜索" class="s_btn"/>
         </form>
         <script type="text/javascript">
@@ -72,10 +72,12 @@
             <ul class="cars">
                  {% for intendedGood in intendList %}
                 <li>
-                    <div class="img"><a href="#"><img src="/static/picture/{{intendedGood.goodsID.photo_set.first.photoPath}}" width="58" height="58"/></a></div>
+                    <div class="img"><a href="#"><img src="/static/picture/{{intendedGood.goodsID.photo_set.first.photoPath}}" width="58" height="58" alt=""/></a></div>
                     <div class="name"><a href="#">{{intendedGood.goodsID.goodsName}}</a></div>
                     <div class="price"><font color="#ff4e00">￥{{intendedGood.goodsID.goodsPrice}}</font> X{{intendedGood.quantity}}</div>
                 </li>
+                 {% empty %}
+                     <div>空空如也</div>
                 {% endfor %}
             </ul>
             <div class="price_a"><a href="{% url 'shopping_cart' customerID %}">去购物车结算</a></div>
@@ -108,61 +110,61 @@
                 <ul>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav1.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav1.png" alt=""/></span>
                             <span class="fl">食品</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav2.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav2.png" alt=""/></span>
                             <span class="fl">图书</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav3.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav3.png" alt=""/></span>
                             <span class="fl">医药</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav4.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav4.png" alt=""/></span>
                             <span class="fl">运动</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav5.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav5.png" alt=""/></span>
                             <span class="fl">日用</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav6.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav6.png" alt=""/></span>
                             <span class="fl">女装</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav7.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav7.png" alt=""/></span>
                             <span class="fl">饰品</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav8.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav8.png" alt=""/></span>
                             <span class="fl">男装</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav9.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav9.png" alt=""/></span>
                             <span class="fl">电子</span>
                         </div>
                     </li>
                     <li>
                         <div class="fj">
-                            <span class="n_img"><span></span><img src="/static/picture/nav10.png"/></span>
+                            <span class="n_img"><span></span><img src="/static/picture/nav10.png" alt=""/></span>
                             <span class="fl">其它</span>
                         </div>
                     </li>
@@ -178,18 +180,26 @@
 
         <!--End 商品分类详情 End-->
         <ul class="menu_r">
-            <li><a href="#">首页</a></li>
-            <li><a href="#">美食</a></li>
-            <li><a href="#">生鲜</a></li>
-            <li><a href="#">家居</a></li>
-            <li><a href="#">女装</a></li>
-            <li><a href="#">美妆</a></li>
-            <li><a href="#">数码</a></li>
-            <li><a href="#">团购</a></li>
+            <li><a class="forSearchType">女装</a></li>
+            <li><a class="forSearchType">男装</a></li>
+            <li><a class="forSearchType">食品</a></li>
+            <li><a class="forSearchType">医药</a></li>
+            <li><a class="forSearchType">日用</a></li>
+            <li><a class="forSearchType">电子</a></li>
+            <li><a class="forSearchType">饰品</a></li>
+            <li><a class="forSearchType">运动</a></li>
+            <li><a class="forSearchType">图书</a></li>
+            <li><a class="forSearchType">其它</a></li>
         </ul>
         <div class="m_ad">元旦送好礼！</div>
     </div>
 </div>
+    <script>
+        $('a.forSearchType').click(function(){
+            let goodsType = this.innerText;
+            jsPost('{% url 'search_nothing' %}', {'goodsType': goodsType, csrfmiddlewaretoken: '{{ csrf_token }}'});
+        })
+    </script>
 <!--End Menu End-->
 <div class="i_bg bg_color">
     <div class="i_ban_bg">
@@ -197,9 +207,9 @@
         <div class="banner">
             <div class="top_slide_wrap">
                 <ul class="slide_box bxslider">
-                    <li><img src="/static/picture/ban1.jpg" width="740" height="401"/></li>
-                    <li><img src="/static/picture/ban1.jpg" width="740" height="401"/></li>
-                    <li><img src="/static/picture/ban1.jpg" width="740" height="401"/></li>
+                    <li><img src="/static/picture/ban1.jpg" width="740" height="401" alt=""/></li>
+                    <li><img src="/static/picture/ban1.jpg" width="740" height="401" alt=""/></li>
+                    <li><img src="/static/picture/ban1.jpg" width="740" height="401" alt=""/></li>
                 </ul>
             </div>
         </div>
@@ -241,9 +251,9 @@
             <div class="fre_ban">
                 <div id="imgPlay1">
                     <ul class="imgs" id="actor1">
-                        <li><a href="#"><img src="/static/picture/fre_r.jpg" width="211" height="286"/></a></li>
-                        <li><a href="#"><img src="/static/picture/fre_r.jpg" width="211" height="286"/></a></li>
-                        <li><a href="#"><img src="/static/picture/fre_r.jpg" width="211" height="286"/></a></li>
+                        <li><a href="#"><img src="/static/picture/fre_r.jpg" width="211" height="286" alt=""/></a></li>
+                        <li><a href="#"><img src="/static/picture/fre_r.jpg" width="211" height="286" alt=""/></a></li>
+                        <li><a href="#"><img src="/static/picture/fre_r.jpg" width="211" height="286" alt=""/></a></li>
                     </ul>
                 </div>
             </div>
@@ -262,7 +272,7 @@
                     <div class="price">
                         <font><span> &nbsp;&nbsp;&nbsp;￥{{data.goodsPrice}}</span></font> &nbsp; 
                     </div>
-                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155"/></a>
+                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155" alt=""/></a>
                     </div>
                 </li>
                 {% endfor %}       
@@ -270,8 +280,8 @@
         </div>
         <div class="fresh_right">
             <ul>
-                <li><a href="#"><img src="/static/picture/fre_b1.jpg" width="260" height="220"/></a></li>
-                <li><a href="#"><img src="/static/picture/fre_b2.jpg" width="260" height="220"/></a></li>
+                <li><a href="#"><img src="/static/picture/fre_b1.jpg" width="260" height="220" alt=""/></a></li>
+                <li><a href="#"><img src="/static/picture/fre_b2.jpg" width="260" height="220" alt=""/></a></li>
             </ul>
         </div>
     </div>
@@ -289,7 +299,7 @@
             <div class="food_ban">
                 <div id="imgPlay2">
                     <ul class="imgs" id="actor2">
-                        <li><a href="#"><img src="/static/picture/woman.jpg" width="211" height="286"/></a></li>
+                        <li><a href="#"><img src="/static/picture/woman.jpg" width="211" height="286" alt=""/></a></li>
                     </ul>
                 </div>
             </div>
@@ -312,7 +322,7 @@
                     </div>
                     <div class="img">
                         <a href="{% url 'goods' data.goodsID %}">
-                            <img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155"/>
+                            <img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155" alt=""/>
                         </a>
                     </div>
                 </li>
@@ -321,8 +331,8 @@
         </div>
         <div class="fresh_right">
             <ul>
-                <li><a href="#"><img src="/static/picture/woman_1.jpg" width="260" height="220"/></a></li>
-                <li><a href="#"><img src="/static/picture/women_2.jpg" width="260" height="220"/></a></li>
+                <li><a href="#"><img src="/static/picture/woman_1.jpg" width="260" height="220" alt=""/></a></li>
+                <li><a href="#"><img src="/static/picture/women_2.jpg" width="260" height="220" alt=""/></a></li>
             </ul>
         </div>
     </div>
@@ -339,7 +349,7 @@
             <div class="make_ban">
                 <div id="imgPlay3">
                     <ul class="imgs" id="actor3">
-                        <li><a href="#"><img src="/static/picture/man.jpg" width="211" height="286"/></a></li>
+                        <li><a href="#"><img src="/static/picture/man.jpg" width="211" height="286" alt=""/></a></li>
                        
                     </ul>
                 </div>
@@ -359,7 +369,7 @@
                     <div class="price">
                         <font><span> &nbsp;&nbsp;&nbsp;￥{{data.goodsPrice}}</span></font> &nbsp; 
                     </div>
-                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155"/></a>
+                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155" alt=""/></a>
                     </div>
                 </li>
                 {% endfor %}       
@@ -367,8 +377,8 @@
         </div>
         <div class="fresh_right">
             <ul>
-                <li><a href="#"><img src="/static/picture/man_1.jpg" width="260" height="220"/></a></li>
-                <li><a href="#"><img src="/static/picture/man_2.jpg" width="260" height="220"/></a></li>
+                <li><a href="#"><img src="/static/picture/man_1.jpg" width="260" height="220" alt=""/></a></li>
+                <li><a href="#"><img src="/static/picture/man_2.jpg" width="260" height="220" alt=""/></a></li>
             </ul>
         </div>
     </div>
@@ -387,7 +397,7 @@
             <div class="baby_ban">
                 <div id="imgPlay4">
                     <ul class="imgs" id="actor4">
-                        <li><a href="#"><img src="/static/picture/health.jpg" width="211" height="286"/></a></li>
+                        <li><a href="#"><img src="/static/picture/health.jpg" width="211" height="286" alt=""/></a></li>
 
                     </ul>
     
@@ -408,7 +418,7 @@
                     <div class="price">
                         <font><span> &nbsp;&nbsp;&nbsp;￥{{data.goodsPrice}}</span></font> &nbsp; 
                     </div>
-                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155"/></a>
+                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155" alt=""/></a>
                     </div>
                 </li>
                 {% endfor %}       
@@ -416,8 +426,8 @@
         </div>
         <div class="fresh_right">
             <ul>
-                <li><a href="#"><img src="/static/picture/health_1.jpg" width="260" height="220"/></a></li>
-                <li><a href="#"><img src="/static/picture/health_2.jpg" width="260" height="220"/></a></li>
+                <li><a href="#"><img src="/static/picture/health_1.jpg" width="260" height="220" alt=""/></a></li>
+                <li><a href="#"><img src="/static/picture/health_2.jpg" width="260" height="220" alt=""/></a></li>
             </ul>
         </div>
     </div>
@@ -434,9 +444,9 @@
             <div class="home_ban">
                 <div id="imgPlay5">
                     <ul class="imgs" id="actor5">
-                        <li><a href="#"><img src="/static/picture/home_r.jpg" width="211" height="286"/></a></li>
-                        <li><a href="#"><img src="/static/picture/home_r.jpg" width="211" height="286"/></a></li>
-                        <li><a href="#"><img src="/static/picture/home_r.jpg" width="211" height="286"/></a></li>
+                        <li><a href="#"><img src="/static/picture/home_r.jpg" width="211" height="286" alt=""/></a></li>
+                        <li><a href="#"><img src="/static/picture/home_r.jpg" width="211" height="286" alt=""/></a></li>
+                        <li><a href="#"><img src="/static/picture/home_r.jpg" width="211" height="286" alt=""/></a></li>
                     </ul>
                 </div>
             </div>
@@ -455,7 +465,7 @@
                     <div class="price">
                         <font><span> &nbsp;&nbsp;&nbsp;￥{{data.goodsPrice}}</span></font> &nbsp; 
                     </div>
-                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155"/></a>
+                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155" alt=""/></a>
                     </div>
                 </li>
                 {% endfor %}       
@@ -463,8 +473,8 @@
         </div>
         <div class="fresh_right">
             <ul>
-                <li><a href="#"><img src="/static/picture/home_b1.jpg" width="260" height="220"/></a></li>
-                <li><a href="#"><img src="/static/picture/home_b2.jpg" width="260" height="220"/></a></li>
+                <li><a href="#"><img src="/static/picture/home_b1.jpg" width="260" height="220" alt=""/></a></li>
+                <li><a href="#"><img src="/static/picture/home_b2.jpg" width="260" height="220" alt=""/></a></li>
             </ul>
         </div>
     </div>
@@ -482,9 +492,9 @@
             <div class="tel_ban">
                 <div id="imgPlay6">
                     <ul class="imgs" id="actor6">
-                        <li><a href="#"><img src="/static/picture/tel_r.jpg" width="211" height="286"/></a></li>
-                        <li><a href="#"><img src="/static/picture/tel_r.jpg" width="211" height="286"/></a></li>
-                        <li><a href="#"><img src="/static/picture/tel_r.jpg" width="211" height="286"/></a></li>
+                        <li><a href="#"><img src="/static/picture/tel_r.jpg" width="211" height="286" alt=""/></a></li>
+                        <li><a href="#"><img src="/static/picture/tel_r.jpg" width="211" height="286" alt=""/></a></li>
+                        <li><a href="#"><img src="/static/picture/tel_r.jpg" width="211" height="286" alt=""/></a></li>
                     </ul>
                 </div>
             </div>
@@ -503,7 +513,7 @@
                     <div class="price">
                         <font><span> &nbsp;&nbsp;&nbsp;￥{{data.goodsPrice}}</span></font> &nbsp; 
                     </div>
-                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155"/></a>
+                    <div class="img"><a href="{% url 'goods' data.goodsID %}"><img src="/static/picture/{{data.photo_set.first.photoPath}}" width="185" height="155" alt=""/></a>
                     </div>
                 </li>
                 {% endfor %}       
@@ -511,8 +521,8 @@
         </div>
         <div class="fresh_right">
             <ul>
-                <li><a href="#"><img src="/static/picture/tel_b1.jpg" width="260" height="220"/></a></li>
-                <li><a href="#"><img src="/static/picture/tel_b2.jpg" width="260" height="220"/></a></li>
+                <li><a href="#"><img src="/static/picture/tel_b1.jpg" width="260" height="220" alt=""/></a></li>
+                <li><a href="#"><img src="/static/picture/tel_b2.jpg" width="260" height="220" alt=""/></a></li>
             </ul>
         </div>
     </div>
@@ -524,28 +534,28 @@
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;"
                    cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="72"><img src="/static/picture/b1.png" width="62" height="62"/></td>
+                    <td width="72"><img src="/static/picture/b1.png" width="62" height="62" alt=""/></td>
                     <td><h2>正品保障</h2>正品行货 放心购买</td>
                 </tr>
             </table>
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;"
                    cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="72"><img src="/static/picture/b2.png" width="62" height="62"/></td>
+                    <td width="72"><img src="/static/picture/b2.png" width="62" height="62" alt=""/></td>
                     <td><h2>满额包邮</h2>满额包邮 免运费</td>
                 </tr>
             </table>
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;"
                    cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="72"><img src="/static/picture/b3.png" width="62" height="62"/></td>
+                    <td width="72"><img src="/static/picture/b3.png" width="62" height="62" alt=""/></td>
                     <td><h2>天天低价</h2>天天低价 畅选无忧</td>
                 </tr>
             </table>
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;"
                    cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="72"><img src="/static/picture/b4.png" width="62" height="62"/></td>
+                    <td width="72"><img src="/static/picture/b4.png" width="62" height="62" alt=""/></td>
                     <td><h2>准时送达</h2>收货时间由你做主</td>
                 </tr>
             </table>
@@ -589,12 +599,12 @@
         <div class="btm">
             Copyright © 2022-2023 优品购物 All Rights Reserved.复制必究,
             Technical Support: Group <br/>
-            <img src="/static/picture/b_1.gif" width="98" height="33"/><img src="/static/picture/b_2.gif" width="98"
-                                                                            height="33"/><img
-                src="/static/picture/b_3.gif" width="98" height="33"/><img src="/static/picture/b_4.gif" width="98"
-                                                                           height="33"/><img
-                src="/static/picture/b_5.gif" width="98" height="33"/><img src="/static/picture/b_6.gif" width="98"
-                                                                           height="33"/>
+            <img src="/static/picture/b_1.gif" width="98" height="33" alt=""/><img src="/static/picture/b_2.gif" width="98"
+                                                                            height="33" alt=""/><img
+                src="/static/picture/b_3.gif" width="98" height="33" alt=""/><img src="/static/picture/b_4.gif" width="98"
+                                                                           height="33" alt=""/><img
+                src="/static/picture/b_5.gif" width="98" height="33" alt=""/><img src="/static/picture/b_6.gif" width="98"
+                                                                           height="33" alt=""/>
         </div>
     </div>
     <!--End Footer End -->

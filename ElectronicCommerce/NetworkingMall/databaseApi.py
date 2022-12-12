@@ -116,14 +116,18 @@ def create_order(customer_id, goods_id, quantity, ship_to_address):
         return 0
 
 
-def create_comment(customer_id, goods_id, comment_text):
+def create_comment(customer_id, order_id, comment_text):
     # 向数据库中插入一条评论
     try:
+        the_order = Order.objects.get(pk=order_id)
+        goods_name = the_order.goodsName
+        goods = Goods.objects.get(goodsName=goods_name)
         customer = Customer.objects.get(customerID=customer_id)
-        goods = Goods.objects.get(goodsID=goods_id)
         Comment.objects.create(
             goodsID=goods, customerID=customer, comment=comment_text)
         return True
+    except Goods.DoesNotExist:
+        return False
     except django.core.exceptions:
         # print('添加评论失败')
         return False

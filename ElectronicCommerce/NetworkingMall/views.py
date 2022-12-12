@@ -184,7 +184,10 @@ def order(request, customer_id):
     if request.method == 'POST':
         order_id = int(request.POST['orderId'])
         if request.POST['behavior'] == 'cancel':
-            if databaseApi.cancel_order(order_id):
+            obj_order = models.Order.objects.get(pk=order_id)
+            if obj_order.receivingStatus:
+                context['msg'] = '失败，已收货的商品不能取消'
+            elif databaseApi.cancel_order(order_id):
                 context['msg'] = '删除成功'
             else:
                 context['msg'] = '删除失败，超过一天的订单不能取消，或商品已下架'
@@ -196,6 +199,12 @@ def order(request, customer_id):
                 context['msg'] = '确认收货'
             else:
                 context['msg'] = '此商品已确认收货'
+        elif request.POST['behavior'] == 'comment':
+            comment_content = request.POST['comment']
+            if databaseApi.create_comment(customer_id, order_id, comment_content):
+                context['msg'] = '添加评论成功'
+            else:
+                context['msg'] = '失败，商品可能下架'
     order_list = databaseApi.show_order(customer_id)
     context['orderList'] = order_list
     return render(request, 'order.html', context)
@@ -215,17 +224,13 @@ def seller_index(request, seller_id):
             os.remove(path)  # 删除对应图片
             databaseApi.delete_goods(goods_id)  # 由于完整性约束，删掉对应的图片
             context['msg'] = '删除成功'
-        elif request.POST['behavior'] == 'change':
+        elif request.POST['behavior'] == 'change':  # ajax
             goods_id = int(request.POST['goodsId'])
-            goods_name = request.POST['goodsName']
-            goods_stock = request.POST['goodsStock']
-            goods_price = request.POST['goodsPrice']
+            goods_stock = int(request.POST['goodsStock'])
             goods = models.Goods.objects.get(pk=goods_id)
-            goods.goodsName = goods_name
             goods.goodsStock = goods_stock
-            goods.goodsPrice = goods_price
             goods.save()
-            context['msg'] = '改变成功'
+            return HttpResponse(goods.goodsStock)
         elif request.POST['behavior'] == 'address':  # ajax
             shipping_address = request.POST['shippingAddress']
             seller = models.Seller.objects.get(pk=seller_id)

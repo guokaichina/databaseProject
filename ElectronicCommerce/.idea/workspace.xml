@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="8364cbce-7bd4-4715-af9a-de6a054148a0" name="Changes" comment="wrote">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/databaseApi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetworkingMall/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkingMall/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/goods_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/goods_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/seller_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/seller_index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,12 +64,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/images" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\static\images" />
       <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\templates" />
       <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\static\css" />
       <recent name="C:\Users\DELL\Git\database\databaseProject\ElectronicCommerce\static" />
@@ -151,6 +156,12 @@
       <workItem from="1670639758314" duration="8066000" />
       <workItem from="1670654358820" duration="26794000" />
       <workItem from="1670683141912" duration="8366000" />
+      <workItem from="1670691615488" duration="297000" />
+      <workItem from="1670732299334" duration="2018000" />
+      <workItem from="1670735900778" duration="10000" />
+      <workItem from="1670842638382" duration="683000" />
+      <workItem from="1670845461509" duration="1788000" />
+      <workItem from="1670850243422" duration="8672000" />
     </task>
     <servers />
   </component>

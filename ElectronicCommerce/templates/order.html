@@ -9,10 +9,163 @@
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
     <script type="text/javascript" src="/static/js/popBox.js"></script>
+    <style>
+        .bg{
+            height: 100vh;
+            background-color: rgb(241, 240, 240);
+        }
+        .orderBody{
+            position: fixed;
+            top: 62px;
+            margin-left: 35px;
+            width: 1460px;
+            background-color: #fff;
+        }
+        /* “订单/历史订单” 字样 */
+        .orderBody .des{
+            font-size: 21px;color: #000;margin-top:10px;
+        }
+        .orderBody .des::before{content:'';display: inline-block;vertical-align: middle;width: 30px;height: 30px;background:url(/static/images/order.png) no-repeat;background-size: 28px;}
+        .searchBox{
+            position: relative;
+            width: 1460px;
+            display: block;
+            background-color: #fff;
+        }
+        .searchBox span{
+            position: absolute;
+            top: 29px;
+            left: 87px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: url(/static/images/search.png) no-repeat;
+            background-size: 20px;
+        }
+        .searchBox input{position: absolute;top: 20px;left: 80px;padding-left: 32px;width: 220px;height: 40px;}
+        .searchBox input:hover{border: 2px solid #ff4e00;}
+        .searchBox input:active{outline: 2px solid #f00;}
+        .searchBox input:focus{outline: 2px solid #f00;}
+        .searchBox input::-webkit-input-placeholder {color: #aab2bd; font-size: 15px;}
+        .searchBox button{position: absolute;top: 20px;left: 320px;width: 100px;height: 40px;color: #fff;background-color:#f15822;border: none;}
+        .searchBox button:hover{background-color: #ff4e00;}
+        .searchBox button:active{background-color: #f00;}
+
+        .orderlist{
+            position: relative;
+            top: 70px;
+            width: 1460px;
+            height: 590px;
+            background-color: #fff;
+        }
+        .orderlist .orderHeader{
+            height: 50px;
+            border-bottom: 2px solid gainsboro;
+        }
+        .orderlist .orderHeader span{
+            /* margin: 0px; */
+            display: block;
+            float: left;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            font-weight: bold;
+            font-size: 15px;
+            /* border: 1px solid gainsboro; */
+        }
+        /* 头部：订单号单元格 */
+        .orderlist .orderHeader span:nth-child(1){width: 100px;}
+        /* 头部：创建时间单元格 */
+        .orderlist .orderHeader span:nth-child(2){width: 140px;}
+        /* 头部：商品名称单元格 */
+        .orderlist .orderHeader span:nth-child(3){width: 420px;}
+        /* 头部：数量单元格 */
+        .orderlist .orderHeader span:nth-child(4){width: 50px;}
+        /* 头部：实付款单元格 */
+        .orderlist .orderHeader span:nth-child(5){width: 80px;}
+        /* 头部：商家名称单元格 */
+        .orderlist .orderHeader span:nth-child(6){width: 150px;}
+        /* 头部：收货地址单元格 */
+        .orderlist .orderHeader span:nth-child(7){width: 300px;}
+        /* 头部：操作单元格 */
+        .orderlist .orderHeader span:nth-child(8){width: 219px;}
+
+        .orderlist .orderTable{
+            position: absolute;
+            top: 49px;
+            width: 100%;
+            height: 452px;
+            overflow: auto;
+        }
+        .orderTable table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .orderTable table td{height: 50px;border: 1px solid gainsboro;text-align: center;}
+        /* 订单号单元格 */
+        .orderTable table tr td:nth-child(1){width: 100px;}
+        /* 创建时间单元格 */
+        .orderTable table tr td:nth-child(2){width: 140px;}
+        /* 商品名称单元格 */
+        .orderTable table tr td:nth-child(3){width: 420px;}
+        /* 数量单元格 */
+        .orderTable table tr td:nth-child(4){width: 50px;}
+        /* ￥999单元格 */
+        .orderTable table tr td:nth-child(5){width: 80px;}
+        /* 商家名称单元格 */
+        .orderTable table tr td:nth-child(6){width: 150px;}
+        /* 收货地址单元格 */
+        .orderTable table tr td:nth-child(7){width: 300px;}
+        /* 操作单元格 */
+        .orderTable table tr td:nth-child(8){width: 203px;}
+
+        /* 操作：按钮的统一样式 */
+        .orderTable table tr td button{margin: 0 5px;color: #fff;border: none;border-radius: 3px;}
+        /* 操作：分别是：“删除”、“查看”和“添加评论”按钮 */
+        .deltBtn{background-color: #f56c6c;}
+        .deltBtn:hover{background-color: #ff4e00;}
+        .deltBtn:active{background-color: #f00;}
+        .showBtn{background-color:#409eff;}
+        .showBtn:hover{background-color:#2790f9;}
+        .showBtn:nth-child(2):active{background-color:#035bb4;}
+        .noBtn{background-color:#409eff;}
+        .noBtn:hover{background-color:#2790f9;}
+
+
+        .comBtn{background-color:rgb(1, 183, 1);}
+        .comBtn:hover{background-color:green;}
+        .comBtn:active{background-color:rgb(2, 95, 2);}
+        /* "见底了哦"字样 */
+        .warn{
+            height: 100px;text-align: center;margin-top: 20px;font-size: 15px;color: #f56c6c;
+        }
+        .warn::before{
+            content: '';
+            display: inline-block;
+            background: url(/static/images/emo.png);
+            background-position: -210px -177px;
+            background-size: 202px;
+            width: 40px;
+            height: 30px;
+        }
+
+
+    /* 弹窗，输入评论 */
+    .popComment{display: none;position: fixed;width: 30vw;height: 114px;left: 50%;top: 60%;transform: translate(-50%,-50%);background-color: #fff;z-index: 3;}
+    .popComment .cancleBox{position: absolute;top:0;right: 0;width:30px; height: 30px;background:url(https://ts1.cn.mm.bing.net/th/id/R-C.63e6eebb13cee5b32ea6ac66595dbb25?rik=CRKkGOBPPWky%2fw&riu=http%3a%2f%2fbpic.588ku.com%2felement_pic%2f16%2f12%2f22%2ffd4b03d1740c0ab7f9bd27d543a12d84.jpg&ehk=AKl4J4QU%2fP1Li7P6cVeoHviuDO0B4VZlQHo0L5TM39I%3d&risl=&pid=ImgRaw&r=0);background-size: 34px; background-position: -2px -2px; float: right;}
+    .popComment .head{width: 100%; height:30px;background-color:rgb(222, 220, 220);font-size: 15px;}
+    .popComment .comContent{margin:10px;border:1px solid gray}
+    .popComment .comBtn{position: absolute;bottom: 0;right: 0;  float: right;}
+    #hideBg2{display: none; position: fixed; width: 100vw; height: 100vh;top: 0; z-index: 2; background-color:rgba(47,79,79,0.1) ;}
+    </style>
 </head>
 <body>
 
 
+
+
+
+<div class="bg">
 <div class="shortcut">
     <div class="wrapper clearfix">
         <ul class="fr">
@@ -28,47 +181,64 @@
             <li><a href="{% url 'index' %}">返回主页</a></li>
         </ul>
     </div>
+    </div>
+        <div class="orderBody">
+        <div class="des">订单/历史订单</div>
+        <!-- 搜索框 -->
+        <div class="searchBox">
+            <label>
+                <input type="text" class="searchInput" placeholder="输入搜索内容">
+            </label>
+            <span></span>
+
+            <button>搜索</button>
+        </div>
+        <!-- 历史订单列表 -->
+        <div class='orderlist'>
+            <!-- 历史订单单元格头部导航 -->
+            <div class="orderHeader">
+                <span>订单号</span>
+                <span>创建时间</span>
+                <span>商品名称</span>
+                <span>数量</span>
+                <span>实付款</span>
+                <span>商家名</span>
+                <span>收获地址</span>
+                <span>操作</span>
+            </div>
+            <!-- 历史订单列表 -->
+            <div class="orderTable">
+                <table>
+                    <!-- 单条订单 -->
+                    <tbody>
+                    {% for order in orderList %}
+                    <tr>
+                        <td>{{ order.orderID }}</td>
+                        <td>{{ order.createTime }}</td>
+                        <td>{{ order.goodsName }}</td>
+                        <td>{{ order.goodsQuantity }}</td>
+                        <td>￥{{ order.amount }}</td>
+                        <td>{{ order.sellerName }}</td>
+                        <td>{{ order.shipToAddress }}</td>
+                        <td>
+                            <button class="deltBtn" id="deltBtn_{{ order.orderID }}">取消</button>
+                            {% if order.receivingStatus is True %}
+                                <button disabled class="noBtn">已收货</button>
+                            {% else %}
+                                <button class="showBtn" id="showBtn_{{ order.orderID }}">确认收货</button>
+                            {% endif %}
+                            <button class="comBtn" onclick="showpopComment()" id="comBtn_{{ order.orderID }}">评论</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="warn">我也有底线哦~~</div>
+            </div>
+        </div>
+    </div>
+
 </div>
-
-<div class='orderlist'>
-    <table>
-        <thead>
-        <tr>
-            <th>商品名称</th>
-            <th>单价</th>
-            <th>数量</th>
-            <th>实付款</th>
-            <th>收货地址</th>
-            <th>交易操作</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for order in orderList %}
-            <tr>
-                <td>{{ order.createTime }}</td>
-                {# 订单创建日期 #}
-                <td>{{ order.orderID }}</td>
-                <td>{{ order.sellerName }}</td>
-                {# 商家名 #}
-            </tr>
-            <tr>
-                <td>{{ order.goodsName }}</td>
-                <td>￥{{ order.amount }}</td>
-                <td>{{ order.goodsQuantity }}</td>
-                <td>￥{{ order.amount }}</td>
-                <td>{{ order.shipToAddress }}</td>
-                <td>
-                    <button class="cancel" name='cancelButton' id="cancel_{{ order.orderID }}">取消订单</button>
-
-                    <button class="confirm" id="confirm_{{ order.orderID }}">确认收货</button>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-
 <div id="popBox">
     <div id="msgContent"></div>
     <div class="close">
@@ -76,14 +246,44 @@
     </div>
 </div>
 
+<!-- 点击“购买”时，弹窗购买 -->
+<div class="popComment">
+    <div class="head">添加评论</div>
+    <div class="cancleBox" onclick="closepopComment()"></div>
+    <!-- 输入评论内容 -->
+    <label for="comContent"></label>
+    <textarea class="comContent" id="comContent" cols="55" rows="2" placeholder="输入评论内容"></textarea>
+    <!-- 付款按钮 -->
+    <button class="comBtn" id="comBtn">确认添加</button>
+</div>
+<!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
+<div id="hideBg2"></div>
+
+
 </body>
 <script>
+    let click_id = 0;
+    $('#comBtn').click(function(){
+        let comment = $('#comContent').val();
+        let post_data = {
+            csrfmiddlewaretoken:'{{ csrf_token }}',
+            'comment': comment,
+            'orderId': click_id,
+            'behavior':'comment'
+        }
+        jsPost('', post_data);
+    })
+
+
     let objMsgContent = $('#msgContent');
     {% if msg %}
         objMsgContent.text('{{ msg }}')
         openPopBox();
     {% endif %}
-    $('.cancel').click(function () {
+
+    // 点击“添加评论”时，出现该商品购买的弹窗
+
+    $('.deltBtn').click(function () {
         let order_id = this.id.substring(this.id.indexOf('_') + 1);
         let post_data = {
             csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -92,7 +292,7 @@
         }
         jsPost('', post_data)
     })
-    $('.confirm').click(function () {
+    $('.showBtn').click(function () {
         let order_id = this.id.substring(this.id.indexOf('_') + 1);
         let post_data = {
             csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -101,5 +301,20 @@
         }
         jsPost('', post_data)
     })
+    $('.comBtn').click(function(){
+        click_id = this.id.substring(this.id.indexOf('_') + 1);
+    })
+
+
+    function showpopComment(){
+    document.getElementsByClassName("popComment")[0].style.display = "block";
+    document.getElementById("hideBg2").style.display = "block";
+    }
+    // 关闭“评论”弹窗
+    function closepopComment() {
+        document.getElementsByClassName("popComment")[0].style.display = "none";
+        document.getElementById("hideBg2").style.display = "none";
+    }
+
 </script>
 </html>

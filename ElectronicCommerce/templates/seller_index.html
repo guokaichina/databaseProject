@@ -10,6 +10,8 @@
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
     <title>Document</title>
     <style>
+
+
         body {
             background-color: rgb(223, 221, 221);
         }
@@ -179,7 +181,11 @@
             padding-top: 10px;
         }
 
-        .showGood .g_stock_1, .g_sold_1 {
+        .showGood .g_stock_1{box-sizing: border-box;margin: 50px 25px;margin-right: 106px; width: 60px;
+            border: #ff4e00 solid 1px; }
+        .showGood .g_stock_1:focus{border: 1px solid #ff4e00;outline:none ;}
+
+        .showGood .g_sold_1 {
             line-height: 130px;
         }
 
@@ -403,6 +409,9 @@
             display: none;
             z-Index: 2;
         }
+
+        .showGood .g_stock_1[disabled]{border: none;color: #000;}
+
     </style>
 </head>
 <body>
@@ -452,7 +461,7 @@
                 <div>本月销售情况不错哦，继续加油</div>
             </div>
             <div class="m_notice">抢首页推送优惠券，推送至首页，好处多多</div>
-            <input type="text" onblur="changeSourAddress(this)" name="sourAddress" id="sourAddress" value="{{ shippingAddress }}"/>
+            <label for="sourAddress"></label><input type="text" onblur="changeSourAddress(this)" name="sourAddress" id="sourAddress" value="{{ shippingAddress }}"/>
         </div>
         <!-- 列表区：展示商家的商品列表 -->
         <div class="my_goodsList">
@@ -473,42 +482,16 @@
                         <div><span>￥</span>{{ goods.goodsPrice }}</div>
                         <div>{{ goods.goodsType }}</div>
                     </div>
-                    <div class="g_stock_1">{{ goods.goodsStock }}</div>
+                    <label for="stock_{{ goods.goodsID }}"></label>
+                    <input disabled id="stock_{{ goods.goodsID }}" class="g_stock_1" type="number" value="{{ goods.goodsStock }}">
                     <div class="g_sold_1">{{ goods.goodsSold }}</div>
                     <div class="g_op_1">
                         <button id="goodsDrop_{{ goods.goodsID }}" class="drop">下架</button>
-                        <button>修改</button>
+                        <button class="goodsChange">修改</button>
+
                     </div>
                 </div>
             {% endfor %}
-            <div class="showGood">
-                <div><img src="/static/picture/food_1.jpg" alt=""></div>
-                <div class="g_name_1">
-                    <div>莫斯利安酸奶</div>
-                    <div><span>￥</span>109</div>
-                    <div>食品类</div>
-                </div>
-                <div class="g_stock_1">500</div>
-                <div class="g_sold_1">100</div>
-                <div class="g_op_1">
-                    <button onclick="showPop()">下架</button>
-                    <button>修改</button>
-                </div>
-            </div>
-            <div class="showGood">
-                <div><img src="/static/picture/tm_1.jpg" alt=""></div>
-                <div class="g_name_1">
-                    <div>沙宣洗发水</div>
-                    <div><span>￥</span>89</div>
-                    <div>生活用品类</div>
-                </div>
-                <div class="g_stock_1">144</div>
-                <div class="g_sold_1">20</div>
-                <div class="g_op_1">
-                    <button onclick="showPop()">下架</button>
-                    <button>修改</button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -620,6 +603,41 @@
         click_id = this.id;
         showPop();
     })
+
+    let old_value;
+    $('button.goodsChange').click(function(){
+        let obj_stock = this.parentNode.parentNode.querySelector('.g_stock_1');
+        old_value = obj_stock.value;
+        obj_stock.disabled = false;
+        obj_stock.focus();
+    })
+
+    $('.g_stock_1').blur(function(){
+        let goods_id = this.id.substring(this.id.indexOf('_') + 1);
+        if(!this.value.match(/^[0-9]+$/))
+        {
+            this.value = old_value;
+            this.disabled = true;
+            return;
+        }
+        let ajaxSettings = {
+            url: '',
+            type:'POST',
+            data:{
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                'goodsStock':this.value,
+                'behavior':'change',
+                'goodsId':goods_id
+            },
+        }
+
+        let obj_stock = this;
+        $.ajax(ajaxSettings).done(function(args){
+            obj_stock.value = parseInt(args);
+        })
+         obj_stock.disabled = true;
+    })
+
 
     let objMsgContent = $('#msgContent')
     //django语法
