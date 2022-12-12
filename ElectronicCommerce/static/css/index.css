@@ -922,3 +922,10 @@ ul.menu_r li a:hover, ul.menu_r li a.now{
 .like #block1 .box .price span{
 	font-size:20px;
 }
+
+.b_nav dl{
+
+	width:125px;
+	margin-left:65px;
+	
+}

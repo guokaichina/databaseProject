@@ -8,8 +8,7 @@ body{
 	margin: 0 auto;
 }
 
-
-/* 快捷导航栏~~~~~~~~~~~~ */
+/* 快捷导航栏 */
 .shortcut{
 	height: 52px;
 	background-color: #333;
@@ -36,7 +35,6 @@ body{
 	color: #fff;
 }
 
-
 .shortcut .wrapper li:hover{
 	/* background-color: #333; */
 	background-color: rgb(255,136,33);
@@ -50,6 +48,16 @@ body{
 .top{
 	width:1200px; height:140px;
     background-color: #fff;
+}
+
+/* 顶端背景 */
+.top_bg {
+    position: absolute;
+    top: 52px;
+    width: 100vw;
+    background-color: #fff;
+    border-bottom: 5px solid #E86725;
+    background-size: 1000px;
 }
 
 /* logo样式 */
@@ -66,7 +74,157 @@ a {
 	color:black;
 }
 
-.goon .orderbtn {
+.content_box {
+	  margin: 30px auto;
+      width: 1200px;
+    
+            /* background-color: rgb(243, 191, 191); */
+      display: flex;
+	  flex-direction: row;
+}
+
+.content_box  .cart_listbox .goodsNav .allcheck {
+	margin-top: 10px;
+	margin-left: 50px;
+	width: 24px; 
+	height: 24px;
+	padding:10px;
+	vertical-align: top;
+}
+
+.cart_listbox {
+  width: 970px;
+  
+  background-color: #fff;
+  margin-top: 10px;
+  border: 1px solid gainsboro;
+   padding: 45px;
+   color: #000;
+}
+
+.goodsNav {
+	margin-bottom: 10px;
 	
+
+    width: 100%;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: #ff4e00 2px solid;
+	
+}
+
+.goodsNav div{
+  width: 150px;
+    line-height: 45px;
+    font-weight: bold;
+    font-size: 16px;
+	
+}
+
+.intendedGood {
+	margin-bottom: 10px;
+	margin-left:20px;
+	margin-right:20px;
+    display:flex;
+    justify-content: space-between;
+    border-bottom: #ff4e00 2px solid;
+}
+
+.intendedGood  div {
+	padding-bottom: 10px;
+    width: 150px;
+    height: 110px;
+    background-color: #fff;
+    font-size: 14px;
+	line-height: 110px;
+}
+
+.deleteFromCart{
+	border: none;
+	border-radius: 5px;
+	width:50px;
+	height:30px;
 	background-color: rgb(255,136,33);
+	color:white;
+}
+
+.clearbtn{
+    border: none;
+	border-radius: 5px;
+	background-color: rgb(255,136,33);
+	width:90px;
+	height:25px;
+	color:white;
+	margin-top:20px;
+	margin-left:750px;
+}
+
+.goon {
+	display:flex;
+}
+
+
+.totalprice {
+	margin-left:350px;
+	margin-right:20px;
+	width:100px;
+	line-height:40px;
+	font-size:20px;
+	
+}
+
+.confirm_order {
+   margin:0px;	
+}
+
+/* 清空按钮，下单按钮 */
+.goon .orderbtn {
+	width:80px;
+	height:40px;
+	border: none;
+	border-radius: 5px;
+	background-color: rgb(255,136,33);
+	color:white;
+}
+
+
+.popcontent {
+	margin:50px;
+}
+.destAddresdd{
+	font-size:15px;
+	height:40px;
+	
+	padding:20px;
+	margin-left:100px;
+	margin-top:10px;
+	margin-bottom:20px;
+}
+
+.destAddresdd input {
+	height:30px;
+	
+}
+
+.payPwd {
+   font-size:15px;
+   height:20px;
+   margin-left:100px;
+   padding:20px;
+   margin-top:10px;
+   margin-bottom:40px;
+}
+
+.payPwd input {
+	height:30px;
+	
+}
+
+.paybtn {
+	width:80px;
+	height:30px;
+    border-radius: 5px;
+	background-color: rgb(255,136,33);
+	
 }

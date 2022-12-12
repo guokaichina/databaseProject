@@ -2,15 +2,18 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
     <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
     <link type="text/css" rel="stylesheet" href="/static/css/cart.css"/>
     <link type="text/css" rel="stylesheet" href="/static/css/popBox.css">
     <link type="text/css" rel="stylesheet" href="/static/css/popBuy.css"/>
+
     <script type="text/javascript" src="/static/js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="/static/js/jsPost.js"></script>
      <script type="text/javascript" src="/static/js/popBox.js"></script>
     <script type="text/javascript" src="/static/js/popBuy.js"></script>
+
     <title>优品购物</title>
 </head>
 <body>
@@ -22,7 +25,6 @@
                 <li><a href="#">你好，{{ customerName }}</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
                 <li><a href="{% url 'order' customerID %}">我的订单</a></li>
-                <li><a href="{% url 'shopping_cart' customerID %}">购物车</a></li>
             {% elif sellerName %}
                 <li><a href="{% url 'goods_management' sellerID %}">商家{{ sellerName }}你好</a></li>
                 <li><a href="{% url 'logout' %}">退出登录</a></li>
@@ -36,59 +38,63 @@
         </ul>
     </div>
 </div>
-
+<div class="top_bg">
+</div>
 {# 购物车列表 #}
-<div>
+<div class="content_box">
     <!--<form action="" method="post"> 不使用表单的原因是，不能内部提交，不能在表单内部提交一个post请求-->
     {#{% csrf_token %}#} <!--暂时先注释掉-->
     <div class="cart_listbox">
-        <table width="100%">
+        <div width="100%">
+             <div class="goodsNav">
             <thead>
-            <tr>
-                <th width='10%'>
-                    <input name="allCheckbox" type="checkbox" id="all"
-                           style="margin-top: 20px; margin-left: 10px;width: 24px; height: 24px;"
-                           onclick="allCheck('allCheckbox','checkItem')">
-                </th>
-                <th width='10%'>商品名称</th>
-                <th width='20%'>商品缩略图</th>
-                <th width='10%'>商品单价</th>
-                <th width='20%'>商品数量</th>
-                <th width='20%'>商品小计</th>
-                <th width='20%'>操作</th>
-            </tr>
+                <tr>
+                    <div width='10%'>
+                        <input class = "allcheck" name="allCheckbox" type="checkbox" id="all"
+                               onclick="allCheck('allCheckbox','checkItem')">
+                    </div>
+                    <div width='10%'>商品名称</div>
+                    <div width='20%'>商品缩略图</div>
+                    <div width='10%'>&nbsp;&nbsp;商品单价</div>
+                    <div width='20%'>商品数量</div>
+                    <div width='20%'>商品小计</div>
+                    <div width='20%'>操作</div>
+                    </tr>
             </thead>
-            <tbody id="j_tb">
+          </div>
+                 <tbody id="j_tb">
             {% for intendedGoods in intendedGoodsList %}
                 {% with goods=intendedGoods.goodsID %}
-                    <tr id="intendedGoods_{{ intendedGoods.id }}">
+                    <tr id="intendedGood_{{ intendedGoods.id }}">
+                        <div class="intendedGood" id="intendedGoods_{{ intendedGoods.id }}">
                         {# 选择框 #}
-                        <td width="10%">
+                        <div>
                             <input class="checkItem" name="name_{{ goods.goodsID }}" value="{{ intendedGoods.id }}"
                                    type="checkbox"
-                                   style="margin-left: 60px; width: 24px; height: 24px;">
-                        </td>
+                                   style="margin-left: 40px; width: 24px; height: 24px;">
+                        </div>
 
                         {# 商品名称 #}
-                        <td><a href="#">{{ goods.goodsName }}</a></td>
+                        <div><a href="{% url 'goods' goods.goodsID%}">{{ goods.goodsName }}</a></div>
 
                         {# 缩略图 #}
-                        <td><a href="#"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"/></a>
-                        </td>
+                        <div><a href="{% url 'goods' goods.goodsID%}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"/></a>
+                        </div>
                         {# 单 价 #}
-                        <td class="goodsPrice">￥{{ goods.goodsPrice }}元</td>
+                        <div class="goodsPrice">￥{{ goods.goodsPrice }}元</div>
                         {# 商品数量 #}
-                        <td>
-                            <button class="btn1" formaction="">-</button>
+                        <div>
+                            &nbsp;<button class="btn1" formaction="">-</button>
                             <span class="text1">{{ intendedGoods.quantity }}</span>
                             <button class="btn1" formaction="">+</button>
-                        </td>
+                        </div>
                         {# 计算总价格 #}
-                        <td>￥<span class="the_price">{% widthratio intendedGoods.quantity 1 goods.goodsPrice %}</span>
-                        </td>
-                        <td>
-                            <button id="delete_{{ intendedGoods.id }}" class="deleteFromCart">删除</button>
-                        </td>
+                        <div>&nbsp;&nbsp;&nbsp;￥<span class="the_price">{% widthratio intendedGoods.quantity 1 goods.goodsPrice %}</span>
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;<button id="delete_{{ intendedGoods.id }}" class="deleteFromCart">删除</button>
+                        </div>
+                        </div>
                     </tr>
                 {% endwith %}
             {% empty %}
@@ -97,14 +103,13 @@
                 </tr>
             {% endfor %}
             </tbody>
-        </table>
-    </div>
-
-    <div class="goon">
-        <div class="clearcart">
+        </div>
+      <div class="clearcart">
             <button id="deleteCartAll" class="clearbtn">清空购物车</button>
         </div>
-
+        <div class="goon">
+       
+        
         <div class="totalprice" id="totalPrice">
             总计0元 <!--根据有没有选中来异步请求计算总价，这里不会了-->
         </div>
@@ -112,6 +117,7 @@
         <div class="confirm_order">
             <input id="buyFromCart" type="submit" value="立即下单" class="orderbtn"/>
         </div>
+    </div>
     </div>
 </div>
 
@@ -127,22 +133,24 @@
 <div class="popBuy" id="popBuy">
     <div class="cancleBox" onclick="closePopBuy()"></div>
         <!-- 收货地址 -->
+    <div class="popcontent">
         <div class="destAddresdd">
             {% if shipToAddress %}
-                <span>*</span>收货地址
+                <span>*</span>&nbsp;收货地址&nbsp;&nbsp;
                 <input id="shipToAddress" type="text" placeholder="请输入收货地址" value="{{ shipToAddress }}">
             {% else %}
-                <span>*</span>收货地址<input id="shipToAddress" type="text" placeholder="请输入收货地址">
+                <span>*</span>&nbsp;收货地址&nbsp;&nbsp;<input id="shipToAddress" type="text" placeholder="请输入收货地址">
             {% endif %}
         </div>
         <!-- 付款密码 -->
         <div class="payPwd">
-            <span>*</span>付款密码<input id="password" type="text" name="" placeholder="请输入你的密码">
+            <span>*</span>&nbsp;付款密码&nbsp;&nbsp;<input id="password" type="text" name="" placeholder="请输入你的密码">
         </div>
         <!-- 付款按钮 -->
         <div class="payBtn">
-            <button id="buyGoods">确认支付</button>
+            <button class="paybtn" id="buyGoods">确认支付</button>
         </div>
+    </div>
 </div>
 <!-- 这是遮罩层，作用是在出现弹窗的时候，覆盖全屏，让用户只能点击弹窗内容 -->
 <div id="hideBg2"></div>
@@ -154,7 +162,23 @@
         objMsgContent.text('{{ msg }}')
         openPopBox();
     {% endif %}
-
+    
+    $('.allcheck').click(function () {
+        // 异步计算
+        let check_item_list = document.querySelectorAll('.checkItem');
+        let total_price = 0;
+        for (let i = 0; i !== check_item_list.length; ++i) {
+            const node = check_item_list[i];
+            if (node.checked === true) {
+                const node_tr = node.parentNode.parentNode;
+                const node_the_price = node_tr.querySelector('.the_price');
+                const node_price = parseFloat(node_the_price.innerText);
+                total_price += node_price;
+            }
+        }
+        $('#totalPrice').text('总计' + total_price + '元');
+    })
+    
     $('.checkItem').click(function () {
         // 异步计算
         let check_item_list = document.querySelectorAll('.checkItem');
