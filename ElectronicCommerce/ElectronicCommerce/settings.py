@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'ElectronicCommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'NetworkingMall',
+        'NAME': 'networkingmall',
         'USER': 'postgres',
-        'PASSWORD': 'Password_1',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

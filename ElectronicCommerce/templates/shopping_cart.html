@@ -78,7 +78,7 @@
                         <div><a href="{% url 'goods' goods.goodsID%}">{{ goods.goodsName }}</a></div>
 
                         {# 缩略图 #}
-                        <div><a href="{% url 'goods' goods.goodsID%}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}"/></a>
+                        <div><a href="{% url 'goods' goods.goodsID%}"><img src="/static/picture/{{ goods.photo_set.first.photoPath }}" width="100" height="100"/></a>
                         </div>
                         {# 单 价 #}
                         <div class="goodsPrice">￥{{ goods.goodsPrice }}元</div>

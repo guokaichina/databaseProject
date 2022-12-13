@@ -423,8 +423,6 @@
             <li><a href="#" id="loginOut" onclick="loginOut()">退出登录</a></li>
             <li><a href="#">会员中心</a></li>
             <li><a href="#">帮助中心</a></li>
-            <li><a href="#">在线客服</a></li>
-            <li><a href="#"><span></span>手机版</a></li>
         </ul>
     </div>
 </div>
@@ -444,8 +442,8 @@
         <div class="le_top">商品管理</div>
         <div class="sell_manage">
             <a><div class="item" id="sellerIndex" onclick="Select(this)">商家主页</div></a>
+             <a><div class="item" id="addGoods" onclick="Select(this)">上架新商品</div></a>
             <a><div class="item" id="sellStatistics" onclick="Select(this)">销售统计</div></a>
-            <a><div class="item" id="addGoods" onclick="Select(this)">上架新商品</div></a>
             <!-- 这里套一个a是为了让鼠标再选中时变成拇指形状 -->
         </div>
     </div>
@@ -476,7 +474,7 @@
             <!-- 单个商品列表元素 -->
             {% for goods in goodsManagementList %}
                 <div class="showGood">
-                    <div><img src="/static/picture/{{ goods.photo_set.first.photoPath }}" alt="goods"></div>
+                    <div><img src="/static/picture/{{ goods.photo_set.first.photoPath }}" width="120" height="120" alt="goods"></div>
                     <div class="g_name_1">
                         <div>{{ goods.goodsName }}</div>
                         <div><span>￥</span>{{ goods.goodsPrice }}</div>
@@ -495,7 +493,6 @@
         </div>
     </div>
 </div>
-
 <!-- 弹窗：确认是否下架该商品 -->
 <div id="popWindow_delete">
     <div>确定下架该宝贝商品吗？</div>
