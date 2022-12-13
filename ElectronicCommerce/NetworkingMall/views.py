@@ -48,10 +48,10 @@ def login(request):
             seller_id = databaseApi.seller_login_by_name(seller_name, password)
             if seller_id:
                 request.session['seller_id'] = seller_id
+                return HttpResponseRedirect(reverse('seller_index', args=(seller_id, )))
+            else:
                 msg = '用户名或密码错误'
                 return render(request, 'login.html', {'msg': msg})
-            else:
-                return HttpResponseRedirect(reverse('login'))
     # 顾客商家登录基本功能
     else:
         return render(request, 'login.html')
@@ -295,7 +295,6 @@ def search_goods(request, keyword=''):
 
 
 def test_page(request):
-    # 用于临时显示首页
     return HttpResponseRedirect(reverse('index'))
 
 

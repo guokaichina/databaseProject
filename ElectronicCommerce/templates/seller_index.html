@@ -276,54 +276,68 @@
             background-color: rgb(180, 6, 6);
         }
 
-        /* Begin 上架新商品 Begin */
-        .addNewGoods_bg {
+                /* Begin 上架新商品 Begin */
+        .addNewGoods_bg{
             display: none;
             margin-top: 190px;
             width: 970px;
             height: auto;
             background-color: #fff;
             border: 1px solid gainsboro;
-            padding: 0 45px;
+            padding: 10px 45px;
             color: #000;
         }
-
-        .addNewGoods_bg h1 {
-            text-align: center;
+        .addNewGoods_bg h1::before{
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 30px;
+            background: url(/static/images/order.png) no-repeat;
+            background-size: 32px;
+            vertical-align: bottom;
         }
-
-        .addNewGoods_bg form > div {
+        .addNewGoods_bg form>div{
             margin: 10px;
+            padding: 10px;
+            width: 500px;
+            height: 50px;
+            border: 1px solid rgb(211, 209, 209);
         }
-
-        .addNewGoods_bg select {
+        .addNewGoods_bg select{
             width: 70px;
             text-align: center;
         }
-
-        .addNewGoods_bg span {
+        .addNewGoods_bg span{
             font-size: 15px;
         }
-
-        .addNewGoods_bg input {
+        .addNewGoods_bg input{
             padding: 3px;
         }
-
-        .addNewGoods_bg textarea {
+        .addNewGoods_bg textarea{
             padding: 3px;
             vertical-align: top;
         }
-
-        .addNewGoods_bg input:hover, .addNewGoods_bg textarea:hover {
+        .addNewGoods_bg .goodsImage{
+            height: auto;
+        }
+        .addNewGoods_bg input:hover, .addNewGoods_bg textarea:hover{
             border: 1px solid #ff4e00;
         }
-
-        .addNewGoods_bg input:focus, .addNewGoods_bg textarea:focus {
+        .addNewGoods_bg input:focus, .addNewGoods_bg textarea:focus{
             outline: 1px solid #ff4e00;
 
         }
+        .addNewGoods_bg form>input{
+            border: none;
+            color: #fff;
+            background-color: #409eff;
+        }
+        .addNewGoods_bg .goodsName{
+            height: auto;
+        }
 
         /* End 上架新商品 End */
+
 
         /* begin 发货地址 begin */
         #sourAddress{
